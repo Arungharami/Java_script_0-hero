@@ -11,14 +11,28 @@ export const fundamentals: ChallengeSeed[] = [
     examples: ["sumTwoNumbers(2, 3) → 5", "sumTwoNumbers(-1, 1) → 0"],
     starterCode: `function sumTwoNumbers(a, b) {\n  // your code\n}`,
     tests: [
-      { description: "adds two positive numbers", assertion: "expect(sumTwoNumbers(2, 3)).toBe(5)" },
-      { description: "adds a negative and a positive number", assertion: "expect(sumTwoNumbers(-1, 1)).toBe(0)" },
-      { description: "adds two decimals", assertion: "expect(sumTwoNumbers(1.5, 2.5)).toBe(4)" },
-      { hidden: true, description: "adds two negative numbers", assertion: "expect(sumTwoNumbers(-4, -6)).toBe(-10)" },
+      {
+        description: "adds two positive numbers",
+        assertion: "expect(sumTwoNumbers(2, 3)).toBe(5)",
+      },
+      {
+        description: "adds a negative and a positive number",
+        assertion: "expect(sumTwoNumbers(-1, 1)).toBe(0)",
+      },
+      {
+        description: "adds two decimals",
+        assertion: "expect(sumTwoNumbers(1.5, 2.5)).toBe(4)",
+      },
+      {
+        hidden: true,
+        description: "adds two negative numbers",
+        assertion: "expect(sumTwoNumbers(-4, -6)).toBe(-10)",
+      },
     ],
     hints: ["Use the + operator and return the result."],
     solution: `function sumTwoNumbers(a, b) {\n  return a + b;\n}`,
-    explanation: "Addition of the two parameters, returned directly — the simplest possible contract: given inputs, produce output.",
+    explanation:
+      "Addition of the two parameters, returned directly — the simplest possible contract: given inputs, produce output.",
     relatedConcepts: ["Operators & comparisons"],
   },
   {
@@ -27,18 +41,33 @@ export const fundamentals: ChallengeSeed[] = [
     category: "Fundamentals",
     difficulty: "easy",
     skills: ["fundamentals", "data-types"],
-    description: "Convert a Celsius temperature to Fahrenheit using F = C * 9/5 + 32.",
+    description:
+      "Convert a Celsius temperature to Fahrenheit using F = C * 9/5 + 32.",
     examples: ["celsiusToFahrenheit(0) → 32", "celsiusToFahrenheit(100) → 212"],
     starterCode: `function celsiusToFahrenheit(celsius) {\n  // your code\n}`,
     tests: [
-      { description: "converts freezing point", assertion: "expect(celsiusToFahrenheit(0)).toBe(32)" },
-      { description: "converts boiling point", assertion: "expect(celsiusToFahrenheit(100)).toBe(212)" },
-      { description: "converts a negative temperature", assertion: "expect(celsiusToFahrenheit(-40)).toBe(-40)" },
-      { hidden: true, description: "converts body temperature", assertion: "expect(celsiusToFahrenheit(37)).toBeCloseTo(98.6, 1)" },
+      {
+        description: "converts freezing point",
+        assertion: "expect(celsiusToFahrenheit(0)).toBe(32)",
+      },
+      {
+        description: "converts boiling point",
+        assertion: "expect(celsiusToFahrenheit(100)).toBe(212)",
+      },
+      {
+        description: "converts a negative temperature",
+        assertion: "expect(celsiusToFahrenheit(-40)).toBe(-40)",
+      },
+      {
+        hidden: true,
+        description: "converts body temperature",
+        assertion: "expect(celsiusToFahrenheit(37)).toBeCloseTo(98.6, 1)",
+      },
     ],
     hints: ["Apply the formula directly: celsius * 9 / 5 + 32."],
     solution: `function celsiusToFahrenheit(celsius) {\n  return celsius * 9 / 5 + 32;\n}`,
-    explanation: "A direct formula translation — the kind of small, pure calculation that is trivial to unit test.",
+    explanation:
+      "A direct formula translation — the kind of small, pure calculation that is trivial to unit test.",
     relatedConcepts: ["Operators & comparisons", "Conversion & coercion"],
   },
   {
@@ -48,17 +77,34 @@ export const fundamentals: ChallengeSeed[] = [
     difficulty: "easy",
     skills: ["fundamentals"],
     description: "Return the final price after applying a percentage discount.",
-    examples: ["calculateDiscount(100, 20) → 80", "calculateDiscount(50, 0) → 50"],
+    examples: [
+      "calculateDiscount(100, 20) → 80",
+      "calculateDiscount(50, 0) → 50",
+    ],
     starterCode: `function calculateDiscount(price, percentOff) {\n  // your code\n}`,
     tests: [
-      { description: "applies a 20% discount", assertion: "expect(calculateDiscount(100, 20)).toBe(80)" },
-      { description: "applies a 0% discount", assertion: "expect(calculateDiscount(50, 0)).toBe(50)" },
-      { description: "applies a 100% discount", assertion: "expect(calculateDiscount(40, 100)).toBe(0)" },
-      { hidden: true, description: "applies a fractional discount", assertion: "expect(calculateDiscount(80, 12.5)).toBeCloseTo(70, 2)" },
+      {
+        description: "applies a 20% discount",
+        assertion: "expect(calculateDiscount(100, 20)).toBe(80)",
+      },
+      {
+        description: "applies a 0% discount",
+        assertion: "expect(calculateDiscount(50, 0)).toBe(50)",
+      },
+      {
+        description: "applies a 100% discount",
+        assertion: "expect(calculateDiscount(40, 100)).toBe(0)",
+      },
+      {
+        hidden: true,
+        description: "applies a fractional discount",
+        assertion: "expect(calculateDiscount(80, 12.5)).toBeCloseTo(70, 2)",
+      },
     ],
     hints: ["The remaining fraction of the price is (100 - percentOff) / 100."],
     solution: `function calculateDiscount(price, percentOff) {\n  return price * (100 - percentOff) / 100;\n}`,
-    explanation: "Discounting scales the price by the remaining percentage rather than subtracting a flat amount.",
+    explanation:
+      "Discounting scales the price by the remaining percentage rather than subtracting a flat amount.",
     relatedConcepts: ["Operators & comparisons"],
   },
   {
@@ -71,14 +117,30 @@ export const fundamentals: ChallengeSeed[] = [
     examples: ['evenOrOdd(4) → "even"', 'evenOrOdd(7) → "odd"'],
     starterCode: `function evenOrOdd(n) {\n  // your code\n}`,
     tests: [
-      { description: "identifies an even number", assertion: 'expect(evenOrOdd(4)).toBe("even")' },
-      { description: "identifies an odd number", assertion: 'expect(evenOrOdd(7)).toBe("odd")' },
-      { description: "treats zero as even", assertion: 'expect(evenOrOdd(0)).toBe("even")' },
-      { hidden: true, description: "handles negative even numbers", assertion: 'expect(evenOrOdd(-4)).toBe("even")' },
+      {
+        description: "identifies an even number",
+        assertion: 'expect(evenOrOdd(4)).toBe("even")',
+      },
+      {
+        description: "identifies an odd number",
+        assertion: 'expect(evenOrOdd(7)).toBe("odd")',
+      },
+      {
+        description: "treats zero as even",
+        assertion: 'expect(evenOrOdd(0)).toBe("even")',
+      },
+      {
+        hidden: true,
+        description: "handles negative even numbers",
+        assertion: 'expect(evenOrOdd(-4)).toBe("even")',
+      },
     ],
-    hints: ["The remainder of n % 2 is 0 for even numbers, including negative ones."],
+    hints: [
+      "The remainder of n % 2 is 0 for even numbers, including negative ones.",
+    ],
     solution: `function evenOrOdd(n) {\n  return n % 2 === 0 ? "even" : "odd";\n}`,
-    explanation: "The modulo operator reveals remainder after division by 2 — zero remainder means even.",
+    explanation:
+      "The modulo operator reveals remainder after division by 2 — zero remainder means even.",
     relatedConcepts: ["Conditions & branching"],
   },
   {
@@ -88,17 +150,35 @@ export const fundamentals: ChallengeSeed[] = [
     difficulty: "easy",
     skills: ["fundamentals", "conditions"],
     description: 'Return "positive", "negative", or "zero" for a number.',
-    examples: ['signChecker(5) → "positive"', 'signChecker(-2) → "negative"', 'signChecker(0) → "zero"'],
+    examples: [
+      'signChecker(5) → "positive"',
+      'signChecker(-2) → "negative"',
+      'signChecker(0) → "zero"',
+    ],
     starterCode: `function signChecker(n) {\n  // your code\n}`,
     tests: [
-      { description: "identifies a positive number", assertion: 'expect(signChecker(5)).toBe("positive")' },
-      { description: "identifies a negative number", assertion: 'expect(signChecker(-2)).toBe("negative")' },
-      { description: "identifies zero", assertion: 'expect(signChecker(0)).toBe("zero")' },
-      { hidden: true, description: "identifies a negative decimal", assertion: 'expect(signChecker(-0.5)).toBe("negative")' },
+      {
+        description: "identifies a positive number",
+        assertion: 'expect(signChecker(5)).toBe("positive")',
+      },
+      {
+        description: "identifies a negative number",
+        assertion: 'expect(signChecker(-2)).toBe("negative")',
+      },
+      {
+        description: "identifies zero",
+        assertion: 'expect(signChecker(0)).toBe("zero")',
+      },
+      {
+        hidden: true,
+        description: "identifies a negative decimal",
+        assertion: 'expect(signChecker(-0.5)).toBe("negative")',
+      },
     ],
     hints: ["Check n === 0 first, then n > 0, else it's negative."],
     solution: `function signChecker(n) {\n  if (n === 0) return "zero";\n  return n > 0 ? "positive" : "negative";\n}`,
-    explanation: "A three-way branch that checks the exact zero boundary before comparing direction.",
+    explanation:
+      "A three-way branch that checks the exact zero boundary before comparing direction.",
     relatedConcepts: ["Conditions & branching"],
   },
   {
@@ -108,17 +188,34 @@ export const fundamentals: ChallengeSeed[] = [
     difficulty: "easy",
     skills: ["fundamentals", "conditions"],
     description: "Return the largest of three numbers.",
-    examples: ["largestOfThree(1, 5, 3) → 5", "largestOfThree(-1, -5, -3) → -1"],
+    examples: [
+      "largestOfThree(1, 5, 3) → 5",
+      "largestOfThree(-1, -5, -3) → -1",
+    ],
     starterCode: `function largestOfThree(a, b, c) {\n  // your code\n}`,
     tests: [
-      { description: "finds the largest of three positives", assertion: "expect(largestOfThree(1, 5, 3)).toBe(5)" },
-      { description: "finds the largest of three negatives", assertion: "expect(largestOfThree(-1, -5, -3)).toBe(-1)" },
-      { description: "handles ties", assertion: "expect(largestOfThree(4, 4, 2)).toBe(4)" },
-      { hidden: true, description: "finds the largest when it is last", assertion: "expect(largestOfThree(1, 2, 9)).toBe(9)" },
+      {
+        description: "finds the largest of three positives",
+        assertion: "expect(largestOfThree(1, 5, 3)).toBe(5)",
+      },
+      {
+        description: "finds the largest of three negatives",
+        assertion: "expect(largestOfThree(-1, -5, -3)).toBe(-1)",
+      },
+      {
+        description: "handles ties",
+        assertion: "expect(largestOfThree(4, 4, 2)).toBe(4)",
+      },
+      {
+        hidden: true,
+        description: "finds the largest when it is last",
+        assertion: "expect(largestOfThree(1, 2, 9)).toBe(9)",
+      },
     ],
     hints: ["Math.max(a, b, c) does this in one call."],
     solution: `function largestOfThree(a, b, c) {\n  return Math.max(a, b, c);\n}`,
-    explanation: "Math.max accepts any number of arguments, making a manual comparison chain unnecessary.",
+    explanation:
+      "Math.max accepts any number of arguments, making a manual comparison chain unnecessary.",
     relatedConcepts: ["Conditions & branching"],
   },
   {
@@ -127,18 +224,39 @@ export const fundamentals: ChallengeSeed[] = [
     category: "Fundamentals",
     difficulty: "medium",
     skills: ["fundamentals", "conditions"],
-    description: "Return true if a year is a leap year (divisible by 4, but not by 100 unless also by 400).",
-    examples: ["isLeapYear(2024) → true", "isLeapYear(1900) → false", "isLeapYear(2000) → true"],
+    description:
+      "Return true if a year is a leap year (divisible by 4, but not by 100 unless also by 400).",
+    examples: [
+      "isLeapYear(2024) → true",
+      "isLeapYear(1900) → false",
+      "isLeapYear(2000) → true",
+    ],
     starterCode: `function isLeapYear(year) {\n  // your code\n}`,
     tests: [
-      { description: "identifies a standard leap year", assertion: "expect(isLeapYear(2024)).toBe(true)" },
-      { description: "rejects a century that is not a leap year", assertion: "expect(isLeapYear(1900)).toBe(false)" },
-      { description: "accepts a century divisible by 400", assertion: "expect(isLeapYear(2000)).toBe(true)" },
-      { hidden: true, description: "rejects a standard non-leap year", assertion: "expect(isLeapYear(2023)).toBe(false)" },
+      {
+        description: "identifies a standard leap year",
+        assertion: "expect(isLeapYear(2024)).toBe(true)",
+      },
+      {
+        description: "rejects a century that is not a leap year",
+        assertion: "expect(isLeapYear(1900)).toBe(false)",
+      },
+      {
+        description: "accepts a century divisible by 400",
+        assertion: "expect(isLeapYear(2000)).toBe(true)",
+      },
+      {
+        hidden: true,
+        description: "rejects a standard non-leap year",
+        assertion: "expect(isLeapYear(2023)).toBe(false)",
+      },
     ],
-    hints: ["A year is a leap year if divisible by 4 AND (not divisible by 100 OR divisible by 400)."],
+    hints: [
+      "A year is a leap year if divisible by 4 AND (not divisible by 100 OR divisible by 400).",
+    ],
     solution: `function isLeapYear(year) {\n  return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);\n}`,
-    explanation: "The century exception is the classic trap here — every leap year rule test should include a century case.",
+    explanation:
+      "The century exception is the classic trap here — every leap year rule test should include a century case.",
     relatedConcepts: ["Conditions & branching", "Operators & comparisons"],
   },
   {
@@ -147,19 +265,44 @@ export const fundamentals: ChallengeSeed[] = [
     category: "Fundamentals",
     difficulty: "medium",
     skills: ["fundamentals", "conditions"],
-    description: 'Convert a numeric score (0-100) into a letter grade: A (90+), B (80+), C (70+), D (60+), else F.',
-    examples: ['gradeCalculator(95) → "A"', 'gradeCalculator(72) → "C"', 'gradeCalculator(40) → "F"'],
+    description:
+      "Convert a numeric score (0-100) into a letter grade: A (90+), B (80+), C (70+), D (60+), else F.",
+    examples: [
+      'gradeCalculator(95) → "A"',
+      'gradeCalculator(72) → "C"',
+      'gradeCalculator(40) → "F"',
+    ],
     starterCode: `function gradeCalculator(score) {\n  // your code\n}`,
     tests: [
-      { description: "grades a 90+ score as A", assertion: 'expect(gradeCalculator(95)).toBe("A")' },
-      { description: "grades a 70s score as C", assertion: 'expect(gradeCalculator(72)).toBe("C")' },
-      { description: "grades a failing score as F", assertion: 'expect(gradeCalculator(40)).toBe("F")' },
-      { hidden: true, description: "grades exactly 80 as B", assertion: 'expect(gradeCalculator(80)).toBe("B")' },
-      { hidden: true, description: "grades exactly 60 as D", assertion: 'expect(gradeCalculator(60)).toBe("D")' },
+      {
+        description: "grades a 90+ score as A",
+        assertion: 'expect(gradeCalculator(95)).toBe("A")',
+      },
+      {
+        description: "grades a 70s score as C",
+        assertion: 'expect(gradeCalculator(72)).toBe("C")',
+      },
+      {
+        description: "grades a failing score as F",
+        assertion: 'expect(gradeCalculator(40)).toBe("F")',
+      },
+      {
+        hidden: true,
+        description: "grades exactly 80 as B",
+        assertion: 'expect(gradeCalculator(80)).toBe("B")',
+      },
+      {
+        hidden: true,
+        description: "grades exactly 60 as D",
+        assertion: 'expect(gradeCalculator(60)).toBe("D")',
+      },
     ],
-    hints: ["Check from highest to lowest with early returns to avoid a deeply nested if/else chain."],
+    hints: [
+      "Check from highest to lowest with early returns to avoid a deeply nested if/else chain.",
+    ],
     solution: `function gradeCalculator(score) {\n  if (score >= 90) return "A";\n  if (score >= 80) return "B";\n  if (score >= 70) return "C";\n  if (score >= 60) return "D";\n  return "F";\n}`,
-    explanation: "Ordering the checks from highest boundary to lowest with early returns avoids nested branches entirely.",
+    explanation:
+      "Ordering the checks from highest boundary to lowest with early returns avoids nested branches entirely.",
     relatedConcepts: ["Conditions & branching"],
   },
 ];

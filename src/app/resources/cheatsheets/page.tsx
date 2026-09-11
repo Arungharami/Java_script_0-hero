@@ -22,7 +22,9 @@ export default function CheatSheetsPage() {
         <h1 className="mt-3 text-5xl font-semibold tracking-[-.05em]">
           JavaScript cheat sheets.
         </h1>
-        <p className="mt-4 text-[var(--muted)]">{cheatsheets.length} topics, searchable instantly.</p>
+        <p className="mt-4 text-[var(--muted)]">
+          {cheatsheets.length} topics, searchable instantly.
+        </p>
         <div className="mt-7 flex max-w-xl items-center gap-3 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4">
           <Search size={17} />
           <input

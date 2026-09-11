@@ -24,8 +24,8 @@ export default async function WeekQuizPage({
         <p className="mt-5 text-lg text-[var(--muted)]">
           {quiz.questions.length} mixed-format questions — multiple choice,
           true/false, predict-the-output, identify-the-error, select-the-code,
-          and scenarios. Review each explanation, score at least 70%, and
-          retry as many times as you like.
+          and scenarios. Review each explanation, score at least 70%, and retry
+          as many times as you like.
         </p>
         <div className="mt-8">
           <QuizEngine id={`week-${week.number}`} questions={quiz.questions} />

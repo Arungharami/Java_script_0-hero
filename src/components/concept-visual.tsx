@@ -26,7 +26,9 @@ function Box({
         ? "bg-[var(--bg)] border-[var(--line)]"
         : "bg-[var(--surface)] border-[var(--line)]";
   return (
-    <div className={`rounded-xl border px-4 py-3 text-sm font-medium ${bg} ${className}`}>
+    <div
+      className={`rounded-xl border px-4 py-3 text-sm font-medium ${bg} ${className}`}
+    >
       {children}
     </div>
   );
@@ -52,10 +54,15 @@ function CallStackDiagram() {
     <Box tone="bg" className="flex flex-col items-center gap-2 p-6">
       {frames.map((frame, i) => (
         <div key={frame} className="flex flex-col items-center gap-2">
-          <Box tone={i === frames.length - 1 ? "accent" : "surface"} className="w-56 text-center">
+          <Box
+            tone={i === frames.length - 1 ? "accent" : "surface"}
+            className="w-56 text-center"
+          >
             {frame}
           </Box>
-          {i < frames.length - 1 && <ArrowDown size={16} className="text-[var(--muted)]" aria-hidden />}
+          {i < frames.length - 1 && (
+            <ArrowDown size={16} className="text-[var(--muted)]" aria-hidden />
+          )}
         </div>
       ))}
       <p className="mt-2 text-xs text-[var(--muted)]">
@@ -71,7 +78,11 @@ function ClosuresDiagram() {
       <div className="mx-auto max-w-sm rounded-xl border border-dashed border-[var(--line)] p-4 text-center">
         <p className="text-xs text-[var(--muted)]">makeCounter() scope</p>
         <p className="mt-1 code">let count = 0</p>
-        <ArrowDown size={16} className="mx-auto my-3 text-[var(--muted)]" aria-hidden />
+        <ArrowDown
+          size={16}
+          className="mx-auto my-3 text-[var(--muted)]"
+          aria-hidden
+        />
         <Box tone="accent" className="text-center">
           returned function — still reads &amp; updates count
         </Box>
@@ -87,25 +98,41 @@ function ReferenceDiagram() {
         <Box className="text-center">userA</Box>
         <Box className="text-center">userB</Box>
       </div>
-      <div className="flex flex-col items-center gap-1 text-[var(--muted)]" aria-hidden>
+      <div
+        className="flex flex-col items-center gap-1 text-[var(--muted)]"
+        aria-hidden
+      >
         <ArrowRight size={16} className="-rotate-12" />
         <ArrowRight size={16} className="rotate-12" />
       </div>
       <Box tone="accent" className="text-center">
-        {"{ name: \"Ada\" }"}
+        {'{ name: "Ada" }'}
       </Box>
     </Box>
   );
 }
 
 function EventLoopDiagram() {
-  const steps = ["Call Stack", "Web APIs", "Microtask Queue", "Task Queue", "Event Loop"];
+  const steps = [
+    "Call Stack",
+    "Web APIs",
+    "Microtask Queue",
+    "Task Queue",
+    "Event Loop",
+  ];
   return (
-    <Box tone="bg" className="flex flex-wrap items-center justify-center gap-2 p-6">
+    <Box
+      tone="bg"
+      className="flex flex-wrap items-center justify-center gap-2 p-6"
+    >
       {steps.map((step, i) => (
         <span key={step} className="flex items-center gap-2">
-          <Box tone={step === "Microtask Queue" ? "accent" : "surface"}>{step}</Box>
-          {i < steps.length - 1 && <ArrowRight size={16} className="text-[var(--muted)]" aria-hidden />}
+          <Box tone={step === "Microtask Queue" ? "accent" : "surface"}>
+            {step}
+          </Box>
+          {i < steps.length - 1 && (
+            <ArrowRight size={16} className="text-[var(--muted)]" aria-hidden />
+          )}
         </span>
       ))}
     </Box>
@@ -118,10 +145,21 @@ function PrototypeDiagram() {
     <Box tone="bg" className="flex flex-col items-center gap-2 p-6">
       {chain.map((step, i) => (
         <div key={step} className="flex flex-col items-center gap-2">
-          <Box tone={i === chain.length - 1 ? "surface" : i === 0 ? "accent" : "surface"} className="w-48 text-center">
+          <Box
+            tone={
+              i === chain.length - 1
+                ? "surface"
+                : i === 0
+                  ? "accent"
+                  : "surface"
+            }
+            className="w-48 text-center"
+          >
             {step}
           </Box>
-          {i < chain.length - 1 && <ArrowDown size={16} className="text-[var(--muted)]" aria-hidden />}
+          {i < chain.length - 1 && (
+            <ArrowDown size={16} className="text-[var(--muted)]" aria-hidden />
+          )}
         </div>
       ))}
     </Box>

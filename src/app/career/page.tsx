@@ -46,7 +46,7 @@ MIT
 `;
 
 const readinessChecklist = [
-  "A focused, descriptive repository name (not \"project1\")",
+  'A focused, descriptive repository name (not "project1")',
   "A meaningful commit history — small, well-labeled commits, not one giant commit",
   "A README with a live demo link, screenshots, setup steps, and technologies used",
   "No secrets, API keys, or node_modules committed",
@@ -65,8 +65,8 @@ export default function CareerPage() {
         </h1>
         <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--muted)]">
           A working project and a portfolio-ready project are not the same
-          thing. This is the gap most learners never close — here&apos;s
-          exactly how to close it.
+          thing. This is the gap most learners never close — here&apos;s exactly
+          how to close it.
         </p>
 
         <div className="mt-10 card p-6">
@@ -85,36 +85,40 @@ export default function CareerPage() {
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
           <div className="card p-5">
-            <h2 className="font-semibold">README structure that actually gets read</h2>
+            <h2 className="font-semibold">
+              README structure that actually gets read
+            </h2>
             <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
               Name and one-sentence pitch → screenshot → live demo link →
-              features → technologies → setup steps → a challenge you solved
-              → lessons learned → license. Put the demo link near the top —
+              features → technologies → setup steps → a challenge you solved →
+              lessons learned → license. Put the demo link near the top —
               reviewers rarely scroll far.
             </p>
           </div>
           <div className="card p-5">
             <h2 className="font-semibold">Commit history as a signal</h2>
             <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
-              A history of small, clearly labeled commits (feat:, fix:,
-              docs:) reads as someone who works in a professional, reviewable
-              way — the same workflow used throughout this course.
+              A history of small, clearly labeled commits (feat:, fix:, docs:)
+              reads as someone who works in a professional, reviewable way — the
+              same workflow used throughout this course.
             </p>
           </div>
           <div className="card p-5">
             <h2 className="font-semibold">Screenshots and a live demo</h2>
             <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
-              A reviewer often decides whether to read further within
-              seconds. A real screenshot and a working deployed link do more
-              than paragraphs of description.
+              A reviewer often decides whether to read further within seconds. A
+              real screenshot and a working deployed link do more than
+              paragraphs of description.
             </p>
           </div>
           <div className="card p-5">
-            <h2 className="font-semibold">Challenges solved &amp; lessons learned</h2>
+            <h2 className="font-semibold">
+              Challenges solved &amp; lessons learned
+            </h2>
             <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
-              Naming one real bug you hunted down, or one tradeoff you made
-              and why, demonstrates judgment — the thing a finished feature
-              alone can&apos;t show.
+              Naming one real bug you hunted down, or one tradeoff you made and
+              why, demonstrates judgment — the thing a finished feature alone
+              can&apos;t show.
             </p>
           </div>
         </div>
@@ -140,8 +144,8 @@ export default function CareerPage() {
         </div>
 
         <div className="mt-10 rounded-2xl border border-dashed border-[var(--line)] p-6 text-sm text-[var(--muted)]">
-          This platform does not track or claim job placement outcomes for
-          any learner. Portfolio readiness is about presenting real, working
+          This platform does not track or claim job placement outcomes for any
+          learner. Portfolio readiness is about presenting real, working
           projects honestly and clearly.
         </div>
       </section>

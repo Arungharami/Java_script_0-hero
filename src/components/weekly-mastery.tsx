@@ -10,9 +10,13 @@ import type { CourseWeek } from "@/types/learning";
 export function WeeklyMastery({ week }: { week: CourseWeek }) {
   const { progress, hydrated } = useProgress();
   if (!hydrated) return <div className="card h-40 animate-pulse" />;
-  const mastery = computeSkillMastery(progress, allLessons, challenges, debugLab, quizzes).filter(
-    (m) => week.skills.includes(m.skill),
-  );
+  const mastery = computeSkillMastery(
+    progress,
+    allLessons,
+    challenges,
+    debugLab,
+    quizzes,
+  ).filter((m) => week.skills.includes(m.skill));
   const overall = overallMastery(mastery);
   return (
     <div className="card p-6">

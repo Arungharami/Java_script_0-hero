@@ -7,17 +7,29 @@ export const arrays: ChallengeSeed[] = [
     category: "Arrays",
     difficulty: "easy",
     skills: ["arrays"],
-    description: "Return the largest number in an array without sorting the input.",
+    description:
+      "Return the largest number in an array without sorting the input.",
     examples: ["findMaximum([4, 9, 2]) → 9"],
     starterCode: `function findMaximum(numbers) {\n  // your code\n}`,
     tests: [
-      { description: "finds the max in an unsorted array", assertion: "expect(findMaximum([4, 9, 2])).toBe(9)" },
-      { description: "handles a single-item array", assertion: "expect(findMaximum([7])).toBe(7)" },
-      { hidden: true, description: "handles all-negative numbers", assertion: "expect(findMaximum([-5, -1, -9])).toBe(-1)" },
+      {
+        description: "finds the max in an unsorted array",
+        assertion: "expect(findMaximum([4, 9, 2])).toBe(9)",
+      },
+      {
+        description: "handles a single-item array",
+        assertion: "expect(findMaximum([7])).toBe(7)",
+      },
+      {
+        hidden: true,
+        description: "handles all-negative numbers",
+        assertion: "expect(findMaximum([-5, -1, -9])).toBe(-1)",
+      },
     ],
     hints: ["Math.max(...numbers) spreads the array into arguments."],
     solution: `function findMaximum(numbers) {\n  return Math.max(...numbers);\n}`,
-    explanation: "Spreading the array into Math.max avoids writing a manual comparison loop.",
+    explanation:
+      "Spreading the array into Math.max avoids writing a manual comparison loop.",
     relatedConcepts: ["Arrays & indexing", "Spread, rest & immutability"],
   },
   {
@@ -30,13 +42,24 @@ export const arrays: ChallengeSeed[] = [
     examples: ["findMinimum([4, 9, 2]) → 2"],
     starterCode: `function findMinimum(numbers) {\n  // your code\n}`,
     tests: [
-      { description: "finds the min in an unsorted array", assertion: "expect(findMinimum([4, 9, 2])).toBe(2)" },
-      { description: "handles a single-item array", assertion: "expect(findMinimum([7])).toBe(7)" },
-      { hidden: true, description: "handles all-negative numbers", assertion: "expect(findMinimum([-5, -1, -9])).toBe(-9)" },
+      {
+        description: "finds the min in an unsorted array",
+        assertion: "expect(findMinimum([4, 9, 2])).toBe(2)",
+      },
+      {
+        description: "handles a single-item array",
+        assertion: "expect(findMinimum([7])).toBe(7)",
+      },
+      {
+        hidden: true,
+        description: "handles all-negative numbers",
+        assertion: "expect(findMinimum([-5, -1, -9])).toBe(-9)",
+      },
     ],
     hints: ["Math.min(...numbers) mirrors Math.max."],
     solution: `function findMinimum(numbers) {\n  return Math.min(...numbers);\n}`,
-    explanation: "The mirror image of Find Maximum — same spread pattern, opposite built-in.",
+    explanation:
+      "The mirror image of Find Maximum — same spread pattern, opposite built-in.",
     relatedConcepts: ["Arrays & indexing", "Find Maximum"],
   },
   {
@@ -49,13 +72,26 @@ export const arrays: ChallengeSeed[] = [
     examples: ["sumArray([1, 2, 3]) → 6"],
     starterCode: `function sumArray(numbers) {\n  // your code\n}`,
     tests: [
-      { description: "sums a normal array", assertion: "expect(sumArray([1, 2, 3])).toBe(6)" },
-      { description: "sums an empty array to zero", assertion: "expect(sumArray([])).toBe(0)" },
-      { hidden: true, description: "sums negative numbers", assertion: "expect(sumArray([-1, -2, 3])).toBe(0)" },
+      {
+        description: "sums a normal array",
+        assertion: "expect(sumArray([1, 2, 3])).toBe(6)",
+      },
+      {
+        description: "sums an empty array to zero",
+        assertion: "expect(sumArray([])).toBe(0)",
+      },
+      {
+        hidden: true,
+        description: "sums negative numbers",
+        assertion: "expect(sumArray([-1, -2, 3])).toBe(0)",
+      },
     ],
-    hints: ["reduce with an initial value of 0 folds the array into a single total."],
+    hints: [
+      "reduce with an initial value of 0 folds the array into a single total.",
+    ],
     solution: `function sumArray(numbers) {\n  return numbers.reduce((sum, n) => sum + n, 0);\n}`,
-    explanation: "The initial value of 0 is what makes reduce return 0, not crash, on an empty array.",
+    explanation:
+      "The initial value of 0 is what makes reduce return 0, not crash, on an empty array.",
     relatedConcepts: ["reduce, sort & analysis"],
   },
   {
@@ -64,17 +100,29 @@ export const arrays: ChallengeSeed[] = [
     category: "Arrays",
     difficulty: "easy",
     skills: ["arrays"],
-    description: "Return the average of the numbers in an array, or 0 for an empty array.",
+    description:
+      "Return the average of the numbers in an array, or 0 for an empty array.",
     examples: ["averageArray([2, 4, 6]) → 4"],
     starterCode: `function averageArray(numbers) {\n  // your code\n}`,
     tests: [
-      { description: "averages a normal array", assertion: "expect(averageArray([2, 4, 6])).toBe(4)" },
-      { description: "returns 0 for an empty array", assertion: "expect(averageArray([])).toBe(0)" },
-      { hidden: true, description: "averages a single-item array", assertion: "expect(averageArray([9])).toBe(9)" },
+      {
+        description: "averages a normal array",
+        assertion: "expect(averageArray([2, 4, 6])).toBe(4)",
+      },
+      {
+        description: "returns 0 for an empty array",
+        assertion: "expect(averageArray([])).toBe(0)",
+      },
+      {
+        hidden: true,
+        description: "averages a single-item array",
+        assertion: "expect(averageArray([9])).toBe(9)",
+      },
     ],
     hints: ["Guard the empty-array case before dividing by numbers.length."],
     solution: `function averageArray(numbers) {\n  if (numbers.length === 0) return 0;\n  return numbers.reduce((sum, n) => sum + n, 0) / numbers.length;\n}`,
-    explanation: "Dividing by zero length would produce NaN, so the empty case must be handled explicitly first.",
+    explanation:
+      "Dividing by zero length would produce NaN, so the empty case must be handled explicitly first.",
     relatedConcepts: ["Sum Array", "reduce, sort & analysis"],
   },
   {
@@ -83,17 +131,30 @@ export const arrays: ChallengeSeed[] = [
     category: "Arrays",
     difficulty: "easy",
     skills: ["arrays"],
-    description: "Return a new array containing each value once, preserving first-seen order.",
+    description:
+      "Return a new array containing each value once, preserving first-seen order.",
     examples: ["removeDuplicates([1, 1, 2]) → [1, 2]"],
     starterCode: `function removeDuplicates(values) {\n  // your code\n}`,
     tests: [
-      { description: "removes consecutive duplicates", assertion: "expect(removeDuplicates([1, 1, 2])).toEqual([1, 2])" },
-      { description: "keeps an already-unique array unchanged", assertion: "expect(removeDuplicates([1, 2, 3])).toEqual([1, 2, 3])" },
-      { hidden: true, description: "removes non-consecutive duplicates", assertion: "expect(removeDuplicates([1, 2, 1, 3, 2])).toEqual([1, 2, 3])" },
+      {
+        description: "removes consecutive duplicates",
+        assertion: "expect(removeDuplicates([1, 1, 2])).toEqual([1, 2])",
+      },
+      {
+        description: "keeps an already-unique array unchanged",
+        assertion: "expect(removeDuplicates([1, 2, 3])).toEqual([1, 2, 3])",
+      },
+      {
+        hidden: true,
+        description: "removes non-consecutive duplicates",
+        assertion:
+          "expect(removeDuplicates([1, 2, 1, 3, 2])).toEqual([1, 2, 3])",
+      },
     ],
     hints: ["A Set only stores unique values; spread it back into an array."],
     solution: `function removeDuplicates(values) {\n  return [...new Set(values)];\n}`,
-    explanation: "Set automatically de-duplicates while preserving insertion order, making this a one-liner.",
+    explanation:
+      "Set automatically de-duplicates while preserving insertion order, making this a one-liner.",
     relatedConcepts: ["Stacks, queues, maps & sets"],
   },
   {
@@ -102,17 +163,31 @@ export const arrays: ChallengeSeed[] = [
     category: "Arrays",
     difficulty: "medium",
     skills: ["arrays", "algorithms"],
-    description: "Return the second largest distinct value in an array of numbers.",
+    description:
+      "Return the second largest distinct value in an array of numbers.",
     examples: ["secondLargest([4, 9, 2, 9]) → 4"],
     starterCode: `function secondLargest(numbers) {\n  // your code\n}`,
     tests: [
-      { description: "finds the second largest with a duplicate max", assertion: "expect(secondLargest([4, 9, 2, 9])).toBe(4)" },
-      { description: "finds the second largest in sorted input", assertion: "expect(secondLargest([1, 2, 3])).toBe(2)" },
-      { hidden: true, description: "handles negative numbers", assertion: "expect(secondLargest([-1, -2, -3])).toBe(-2)" },
+      {
+        description: "finds the second largest with a duplicate max",
+        assertion: "expect(secondLargest([4, 9, 2, 9])).toBe(4)",
+      },
+      {
+        description: "finds the second largest in sorted input",
+        assertion: "expect(secondLargest([1, 2, 3])).toBe(2)",
+      },
+      {
+        hidden: true,
+        description: "handles negative numbers",
+        assertion: "expect(secondLargest([-1, -2, -3])).toBe(-2)",
+      },
     ],
-    hints: ["De-duplicate first with a Set, sort descending, then take index 1."],
+    hints: [
+      "De-duplicate first with a Set, sort descending, then take index 1.",
+    ],
     solution: `function secondLargest(numbers) {\n  const unique = [...new Set(numbers)].sort((a, b) => b - a);\n  return unique[1];\n}`,
-    explanation: "Removing duplicates before sorting is what makes a repeated maximum not count twice.",
+    explanation:
+      "Removing duplicates before sorting is what makes a repeated maximum not count twice.",
     relatedConcepts: ["Remove Duplicates", "reduce, sort & analysis"],
   },
   {
@@ -121,17 +196,32 @@ export const arrays: ChallengeSeed[] = [
     category: "Arrays",
     difficulty: "easy",
     skills: ["arrays"],
-    description: "Return a new array with the elements in reverse order, without mutating the input.",
+    description:
+      "Return a new array with the elements in reverse order, without mutating the input.",
     examples: ["reverseArray([1, 2, 3]) → [3, 2, 1]"],
     starterCode: `function reverseArray(values) {\n  // your code\n}`,
     tests: [
-      { description: "reverses a normal array", assertion: "expect(reverseArray([1, 2, 3])).toEqual([3, 2, 1])" },
-      { description: "does not mutate the original array", assertion: "const input = [1, 2, 3]; reverseArray(input); expect(input).toEqual([1, 2, 3])" },
-      { hidden: true, description: "handles an empty array", assertion: "expect(reverseArray([])).toEqual([])" },
+      {
+        description: "reverses a normal array",
+        assertion: "expect(reverseArray([1, 2, 3])).toEqual([3, 2, 1])",
+      },
+      {
+        description: "does not mutate the original array",
+        assertion:
+          "const input = [1, 2, 3]; reverseArray(input); expect(input).toEqual([1, 2, 3])",
+      },
+      {
+        hidden: true,
+        description: "handles an empty array",
+        assertion: "expect(reverseArray([])).toEqual([])",
+      },
     ],
-    hints: ["Spread into a new array before calling .reverse(), since reverse() mutates in place."],
+    hints: [
+      "Spread into a new array before calling .reverse(), since reverse() mutates in place.",
+    ],
     solution: `function reverseArray(values) {\n  return [...values].reverse();\n}`,
-    explanation: "Copying first means the mutating .reverse() call only affects the copy, not the caller's array.",
+    explanation:
+      "Copying first means the mutating .reverse() call only affects the copy, not the caller's array.",
     relatedConcepts: ["Array mutation", "Spread, rest & immutability"],
   },
   {
@@ -144,13 +234,25 @@ export const arrays: ChallengeSeed[] = [
     examples: ["flatten([1, [2, [3]]]) → [1, 2, 3]"],
     starterCode: `function flatten(values) {\n  // your code\n}`,
     tests: [
-      { description: "flattens a deeply nested array", assertion: "expect(flatten([1, [2, [3]]])).toEqual([1, 2, 3])" },
-      { description: "leaves an already-flat array unchanged", assertion: "expect(flatten([1, 2, 3])).toEqual([1, 2, 3])" },
-      { hidden: true, description: "flattens multiple nested groups", assertion: "expect(flatten([[1, 2], [3, [4, 5]]])).toEqual([1, 2, 3, 4, 5])" },
+      {
+        description: "flattens a deeply nested array",
+        assertion: "expect(flatten([1, [2, [3]]])).toEqual([1, 2, 3])",
+      },
+      {
+        description: "leaves an already-flat array unchanged",
+        assertion: "expect(flatten([1, 2, 3])).toEqual([1, 2, 3])",
+      },
+      {
+        hidden: true,
+        description: "flattens multiple nested groups",
+        assertion:
+          "expect(flatten([[1, 2], [3, [4, 5]]])).toEqual([1, 2, 3, 4, 5])",
+      },
     ],
     hints: ["Array.prototype.flat(Infinity) flattens any depth in one call."],
     solution: `function flatten(values) {\n  return values.flat(Infinity);\n}`,
-    explanation: "Passing Infinity as the depth means flat() keeps flattening no matter how deeply nested the input is.",
+    explanation:
+      "Passing Infinity as the depth means flat() keeps flattening no matter how deeply nested the input is.",
     relatedConcepts: ["Arrays & indexing"],
   },
   {
@@ -159,17 +261,31 @@ export const arrays: ChallengeSeed[] = [
     category: "Arrays",
     difficulty: "medium",
     skills: ["arrays"],
-    description: "Split an array into chunks of a given size, with the last chunk possibly smaller.",
+    description:
+      "Split an array into chunks of a given size, with the last chunk possibly smaller.",
     examples: ["chunkArray([1,2,3,4,5], 2) → [[1,2],[3,4],[5]]"],
     starterCode: `function chunkArray(values, size) {\n  // your code\n}`,
     tests: [
-      { description: "splits evenly", assertion: "expect(chunkArray([1, 2, 3, 4], 2)).toEqual([[1, 2], [3, 4]])" },
-      { description: "leaves a smaller final chunk", assertion: "expect(chunkArray([1, 2, 3, 4, 5], 2)).toEqual([[1, 2], [3, 4], [5]])" },
-      { hidden: true, description: "handles a chunk size larger than the array", assertion: "expect(chunkArray([1, 2], 5)).toEqual([[1, 2]])" },
+      {
+        description: "splits evenly",
+        assertion:
+          "expect(chunkArray([1, 2, 3, 4], 2)).toEqual([[1, 2], [3, 4]])",
+      },
+      {
+        description: "leaves a smaller final chunk",
+        assertion:
+          "expect(chunkArray([1, 2, 3, 4, 5], 2)).toEqual([[1, 2], [3, 4], [5]])",
+      },
+      {
+        hidden: true,
+        description: "handles a chunk size larger than the array",
+        assertion: "expect(chunkArray([1, 2], 5)).toEqual([[1, 2]])",
+      },
     ],
     hints: ["Loop over the array in steps of `size`, slicing out each chunk."],
     solution: `function chunkArray(values, size) {\n  const chunks = [];\n  for (let i = 0; i < values.length; i += size) {\n    chunks.push(values.slice(i, i + size));\n  }\n  return chunks;\n}`,
-    explanation: "Stepping the loop counter by `size` instead of 1 is what produces evenly sized groups.",
+    explanation:
+      "Stepping the loop counter by `size` instead of 1 is what produces evenly sized groups.",
     relatedConcepts: ["Loops & iteration"],
   },
   {
@@ -182,13 +298,27 @@ export const arrays: ChallengeSeed[] = [
     examples: ["rotateArray([1,2,3,4,5], 2) → [4,5,1,2,3]"],
     starterCode: `function rotateArray(values, k) {\n  // your code\n}`,
     tests: [
-      { description: "rotates right by two", assertion: "expect(rotateArray([1, 2, 3, 4, 5], 2)).toEqual([4, 5, 1, 2, 3])" },
-      { description: "rotating by 0 leaves the array unchanged", assertion: "expect(rotateArray([1, 2, 3], 0)).toEqual([1, 2, 3])" },
-      { hidden: true, description: "handles k larger than the array length", assertion: "expect(rotateArray([1, 2, 3], 4)).toEqual([3, 1, 2])" },
+      {
+        description: "rotates right by two",
+        assertion:
+          "expect(rotateArray([1, 2, 3, 4, 5], 2)).toEqual([4, 5, 1, 2, 3])",
+      },
+      {
+        description: "rotating by 0 leaves the array unchanged",
+        assertion: "expect(rotateArray([1, 2, 3], 0)).toEqual([1, 2, 3])",
+      },
+      {
+        hidden: true,
+        description: "handles k larger than the array length",
+        assertion: "expect(rotateArray([1, 2, 3], 4)).toEqual([3, 1, 2])",
+      },
     ],
-    hints: ["Normalize k with k % values.length first, then slice the last k items to the front."],
+    hints: [
+      "Normalize k with k % values.length first, then slice the last k items to the front.",
+    ],
     solution: `function rotateArray(values, k) {\n  const n = values.length;\n  if (n === 0) return [];\n  const shift = k % n;\n  return [...values.slice(n - shift), ...values.slice(0, n - shift)];\n}`,
-    explanation: "Normalizing k with modulo handles rotations larger than the array length without extra loops.",
+    explanation:
+      "Normalizing k with modulo handles rotations larger than the array length without extra loops.",
     relatedConcepts: ["Arrays & indexing", "Spread, rest & immutability"],
   },
   {
@@ -197,17 +327,31 @@ export const arrays: ChallengeSeed[] = [
     category: "Arrays",
     difficulty: "medium",
     skills: ["arrays"],
-    description: "Return the values that appear in both arrays, without duplicates.",
+    description:
+      "Return the values that appear in both arrays, without duplicates.",
     examples: ["intersection([1,2,3], [2,3,4]) → [2,3]"],
     starterCode: `function intersection(a, b) {\n  // your code\n}`,
     tests: [
-      { description: "finds shared values", assertion: "expect(intersection([1, 2, 3], [2, 3, 4])).toEqual([2, 3])" },
-      { description: "returns an empty array when nothing overlaps", assertion: "expect(intersection([1, 2], [3, 4])).toEqual([])" },
-      { hidden: true, description: "de-duplicates the result", assertion: "expect(intersection([1, 1, 2], [1, 2, 2])).toEqual([1, 2])" },
+      {
+        description: "finds shared values",
+        assertion: "expect(intersection([1, 2, 3], [2, 3, 4])).toEqual([2, 3])",
+      },
+      {
+        description: "returns an empty array when nothing overlaps",
+        assertion: "expect(intersection([1, 2], [3, 4])).toEqual([])",
+      },
+      {
+        hidden: true,
+        description: "de-duplicates the result",
+        assertion: "expect(intersection([1, 1, 2], [1, 2, 2])).toEqual([1, 2])",
+      },
     ],
-    hints: ["Build a Set from b, then filter a (de-duplicated) to values that Set has."],
+    hints: [
+      "Build a Set from b, then filter a (de-duplicated) to values that Set has.",
+    ],
     solution: `function intersection(a, b) {\n  const setB = new Set(b);\n  return [...new Set(a)].filter((value) => setB.has(value));\n}`,
-    explanation: "A Set gives O(1) membership checks, avoiding a nested-loop comparison between the two arrays.",
+    explanation:
+      "A Set gives O(1) membership checks, avoiding a nested-loop comparison between the two arrays.",
     relatedConcepts: ["Stacks, queues, maps & sets", "map, filter & find"],
   },
   {
@@ -216,17 +360,31 @@ export const arrays: ChallengeSeed[] = [
     category: "Arrays",
     difficulty: "medium",
     skills: ["arrays"],
-    description: "Return the values in the first array that do not appear in the second.",
+    description:
+      "Return the values in the first array that do not appear in the second.",
     examples: ["difference([1,2,3], [2,3]) → [1]"],
     starterCode: `function difference(a, b) {\n  // your code\n}`,
     tests: [
-      { description: "finds values unique to the first array", assertion: "expect(difference([1, 2, 3], [2, 3])).toEqual([1])" },
-      { description: "returns everything when there's no overlap", assertion: "expect(difference([1, 2], [9])).toEqual([1, 2])" },
-      { hidden: true, description: "returns an empty array when everything overlaps", assertion: "expect(difference([1, 2], [1, 2])).toEqual([])" },
+      {
+        description: "finds values unique to the first array",
+        assertion: "expect(difference([1, 2, 3], [2, 3])).toEqual([1])",
+      },
+      {
+        description: "returns everything when there's no overlap",
+        assertion: "expect(difference([1, 2], [9])).toEqual([1, 2])",
+      },
+      {
+        hidden: true,
+        description: "returns an empty array when everything overlaps",
+        assertion: "expect(difference([1, 2], [1, 2])).toEqual([])",
+      },
     ],
-    hints: ["Filter the first array, excluding anything present in a Set built from the second."],
+    hints: [
+      "Filter the first array, excluding anything present in a Set built from the second.",
+    ],
     solution: `function difference(a, b) {\n  const excluded = new Set(b);\n  return a.filter((value) => !excluded.has(value));\n}`,
-    explanation: "The mirror image of intersection — keep values NOT found in the other set.",
+    explanation:
+      "The mirror image of intersection — keep values NOT found in the other set.",
     relatedConcepts: ["Array Intersection"],
   },
   {
@@ -235,17 +393,33 @@ export const arrays: ChallengeSeed[] = [
     category: "Arrays",
     difficulty: "medium",
     skills: ["arrays", "objects"],
-    description: "Given an array of objects, return one object per distinct value of a given key, keeping the first occurrence.",
+    description:
+      "Given an array of objects, return one object per distinct value of a given key, keeping the first occurrence.",
     examples: ['uniqueByKey([{id:1},{id:1},{id:2}], "id") → [{id:1},{id:2}]'],
     starterCode: `function uniqueByKey(items, key) {\n  // your code\n}`,
     tests: [
-      { description: "keeps the first occurrence per key", assertion: 'expect(uniqueByKey([{ id: 1, n: "a" }, { id: 1, n: "b" }, { id: 2, n: "c" }], "id")).toEqual([{ id: 1, n: "a" }, { id: 2, n: "c" }])' },
-      { description: "leaves already-unique input unchanged", assertion: 'expect(uniqueByKey([{ id: 1 }, { id: 2 }], "id")).toEqual([{ id: 1 }, { id: 2 }])' },
-      { hidden: true, description: "handles an empty array", assertion: 'expect(uniqueByKey([], "id")).toEqual([])' },
+      {
+        description: "keeps the first occurrence per key",
+        assertion:
+          'expect(uniqueByKey([{ id: 1, n: "a" }, { id: 1, n: "b" }, { id: 2, n: "c" }], "id")).toEqual([{ id: 1, n: "a" }, { id: 2, n: "c" }])',
+      },
+      {
+        description: "leaves already-unique input unchanged",
+        assertion:
+          'expect(uniqueByKey([{ id: 1 }, { id: 2 }], "id")).toEqual([{ id: 1 }, { id: 2 }])',
+      },
+      {
+        hidden: true,
+        description: "handles an empty array",
+        assertion: 'expect(uniqueByKey([], "id")).toEqual([])',
+      },
     ],
-    hints: ["Track seen keys in a Set, and only keep an item the first time its key value is seen."],
+    hints: [
+      "Track seen keys in a Set, and only keep an item the first time its key value is seen.",
+    ],
     solution: `function uniqueByKey(items, key) {\n  const seen = new Set();\n  return items.filter((item) => {\n    if (seen.has(item[key])) return false;\n    seen.add(item[key]);\n    return true;\n  });\n}`,
-    explanation: "This is the real-world data-cleaning cousin of Remove Duplicates, deduplicating by field instead of by value.",
+    explanation:
+      "This is the real-world data-cleaning cousin of Remove Duplicates, deduplicating by field instead of by value.",
     relatedConcepts: ["Remove Duplicates", "Group Users by Role"],
   },
 ];

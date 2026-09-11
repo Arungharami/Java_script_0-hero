@@ -15,7 +15,9 @@ export default function SkillsPage() {
     : [];
   const overall = hydrated ? overallMastery(mastery) : 0;
   const withData = mastery.filter((m) => m.hasData);
-  const needsReview = [...withData].sort((a, b) => a.value - b.value).slice(0, 3);
+  const needsReview = [...withData]
+    .sort((a, b) => a.value - b.value)
+    .slice(0, 3);
 
   return (
     <AppShell>
@@ -26,9 +28,9 @@ export default function SkillsPage() {
         </h1>
         <p className="mt-5 max-w-2xl text-lg text-[var(--muted)]">
           Mastery combines lesson completion, challenge and debugging test
-          results, and weekly quiz performance — never lesson completion
-          alone. A skill you haven&apos;t practiced shows &quot;No data
-          yet,&quot; not a fabricated score.
+          results, and weekly quiz performance — never lesson completion alone.
+          A skill you haven&apos;t practiced shows &quot;No data yet,&quot; not
+          a fabricated score.
         </p>
 
         {!hydrated ? (
@@ -54,7 +56,10 @@ export default function SkillsPage() {
                   {needsReview
                     .filter((m) => m.value < 70)
                     .map((m) => (
-                      <div key={m.skill} className="rounded-xl bg-[var(--bg)] p-3 text-sm">
+                      <div
+                        key={m.skill}
+                        className="rounded-xl bg-[var(--bg)] p-3 text-sm"
+                      >
                         <p className="font-medium">{m.label}</p>
                         <p className="text-[var(--muted)]">{m.value}%</p>
                       </div>

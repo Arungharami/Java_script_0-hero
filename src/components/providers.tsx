@@ -175,17 +175,17 @@ export function Providers({ children }: { children: React.ReactNode }) {
     [update],
   );
 
-  const exportProgress = useCallback(() => JSON.stringify(progress, null, 2), [progress]);
-
-  const importProgress = useCallback(
-    (json: string) => {
-      const result = validateImportedProgress(json);
-      if (!result.success) return { success: false, error: result.error };
-      setProgress(result.progress);
-      return { success: true };
-    },
-    [],
+  const exportProgress = useCallback(
+    () => JSON.stringify(progress, null, 2),
+    [progress],
   );
+
+  const importProgress = useCallback((json: string) => {
+    const result = validateImportedProgress(json);
+    if (!result.success) return { success: false, error: result.error };
+    setProgress(result.progress);
+    return { success: true };
+  }, []);
 
   const resetProgress = useCallback(() => setProgress(emptyProgress), []);
 

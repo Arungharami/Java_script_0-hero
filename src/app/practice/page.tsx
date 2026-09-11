@@ -20,15 +20,31 @@ const TOPICS: (ChallengeCategory | "All")[] = [
   "DOM",
   "Debugging",
 ];
-const DIFFICULTIES: (ChallengeDifficulty | "All")[] = ["All", "easy", "medium", "hard"];
+const DIFFICULTIES: (ChallengeDifficulty | "All")[] = [
+  "All",
+  "easy",
+  "medium",
+  "hard",
+];
 const STATUSES = ["All", "Not Started", "In Progress", "Completed"] as const;
-const SORTS = ["recommended", "difficulty", "shortest", "newest", "completion"] as const;
-const DIFFICULTY_RANK: Record<ChallengeDifficulty, number> = { easy: 0, medium: 1, hard: 2 };
+const SORTS = [
+  "recommended",
+  "difficulty",
+  "shortest",
+  "newest",
+  "completion",
+] as const;
+const DIFFICULTY_RANK: Record<ChallengeDifficulty, number> = {
+  easy: 0,
+  medium: 1,
+  hard: 2,
+};
 
 export default function PracticePage() {
   const { progress, hydrated } = useProgress();
   const [topic, setTopic] = useState<(typeof TOPICS)[number]>("All");
-  const [difficulty, setDifficulty] = useState<(typeof DIFFICULTIES)[number]>("All");
+  const [difficulty, setDifficulty] =
+    useState<(typeof DIFFICULTIES)[number]>("All");
   const [status, setStatus] = useState<(typeof STATUSES)[number]>("All");
   const [sort, setSort] = useState<(typeof SORTS)[number]>("recommended");
   const [query, setQuery] = useState("");
@@ -45,21 +61,36 @@ export default function PracticePage() {
       if (topic !== "All" && c.category !== topic) return false;
       if (difficulty !== "All" && c.difficulty !== difficulty) return false;
       if (status !== "All" && statusOf(c.slug) !== status) return false;
-      if (q && !`${c.title} ${c.category} ${c.relatedConcepts.join(" ")}`.toLowerCase().includes(q))
+      if (
+        q &&
+        !`${c.title} ${c.category} ${c.relatedConcepts.join(" ")}`
+          .toLowerCase()
+          .includes(q)
+      )
         return false;
       return true;
     });
     list = [...list];
-    if (sort === "difficulty") list.sort((a, b) => DIFFICULTY_RANK[a.difficulty] - DIFFICULTY_RANK[b.difficulty]);
-    else if (sort === "shortest") list.sort((a, b) => a.estimatedMinutes - b.estimatedMinutes);
+    if (sort === "difficulty")
+      list.sort(
+        (a, b) => DIFFICULTY_RANK[a.difficulty] - DIFFICULTY_RANK[b.difficulty],
+      );
+    else if (sort === "shortest")
+      list.sort((a, b) => a.estimatedMinutes - b.estimatedMinutes);
     else if (sort === "newest") list.reverse();
     else if (sort === "completion")
-      list.sort((a, b) => (statusOf(a.slug) === "Completed" ? 1 : 0) - (statusOf(b.slug) === "Completed" ? 1 : 0));
+      list.sort(
+        (a, b) =>
+          (statusOf(a.slug) === "Completed" ? 1 : 0) -
+          (statusOf(b.slug) === "Completed" ? 1 : 0),
+      );
     return list;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topic, difficulty, status, query, sort, progress.challengeProgress]);
 
-  const completedCount = challenges.filter((c) => progress.challengeProgress[c.slug]?.completed).length;
+  const completedCount = challenges.filter(
+    (c) => progress.challengeProgress[c.slug]?.completed,
+  ).length;
 
   return (
     <AppShell>
@@ -70,7 +101,8 @@ export default function PracticePage() {
         </h1>
         <p className="mt-5 max-w-2xl text-lg text-[var(--muted)]">
           {challenges.length} challenges across 10 topics. Solve, run automated
-          checks, inspect failures, and compare approaches after you've tried.
+          checks, inspect failures, and compare approaches after you&apos;ve
+          tried.
           {hydrated && ` ${completedCount} / ${challenges.length} completed.`}
         </p>
         <Link
@@ -117,7 +149,9 @@ export default function PracticePage() {
               Difficulty
               <select
                 value={difficulty}
-                onChange={(e) => setDifficulty(e.target.value as typeof difficulty)}
+                onChange={(e) =>
+                  setDifficulty(e.target.value as typeof difficulty)
+                }
                 className="rounded-lg border border-[var(--line)] bg-[var(--bg)] px-2 py-1.5 capitalize"
               >
                 {DIFFICULTIES.map((d) => (
@@ -173,7 +207,9 @@ export default function PracticePage() {
                     {challenge.difficulty}
                   </span>
                 </div>
-                <h2 className="mt-8 text-xl font-semibold">{challenge.title}</h2>
+                <h2 className="mt-8 text-xl font-semibold">
+                  {challenge.title}
+                </h2>
                 <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
                   {challenge.description}
                 </p>

@@ -224,7 +224,12 @@ interface TopicContent {
   challengeStarter: string;
   challengeHint: string;
   challengeSolution: string;
-  quiz: { question: string; options: string[]; answer: number; explanation: string };
+  quiz: {
+    question: string;
+    options: string[];
+    answer: number;
+    explanation: string;
+  };
 }
 
 const TOPIC_CONTENT: Record<string, TopicContent> = {
@@ -236,22 +241,33 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "A JavaScript engine reads your file top to bottom, then executes it one statement at a time on a single call stack. Every function call is pushed onto that stack and popped off when it returns, which is why one script can never run two statements literally simultaneously.",
     why: "Once you can see the call stack in your head, confusing stack traces, recursion limits, and 'why did this run before that' questions stop being mysterious.",
-    realWorld: "Browser DevTools' Call Stack panel during a paused breakpoint is this exact model made visible.",
+    realWorld:
+      "Browser DevTools' Call Stack panel during a paused breakpoint is this exact model made visible.",
     mistakes: [
       "Assuming two functions run 'at the same time' because they're both called quickly",
       "Not reading the error stack trace from the top down",
       "Confusing 'the code that defines a function' with 'the code that calls it'",
     ],
-    summary: "JavaScript executes synchronously on one call stack: one frame at a time, pushed on call and popped on return.",
-    challengePrompt: "Add a second function that calls greet() and returns a longer sentence, then log the result.",
+    summary:
+      "JavaScript executes synchronously on one call stack: one frame at a time, pushed on call and popped on return.",
+    challengePrompt:
+      "Add a second function that calls greet() and returns a longer sentence, then log the result.",
     challengeStarter: `function greet() {\n  return "Hello";\n}\n// add a function here\n`,
-    challengeHint: "Call greet() inside your new function and use its return value in a template literal.",
+    challengeHint:
+      "Call greet() inside your new function and use its return value in a template literal.",
     challengeSolution: `function greet() {\n  return "Hello";\n}\nfunction welcome(name) {\n  return \`${"${greet()}"}, ${"${name}"}!\`;\n}\nconsole.log(welcome("Ada"));`,
     quiz: {
-      question: "What does the JavaScript engine use to track which function is currently running?",
-      options: ["The DOM tree", "The call stack", "The event loop", "localStorage"],
+      question:
+        "What does the JavaScript engine use to track which function is currently running?",
+      options: [
+        "The DOM tree",
+        "The call stack",
+        "The event loop",
+        "localStorage",
+      ],
       answer: 1,
-      explanation: "Each function call is pushed onto the call stack and removed when it returns.",
+      explanation:
+        "Each function call is pushed onto the call stack and removed when it returns.",
     },
   },
   "Console & statements": {
@@ -261,19 +277,24 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "A program is a sequence of statements, and the console is your window into what actually happened versus what you expected. console.log, console.table, and console.error each format output differently to make different kinds of bugs easier to see.",
     why: "Professional developers narrate their program with console output long before they reach for a debugger, because it costs nothing and works everywhere.",
-    realWorld: "Every production incident investigation starts with someone reading logs, which are just console statements captured at scale.",
+    realWorld:
+      "Every production incident investigation starts with someone reading logs, which are just console statements captured at scale.",
     mistakes: [
       "Leaving stray console.log calls in shipped code",
       "Logging a value without a label, making the output ambiguous",
       "Only checking the last line of output instead of reading in order",
     ],
-    summary: "Statements run in order; the console is the cheapest, most reliable tool for observing that order and the values inside it.",
-    challengePrompt: "Log three labeled values that show a variable changing over three steps.",
+    summary:
+      "Statements run in order; the console is the cheapest, most reliable tool for observing that order and the values inside it.",
+    challengePrompt:
+      "Log three labeled values that show a variable changing over three steps.",
     challengeStarter: `let total = 0;\n// log total after each step below\ntotal += 5;\ntotal += 10;\ntotal *= 2;\n`,
-    challengeHint: "Use console.log(\"label\", total) after each line so you can see the running value.",
+    challengeHint:
+      'Use console.log("label", total) after each line so you can see the running value.',
     challengeSolution: `let total = 0;\ntotal += 5;\nconsole.log("after add 5", total);\ntotal += 10;\nconsole.log("after add 10", total);\ntotal *= 2;\nconsole.log("after double", total);`,
     quiz: {
-      question: "Why do professional developers use console.log while developing, not just when something breaks?",
+      question:
+        "Why do professional developers use console.log while developing, not just when something breaks?",
       options: [
         "It makes code run faster",
         "It narrates program state cheaply, catching bugs before they compound",
@@ -281,7 +302,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "It replaces automated tests",
       ],
       answer: 1,
-      explanation: "Logging state early surfaces incorrect assumptions before they cause harder-to-trace bugs later.",
+      explanation:
+        "Logging state early surfaces incorrect assumptions before they cause harder-to-trace bugs later.",
     },
   },
   "let, const & var": {
@@ -291,22 +313,27 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "const creates a binding that cannot be reassigned, let creates one that can, and var predates block scoping entirely, attaching to the nearest function instead. Defaulting to const documents your intent: this value will not change.",
     why: "Reassignment bugs — a value silently changing somewhere far from where you're reading it — are far easier to rule out when most of your bindings are const.",
-    realWorld: "Linters in every serious JavaScript codebase enforce const-by-default and flag var as legacy for exactly this reason.",
+    realWorld:
+      "Linters in every serious JavaScript codebase enforce const-by-default and flag var as legacy for exactly this reason.",
     mistakes: [
       "Using let everywhere out of habit instead of defaulting to const",
       "Trying to reassign a const binding and being surprised by the TypeError",
       "Mixing var into modern code and being surprised by function-scoping",
     ],
-    summary: "Prefer const; use let only when a binding must change; avoid var in new code.",
-    challengePrompt: "Fix the snippet so it uses const where nothing is reassigned and let only where it is.",
+    summary:
+      "Prefer const; use let only when a binding must change; avoid var in new code.",
+    challengePrompt:
+      "Fix the snippet so it uses const where nothing is reassigned and let only where it is.",
     challengeStarter: `let name = "Ada";\nlet birthYear = 1815;\nlet age = 0;\nage = 2026 - birthYear;\nconsole.log(name, age);`,
     challengeHint: "Only `age` changes after its initial declaration.",
     challengeSolution: `const name = "Ada";\nconst birthYear = 1815;\nlet age = 0;\nage = 2026 - birthYear;\nconsole.log(name, age);`,
     quiz: {
-      question: "Which declaration should you reach for by default in new JavaScript code?",
+      question:
+        "Which declaration should you reach for by default in new JavaScript code?",
       options: ["var", "let", "const", "It never matters"],
       answer: 2,
-      explanation: "const documents that a binding will not be reassigned, which is the common case.",
+      explanation:
+        "const documents that a binding will not be reassigned, which is the common case.",
     },
   },
   "Primitive data types": {
@@ -316,14 +343,17 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "JavaScript has seven primitive types: string, number, boolean, undefined, null, symbol, and bigint. Primitives are compared and copied by value, which is the foundation every later lesson on objects and references builds on.",
     why: "Knowing exactly which type a value is prevents entire categories of bugs, especially around comparisons and math on unexpected types.",
-    realWorld: "Form input validation constantly checks typeof or Number.isFinite before trusting user-entered data.",
+    realWorld:
+      "Form input validation constantly checks typeof or Number.isFinite before trusting user-entered data.",
     mistakes: [
-      "Trusting typeof null to return \"null\" (it returns \"object\")",
+      'Trusting typeof null to return "null" (it returns "object")',
       "Confusing undefined (never assigned) with null (intentionally empty)",
       "Assuming a number typed into a form field arrives as a number, not a string",
     ],
-    summary: "Primitives are copied by value and have exactly one of seven types — know them to reason about comparisons correctly.",
-    challengePrompt: "Log the typeof for five different values, including null and an array.",
+    summary:
+      "Primitives are copied by value and have exactly one of seven types — know them to reason about comparisons correctly.",
+    challengePrompt:
+      "Log the typeof for five different values, including null and an array.",
     challengeStarter: `const values = [42, "hi", true, null, [1, 2]];\n// log the type of each value\n`,
     challengeHint: "Loop with a for...of and call typeof inside the loop.",
     challengeSolution: `const values = [42, "hi", true, null, [1, 2]];\nfor (const value of values) {\n  console.log(value, typeof value);\n}`,
@@ -331,7 +361,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
       question: "What does typeof null return, famously surprising newcomers?",
       options: ['"null"', '"undefined"', '"object"', '"boolean"'],
       answer: 2,
-      explanation: "It's a long-standing language quirk kept for backward compatibility — always check `value === null` explicitly.",
+      explanation:
+        "It's a long-standing language quirk kept for backward compatibility — always check `value === null` explicitly.",
     },
   },
   "Operators & comparisons": {
@@ -341,16 +372,20 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "== coerces both sides to a common type before comparing, which hides bugs; === compares type and value together, which is why professional style guides mandate it almost everywhere.",
     why: "A single accidental == instead of === has shipped real production bugs; strict equality removes an entire class of 'why is this true' surprises.",
-    realWorld: "ESLint's eqeqeq rule, enabled in nearly every company style guide, exists purely because of this lesson.",
+    realWorld:
+      "ESLint's eqeqeq rule, enabled in nearly every company style guide, exists purely because of this lesson.",
     mistakes: [
       "Using == out of habit and getting unexpected coercion",
       "Forgetting that NaN === NaN is false",
       "Confusing = (assignment) with == or === (comparison)",
     ],
-    summary: "Default to === and !==; reach for == only with a deliberate, documented reason.",
-    challengePrompt: "Replace the loose comparisons below with strict ones and predict which results change.",
+    summary:
+      "Default to === and !==; reach for == only with a deliberate, documented reason.",
+    challengePrompt:
+      "Replace the loose comparisons below with strict ones and predict which results change.",
     challengeStarter: `console.log(0 == false);\nconsole.log("" == false);\nconsole.log(null == undefined);\nconsole.log(1 == "1");`,
-    challengeHint: "Swap == for === on each line, then compare the two sets of results.",
+    challengeHint:
+      "Swap == for === on each line, then compare the two sets of results.",
     challengeSolution: `console.log(0 === false);\nconsole.log("" === false);\nconsole.log(null === undefined);\nconsole.log(1 === "1");`,
     quiz: {
       question: "Why do most style guides forbid == in favor of ===?",
@@ -361,7 +396,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "There is no real difference",
       ],
       answer: 1,
-      explanation: "=== compares type and value without coercion, making comparisons predictable.",
+      explanation:
+        "=== compares type and value without coercion, making comparisons predictable.",
     },
   },
   "Strings & template literals": {
@@ -371,22 +407,33 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Template literals (backticks) let you interpolate expressions directly into strings and span multiple lines, replacing the older pattern of concatenating with +.",
     why: "Interpolated templates are dramatically easier to read and less error-prone than chains of + concatenation, especially once several values are involved.",
-    realWorld: "Every React component and server-rendered HTML template you'll eventually write leans on this exact syntax.",
+    realWorld:
+      "Every React component and server-rendered HTML template you'll eventually write leans on this exact syntax.",
     mistakes: [
       "Mixing quote styles and losing track of escaping",
       "Forgetting the backticks (`) required for interpolation, using regular quotes instead",
       "Concatenating many + operators instead of one readable template literal",
     ],
-    summary: "Use backtick template literals to interpolate values and build multi-line strings clearly.",
-    challengePrompt: "Rewrite the concatenation below as a single template literal.",
+    summary:
+      "Use backtick template literals to interpolate values and build multi-line strings clearly.",
+    challengePrompt:
+      "Rewrite the concatenation below as a single template literal.",
     challengeStarter: `const item = "keyboard";\nconst price = 49;\nconst message = "The " + item + " costs $" + price + ".";\nconsole.log(message);`,
-    challengeHint: "Replace the string with backticks and ${...} for each variable.",
+    challengeHint:
+      "Replace the string with backticks and ${...} for each variable.",
     challengeSolution: `const item = "keyboard";\nconst price = 49;\nconst message = \`The ${"${item}"} costs $${"${price}"}.\`;\nconsole.log(message);`,
     quiz: {
-      question: "What syntax turns a string into a template literal that can interpolate variables?",
-      options: ["Single quotes", "Double quotes", "Backticks with ${}", "Square brackets"],
+      question:
+        "What syntax turns a string into a template literal that can interpolate variables?",
+      options: [
+        "Single quotes",
+        "Double quotes",
+        "Backticks with ${}",
+        "Square brackets",
+      ],
       answer: 2,
-      explanation: "Backticks enable both interpolation with ${expression} and multi-line strings.",
+      explanation:
+        "Backticks enable both interpolation with ${expression} and multi-line strings.",
     },
   },
   "Conversion & coercion": {
@@ -396,22 +443,27 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "JavaScript will silently convert types to make an operation succeed — + prefers strings, - and * prefer numbers. Explicit conversion with Number(), String(), and Boolean() makes your intent visible instead of relying on this implicit behavior.",
     why: "Silent coercion is one of the most common sources of 'why is this NaN' bugs, especially with values coming from form inputs or APIs.",
-    realWorld: "A shopping cart adding a text-input quantity to a price without Number() will concatenate instead of calculating a total.",
+    realWorld:
+      "A shopping cart adding a text-input quantity to a price without Number() will concatenate instead of calculating a total.",
     mistakes: [
       "Adding a string and a number and expecting numeric addition",
       "Not converting form input values before doing math on them",
-      "Assuming Boolean(\"false\") is false (it's true — any non-empty string is truthy)",
+      'Assuming Boolean("false") is false (it\'s true — any non-empty string is truthy)',
     ],
-    summary: "Prefer explicit conversion (Number(), String(), Boolean()) over relying on implicit coercion.",
-    challengePrompt: "Fix the total calculator so it adds numbers instead of concatenating strings.",
+    summary:
+      "Prefer explicit conversion (Number(), String(), Boolean()) over relying on implicit coercion.",
+    challengePrompt:
+      "Fix the total calculator so it adds numbers instead of concatenating strings.",
     challengeStarter: `function calculateTotal(priceText, quantityText) {\n  return priceText * quantityText;\n}\nconsole.log(calculateTotal("9.99", "3") + " should be 29.97");`,
-    challengeHint: "Use Number() explicitly, and build the return value with a template literal instead of +.",
-    challengeSolution: `function calculateTotal(priceText, quantityText) {\n  return Number(priceText) * Number(quantityText);\n}\nconsole.log(\`${"${calculateTotal(\"9.99\", \"3\")}"} should be 29.97\`);`,
+    challengeHint:
+      "Use Number() explicitly, and build the return value with a template literal instead of +.",
+    challengeSolution: `function calculateTotal(priceText, quantityText) {\n  return Number(priceText) * Number(quantityText);\n}\nconsole.log(\`${'${calculateTotal("9.99", "3")}'} should be 29.97\`);`,
     quiz: {
       question: 'What does "5" + 1 evaluate to?',
-      options: ['6', '"51"', 'NaN', 'Error'],
+      options: ["6", '"51"', "NaN", "Error"],
       answer: 1,
-      explanation: "+ prefers string concatenation when either operand is a string, producing \"51\".",
+      explanation:
+        '+ prefers string concatenation when either operand is a string, producing "51".',
     },
   },
   "Debugging foundations": {
@@ -421,16 +473,20 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Debugging is a repeatable loop, not luck: reproduce the failure, read the first error message from the top, form one hypothesis, test it with the smallest possible change, then rerun.",
     why: "Beginners lose hours guessing randomly at fixes; the reproduce-read-hypothesize-test loop turns debugging into a predictable skill.",
-    realWorld: "Senior engineers debug production incidents with this exact loop under real time pressure — it scales from a typo to a distributed system.",
+    realWorld:
+      "Senior engineers debug production incidents with this exact loop under real time pressure — it scales from a typo to a distributed system.",
     mistakes: [
       "Changing several lines before rerunning to see which one mattered",
       "Reading only the last line of a stack trace instead of the first thrown error",
       "Guessing at a fix instead of forming a testable hypothesis",
     ],
-    summary: "Reproduce, read the first error, hypothesize, change one thing, rerun — repeat until fixed.",
-    challengePrompt: "Find and fix the reference error in the broken total() function above.",
+    summary:
+      "Reproduce, read the first error, hypothesize, change one thing, rerun — repeat until fixed.",
+    challengePrompt:
+      "Find and fix the reference error in the broken total() function above.",
     challengeStarter: `function total(price, quantity) {\n  return price * quantiy;\n}\nconsole.log(total(10, 3));`,
-    challengeHint: "The error names the exact misspelled identifier — search for it.",
+    challengeHint:
+      "The error names the exact misspelled identifier — search for it.",
     challengeSolution: `function total(price, quantity) {\n  return price * quantity;\n}\nconsole.log(total(10, 3));`,
     quiz: {
       question: "What is the first step in a reliable debugging loop?",
@@ -441,7 +497,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "Add more features to see if it goes away",
       ],
       answer: 1,
-      explanation: "You cannot verify a fix if you cannot reliably reproduce the original failure.",
+      explanation:
+        "You cannot verify a fix if you cannot reliably reproduce the original failure.",
     },
   },
   "Conditions & branching": {
@@ -451,14 +508,17 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "if/else branches let a program take different paths depending on a condition. Each branch should return or assign consistently so the function's result is predictable no matter which path executes.",
     why: "Almost every real feature — permissions, validation, pricing tiers — is a tree of conditions; writing them clearly is a core professional skill.",
-    realWorld: "A checkout flow deciding free vs. paid shipping based on cart total is a chain of conditions exactly like this one.",
+    realWorld:
+      "A checkout flow deciding free vs. paid shipping based on cart total is a chain of conditions exactly like this one.",
     mistakes: [
       "Forgetting an else branch and returning undefined unexpectedly",
       "Deeply nesting ifs instead of returning early",
       "Comparing with = instead of === inside a condition",
     ],
-    summary: "Use if/else to branch cleanly, and prefer early returns over deep nesting.",
-    challengePrompt: "Extend canVote to also handle the exact boundary age of 18.",
+    summary:
+      "Use if/else to branch cleanly, and prefer early returns over deep nesting.",
+    challengePrompt:
+      "Extend canVote to also handle the exact boundary age of 18.",
     challengeStarter: `function canVote(age) {\n  if (age > 18) {\n    return "Eligible";\n  }\n  return "Not yet";\n}\nconsole.log(canVote(18));`,
     challengeHint: "The boundary check should be >=, not >.",
     challengeSolution: `function canVote(age) {\n  if (age >= 18) {\n    return "Eligible";\n  }\n  return "Not yet";\n}\nconsole.log(canVote(18));`,
@@ -471,32 +531,39 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "Conditions run in random order",
       ],
       answer: 1,
-      explanation: "Boundary conditions (>, >=, <, <=) are a frequent source of subtle logic bugs.",
+      explanation:
+        "Boundary conditions (>, >=, <, <=) are a frequent source of subtle logic bugs.",
     },
   },
   "Truthy and falsy": {
     skills: ["conditions", "data-types"],
     syntax: `const values = [0, "", null, undefined, NaN, "0", [], {}];\nfor (const v of values) console.log(v, Boolean(v));`,
-    output: "0 false, \"\" false, null false, undefined false, NaN false, \"0\" true, [] true, {} true",
+    output:
+      '0 false, "" false, null false, undefined false, NaN false, "0" true, [] true, {} true',
     explanation:
-      "JavaScript treats exactly six values as falsy: false, 0, \"\", null, undefined, and NaN. Everything else — including \"0\", empty arrays, and empty objects — is truthy, which surprises almost everyone once.",
+      'JavaScript treats exactly six values as falsy: false, 0, "", null, undefined, and NaN. Everything else — including "0", empty arrays, and empty objects — is truthy, which surprises almost everyone once.',
     why: "if (value) is everywhere in real code; knowing precisely what counts as falsy prevents bugs where an empty array or the string \"0\" is treated as 'nothing'.",
-    realWorld: "A common bug: checking if (items.length) works, but if (items) on an empty array is always true and hides the real check you meant to write.",
+    realWorld:
+      "A common bug: checking if (items.length) works, but if (items) on an empty array is always true and hides the real check you meant to write.",
     mistakes: [
       "Assuming an empty array or object is falsy",
-      "Assuming the string \"0\" is falsy because the number 0 is",
+      'Assuming the string "0" is falsy because the number 0 is',
       "Using if (value) when you actually meant to check value.length",
     ],
-    summary: "Memorize the six falsy values (false, 0, \"\", null, undefined, NaN); everything else is truthy.",
-    challengePrompt: "Write isEmpty(value) that correctly reports whether an array has no items, without confusing it with falsy.",
+    summary:
+      'Memorize the six falsy values (false, 0, "", null, undefined, NaN); everything else is truthy.',
+    challengePrompt:
+      "Write isEmpty(value) that correctly reports whether an array has no items, without confusing it with falsy.",
     challengeStarter: `function isEmpty(list) {\n  // your code\n}\nconsole.log(isEmpty([]));\nconsole.log(isEmpty([1]));`,
-    challengeHint: "Check list.length === 0 rather than relying on the array's own truthiness.",
+    challengeHint:
+      "Check list.length === 0 rather than relying on the array's own truthiness.",
     challengeSolution: `function isEmpty(list) {\n  return list.length === 0;\n}\nconsole.log(isEmpty([]));\nconsole.log(isEmpty([1]));`,
     quiz: {
       question: "Which of these values is truthy in JavaScript?",
-      options: ['0', '""', '"0"', 'null'],
+      options: ["0", '""', '"0"', "null"],
       answer: 2,
-      explanation: "Only false, 0, \"\", null, undefined, and NaN are falsy — any non-empty string, including \"0\", is truthy.",
+      explanation:
+        'Only false, 0, "", null, undefined, and NaN are falsy — any non-empty string, including "0", is truthy.',
     },
   },
   "Function declarations": {
@@ -507,13 +574,15 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "A function packages a transformation you can name, reuse, and test in isolation. function declarations are hoisted, meaning they can be called before their definition appears in the file.",
     why: "Naming a transformation ('square', 'formatPrice') makes the calling code read like a sentence, and lets you fix a bug in one place instead of many.",
-    realWorld: "Every reusable formatting or validation rule in a real app — currency formatting, email validation — lives in a small named function like this.",
+    realWorld:
+      "Every reusable formatting or validation rule in a real app — currency formatting, email validation — lives in a small named function like this.",
     mistakes: [
       "Copy-pasting logic instead of extracting a function",
       "Giving functions vague names like doStuff()",
       "Forgetting the return statement and getting undefined back",
     ],
-    summary: "Extract repeated or nameable logic into a function so it can be reused, tested, and read clearly.",
+    summary:
+      "Extract repeated or nameable logic into a function so it can be reused, tested, and read clearly.",
     challengePrompt: "Write a cube(n) function and log cube(3).",
     challengeStarter: `function square(n) {\n  return n * n;\n}\n// add cube here\n`,
     challengeHint: "Multiply n by itself three times, or use n ** 3.",
@@ -527,7 +596,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "They are deleted after one call",
       ],
       answer: 1,
-      explanation: "The engine registers function declarations during a setup pass before executing top-to-bottom.",
+      explanation:
+        "The engine registers function declarations during a setup pass before executing top-to-bottom.",
     },
   },
   "Expressions & arrow functions": {
@@ -537,19 +607,24 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Arrow functions are a compact expression syntax: a single expression is returned implicitly without a return keyword or braces, while a block body needs both.",
     why: "Arrow functions are the default style for callbacks (map, filter, event handlers) throughout modern JavaScript, so reading them fluently is essential.",
-    realWorld: "Array method callbacks like items.map(item => item.price) rely on this concise arrow syntax constantly.",
+    realWorld:
+      "Array method callbacks like items.map(item => item.price) rely on this concise arrow syntax constantly.",
     mistakes: [
       "Adding braces but forgetting the return keyword, getting undefined",
       "Confusing implicit return (no braces) with an explicit block body",
       "Wrapping an object literal return in braces without parentheses, e.g. () => { id: 1 } (parsed as a block, not an object)",
     ],
-    summary: "Use concise arrow functions for short expressions; add braces and return for multi-statement bodies.",
-    challengePrompt: "Convert the function declaration below into an arrow function with an implicit return.",
+    summary:
+      "Use concise arrow functions for short expressions; add braces and return for multi-statement bodies.",
+    challengePrompt:
+      "Convert the function declaration below into an arrow function with an implicit return.",
     challengeStarter: `function double(n) {\n  return n * 2;\n}\nconsole.log(double(6));`,
-    challengeHint: "Drop the function keyword and braces, and remove the explicit return.",
+    challengeHint:
+      "Drop the function keyword and braces, and remove the explicit return.",
     challengeSolution: `const double = (n) => n * 2;\nconsole.log(double(6));`,
     quiz: {
-      question: "Why does () => { id: 1 } not return an object as many people expect?",
+      question:
+        "Why does () => { id: 1 } not return an object as many people expect?",
       options: [
         "Arrow functions cannot return objects",
         "The braces are parsed as a function block, not an object literal",
@@ -557,7 +632,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "It actually does work correctly",
       ],
       answer: 1,
-      explanation: "Wrap the object in parentheses — () => ({ id: 1 }) — to disambiguate it from a block body.",
+      explanation:
+        "Wrap the object in parentheses — () => ({ id: 1 }) — to disambiguate it from a block body.",
     },
   },
   "Parameters & returns": {
@@ -567,19 +643,23 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Default parameters supply a fallback when an argument is omitted, and every meaningful function should return a value the caller can use rather than only logging internally.",
     why: "Functions that return values compose — you can pass one function's output straight into another — while functions that only log cannot.",
-    realWorld: "Utility libraries like date and currency formatters are built entirely from small functions that take inputs and return a usable result.",
+    realWorld:
+      "Utility libraries like date and currency formatters are built entirely from small functions that take inputs and return a usable result.",
     mistakes: [
       "Logging inside a function instead of returning, making the result unusable elsewhere",
       "Forgetting a default value and getting undefined for optional arguments",
       "Mutating a parameter instead of returning a new value",
     ],
-    summary: "Give parameters sensible defaults and always return a usable value instead of only logging.",
-    challengePrompt: "Add a default 'decimals' parameter that controls how many digits formatPrice shows.",
+    summary:
+      "Give parameters sensible defaults and always return a usable value instead of only logging.",
+    challengePrompt:
+      "Add a default 'decimals' parameter that controls how many digits formatPrice shows.",
     challengeStarter: `function formatPrice(amount, currency = "USD") {\n  return \`${"${currency}"} ${"${amount.toFixed(2)}"}\`;\n}\nconsole.log(formatPrice(9.5));`,
     challengeHint: "Add a third parameter decimals = 2 and pass it to toFixed.",
     challengeSolution: `function formatPrice(amount, currency = "USD", decimals = 2) {\n  return \`${"${currency}"} ${"${amount.toFixed(decimals)}"}\`;\n}\nconsole.log(formatPrice(9.5, "USD", 0));`,
     quiz: {
-      question: "Why should most functions return a value instead of only calling console.log?",
+      question:
+        "Why should most functions return a value instead of only calling console.log?",
       options: [
         "Returned values can be reused and composed by other code",
         "console.log is slower",
@@ -587,7 +667,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "There is no difference",
       ],
       answer: 0,
-      explanation: "A returned value can be stored, passed to another function, or tested — logged output cannot.",
+      explanation:
+        "A returned value can be stored, passed to another function, or tested — logged output cannot.",
     },
   },
   "Scope & purity": {
@@ -598,16 +679,20 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Scope determines which variables a piece of code can see: global, then function, then block, each nested inside the last. A pure function only reads its parameters and returns a new value, never reaching outside its own scope to change something.",
     why: "Pure functions are trivially testable and safe to reuse anywhere, because calling them twice with the same input always gives the same output with zero side effects.",
-    realWorld: "Redux and other state-management libraries require pure 'reducer' functions specifically so state changes stay predictable and testable.",
+    realWorld:
+      "Redux and other state-management libraries require pure 'reducer' functions specifically so state changes stay predictable and testable.",
     mistakes: [
       "Reaching outside a function to mutate a shared variable instead of returning a new value",
       "Assuming a variable declared inside a block is visible outside it",
       "Shadowing an outer variable with an inner one of the same name by accident",
     ],
-    summary: "Prefer pure functions that only depend on their parameters; understand global/function/block scope nesting.",
-    challengePrompt: "Rewrite incrementGlobal as a pure function that takes the current count and returns the next one.",
+    summary:
+      "Prefer pure functions that only depend on their parameters; understand global/function/block scope nesting.",
+    challengePrompt:
+      "Rewrite incrementGlobal as a pure function that takes the current count and returns the next one.",
     challengeStarter: `let count = 0;\nfunction incrementGlobal() {\n  count++;\n}\nincrementGlobal();\nconsole.log(count);`,
-    challengeHint: "A pure version takes count as a parameter and returns count + 1 without touching outer state.",
+    challengeHint:
+      "A pure version takes count as a parameter and returns count + 1 without touching outer state.",
     challengeSolution: `function increment(current) {\n  return current + 1;\n}\nlet count = 0;\ncount = increment(count);\nconsole.log(count);`,
     quiz: {
       question: "What makes a function 'pure'?",
@@ -618,7 +703,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "It must be an arrow function",
       ],
       answer: 1,
-      explanation: "Purity means predictable, side-effect-free behavior based solely on the arguments passed in.",
+      explanation:
+        "Purity means predictable, side-effect-free behavior based solely on the arguments passed in.",
     },
   },
   "Loops & iteration": {
@@ -628,16 +714,20 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Loops repeat work a controlled number of times. A for loop tracks its own counter explicitly, while for...of iterates values directly — pick whichever makes the intent clearest.",
     why: "Almost every list-processing task — rendering rows, totaling a cart, validating entries — starts as a loop before it's refactored into array methods.",
-    realWorld: "A pagination system looping over pages of results to prefetch data uses exactly this counter-controlled pattern.",
+    realWorld:
+      "A pagination system looping over pages of results to prefetch data uses exactly this counter-controlled pattern.",
     mistakes: [
       "Off-by-one errors from using <= instead of < (or vice versa)",
       "Forgetting to increment the counter, causing an infinite loop",
       "Reaching for a manual loop when array.map/filter/reduce would be clearer",
     ],
-    summary: "Use for loops when you need explicit index control, and for...of or array methods otherwise.",
-    challengePrompt: "Fix the off-by-one bug so the loop prints exactly 5 numbers, 1 through 5.",
+    summary:
+      "Use for loops when you need explicit index control, and for...of or array methods otherwise.",
+    challengePrompt:
+      "Fix the off-by-one bug so the loop prints exactly 5 numbers, 1 through 5.",
     challengeStarter: `for (let i = 1; i <= 4; i++) {\n  console.log(i);\n}`,
-    challengeHint: "The condition should include 5 — check the comparison operator.",
+    challengeHint:
+      "The condition should include 5 — check the comparison operator.",
     challengeSolution: `for (let i = 1; i <= 5; i++) {\n  console.log(i);\n}`,
     quiz: {
       question: "What almost always causes an infinite loop?",
@@ -648,7 +738,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "Logging inside the loop body",
       ],
       answer: 1,
-      explanation: "If the exit condition can never be reached, the loop runs forever (or until the sandbox times out).",
+      explanation:
+        "If the exit condition can never be reached, the loop runs forever (or until the sandbox times out).",
     },
   },
   "Problem-solving workflow": {
@@ -658,19 +749,24 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Strong problem solvers do not start typing immediately. They restate the problem, work a small example by hand to find the pattern, sketch pseudocode, implement the simplest version that could work, then stress-test it against edge cases.",
     why: "This workflow is exactly what technical interviews evaluate, and it is what separates 'I stared at the screen for an hour' from steady, visible progress on a hard problem.",
-    realWorld: "Interviewers explicitly want to hear you restate the problem and discuss edge cases before you write any code — it demonstrates the same workflow.",
+    realWorld:
+      "Interviewers explicitly want to hear you restate the problem and discuss edge cases before you write any code — it demonstrates the same workflow.",
     mistakes: [
       "Writing code immediately without a plan",
       "Skipping edge cases like empty input or a single item",
       "Never working a small example by hand to find the pattern",
     ],
-    summary: "Restate, example, pseudocode, implement, test edge cases — a repeatable approach to any new problem.",
-    challengePrompt: "Apply the workflow: write pseudocode as comments, then implement a function that finds the sum of an array's even numbers.",
+    summary:
+      "Restate, example, pseudocode, implement, test edge cases — a repeatable approach to any new problem.",
+    challengePrompt:
+      "Apply the workflow: write pseudocode as comments, then implement a function that finds the sum of an array's even numbers.",
     challengeStarter: `// pseudocode:\n// 1. start a total at 0\n// 2. for each number, if it is even, add it\n// 3. return the total\nfunction sumEvens(numbers) {\n  // your code\n}\nconsole.log(sumEvens([1, 2, 3, 4]));`,
-    challengeHint: "Use a loop or reduce, checking number % 2 === 0 for each value.",
+    challengeHint:
+      "Use a loop or reduce, checking number % 2 === 0 for each value.",
     challengeSolution: `function sumEvens(numbers) {\n  return numbers.filter(n => n % 2 === 0).reduce((sum, n) => sum + n, 0);\n}\nconsole.log(sumEvens([1, 2, 3, 4]));`,
     quiz: {
-      question: "What should you typically do before writing any code for a new problem?",
+      question:
+        "What should you typically do before writing any code for a new problem?",
       options: [
         "Nothing — start typing immediately",
         "Restate the problem and work a small example by hand",
@@ -678,7 +774,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "Look up the exact answer online",
       ],
       answer: 1,
-      explanation: "Restating the problem and tracing a small example surfaces the pattern before you commit to code.",
+      explanation:
+        "Restating the problem and tracing a small example surfaces the pattern before you commit to code.",
     },
   },
   "Arrays & indexing": {
@@ -688,14 +785,17 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Arrays are ordered lists indexed from 0. The last element is always at index length - 1, a small formula that trips up nearly every beginner at least once.",
     why: "Correct indexing underlies every list operation you'll write — pagination, carousels, 'show the last message' — get it wrong and you're off by one everywhere downstream.",
-    realWorld: "A chat app showing the most recent message reads messages[messages.length - 1] using exactly this pattern.",
+    realWorld:
+      "A chat app showing the most recent message reads messages[messages.length - 1] using exactly this pattern.",
     mistakes: [
       "Using fruits[fruits.length] and getting undefined (the valid last index is length - 1)",
       "Forgetting arrays are zero-indexed",
       "Mutating an array while assuming it copies automatically",
     ],
-    summary: "Arrays index from 0; the last item is always at array.length - 1.",
-    challengePrompt: "Write getMiddle(array) that returns the middle element for an odd-length array.",
+    summary:
+      "Arrays index from 0; the last item is always at array.length - 1.",
+    challengePrompt:
+      "Write getMiddle(array) that returns the middle element for an odd-length array.",
     challengeStarter: `function getMiddle(array) {\n  // your code\n}\nconsole.log(getMiddle([1, 2, 3, 4, 5]));`,
     challengeHint: "The middle index is Math.floor(array.length / 2).",
     challengeSolution: `function getMiddle(array) {\n  return array[Math.floor(array.length / 2)];\n}\nconsole.log(getMiddle([1, 2, 3, 4, 5]));`,
@@ -703,7 +803,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
       question: "What index holds the last element of an array named list?",
       options: ["list.length", "list.length - 1", "list.size", "-1"],
       answer: 1,
-      explanation: "Arrays are zero-indexed, so the final valid index is one less than the length.",
+      explanation:
+        "Arrays are zero-indexed, so the final valid index is one less than the length.",
     },
   },
   "Array mutation": {
@@ -713,14 +814,17 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "push, pop, splice, sort, and reverse all mutate the original array in place, while spreading into a new array first lets you change a copy without affecting the original.",
     why: "Accidentally mutating an array that another part of the program still holds a reference to is one of the most common sources of 'spooky action at a distance' bugs.",
-    realWorld: "React and other UI frameworks require you to create new arrays instead of mutating state directly, precisely to avoid this class of bug.",
+    realWorld:
+      "React and other UI frameworks require you to create new arrays instead of mutating state directly, precisely to avoid this class of bug.",
     mistakes: [
       "Sorting an array in place when the original order was needed elsewhere",
       "Assuming array methods always return a new array (many mutate and return the array itself, or a removed item)",
       "Forgetting splice mutates while slice does not",
     ],
-    summary: "Know which array methods mutate (push, pop, splice, sort, reverse) and copy first with spread when you need to preserve the original.",
-    challengePrompt: "Fix sortedCopy so it returns a newly sorted array without mutating the input.",
+    summary:
+      "Know which array methods mutate (push, pop, splice, sort, reverse) and copy first with spread when you need to preserve the original.",
+    challengePrompt:
+      "Fix sortedCopy so it returns a newly sorted array without mutating the input.",
     challengeStarter: `function sortedCopy(numbers) {\n  return numbers.sort((a, b) => a - b);\n}\nconst original = [3, 1, 2];\nconst sorted = sortedCopy(original);\nconsole.log(original, sorted);`,
     challengeHint: "Spread into a new array before calling sort.",
     challengeSolution: `function sortedCopy(numbers) {\n  return [...numbers].sort((a, b) => a - b);\n}\nconst original = [3, 1, 2];\nconst sorted = sortedCopy(original);\nconsole.log(original, sorted);`,
@@ -728,7 +832,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
       question: "Which of these array methods mutates the original array?",
       options: ["map", "filter", "splice", "slice"],
       answer: 2,
-      explanation: "splice removes/inserts items in place; map, filter, and slice all return new arrays.",
+      explanation:
+        "splice removes/inserts items in place; map, filter, and slice all return new arrays.",
     },
   },
   "Objects & methods": {
@@ -738,22 +843,31 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Objects group related data and behavior under named keys. A function stored as a property is a method, and inside a method this refers to the object it was called on.",
     why: "Modeling a real-world thing (a user, a product, a task) as an object with clearly named properties makes code that reads like the domain it represents.",
-    realWorld: "Every API response you'll fetch — a GitHub user, a weather report — arrives as exactly this kind of object with named fields.",
+    realWorld:
+      "Every API response you'll fetch — a GitHub user, a weather report — arrives as exactly this kind of object with named fields.",
     mistakes: [
       "Accessing a missing property and getting undefined instead of checking first",
       "Confusing dot notation (user.name) with bracket notation needed for dynamic keys (user[key])",
       "Losing `this` by extracting a method into a standalone function reference",
     ],
-    summary: "Objects group data and methods under named keys; methods use `this` to refer to their own object.",
-    challengePrompt: "Add an isAdult() method to the user object based on an age property.",
+    summary:
+      "Objects group data and methods under named keys; methods use `this` to refer to their own object.",
+    challengePrompt:
+      "Add an isAdult() method to the user object based on an age property.",
     challengeStarter: `const user = {\n  name: "Ada",\n  age: 22,\n};\n// add isAdult() here\nconsole.log(user.isAdult());`,
     challengeHint: "Inside the method, compare this.age to 18.",
     challengeSolution: `const user = {\n  name: "Ada",\n  age: 22,\n  isAdult() {\n    return this.age >= 18;\n  },\n};\nconsole.log(user.isAdult());`,
     quiz: {
       question: "Inside an object method, what does `this` typically refer to?",
-      options: ["The global window object", "The object the method was called on", "Undefined, always", "The method's own function"],
+      options: [
+        "The global window object",
+        "The object the method was called on",
+        "Undefined, always",
+        "The method's own function",
+      ],
       answer: 1,
-      explanation: "When called as obj.method(), `this` inside method refers to obj.",
+      explanation:
+        "When called as obj.method(), `this` inside method refers to obj.",
     },
   },
   "Nested data": {
@@ -763,47 +877,67 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Real data is rarely flat — objects contain arrays of objects, which contain more objects. Reading nested data means chaining property and index access one level at a time.",
     why: "API responses are almost always deeply nested JSON; comfortably navigating that shape is a daily skill, not an edge case.",
-    realWorld: "A GitHub API response nests owner info, repository arrays, and license objects several levels deep — exactly like this order example.",
+    realWorld:
+      "A GitHub API response nests owner info, repository arrays, and license objects several levels deep — exactly like this order example.",
     mistakes: [
       "Assuming a nested property always exists and crashing on undefined",
       "Losing track of which level of nesting you're currently reading",
       "Writing one giant expression instead of naming intermediate variables for clarity",
     ],
-    summary: "Navigate nested data one level at a time, and guard against missing intermediate values.",
-    challengePrompt: "Write totalItems(order) that sums the qty across all items.",
+    summary:
+      "Navigate nested data one level at a time, and guard against missing intermediate values.",
+    challengePrompt:
+      "Write totalItems(order) that sums the qty across all items.",
     challengeStarter: `const order = {\n  id: 1,\n  items: [{ name: "Pen", qty: 2 }, { name: "Book", qty: 1 }],\n};\nfunction totalItems(order) {\n  // your code\n}\nconsole.log(totalItems(order));`,
     challengeHint: "Use reduce over order.items, summing each item.qty.",
     challengeSolution: `function totalItems(order) {\n  return order.items.reduce((sum, item) => sum + item.qty, 0);\n}\nconst order = { id: 1, items: [{ name: "Pen", qty: 2 }, { name: "Book", qty: 1 }] };\nconsole.log(totalItems(order));`,
     quiz: {
-      question: "What is the safest way to read a property that might not exist on a nested object?",
-      options: ["Assume it exists", "Optional chaining (?.)", "Wrap everything in a try block only", "Ignore the possibility"],
+      question:
+        "What is the safest way to read a property that might not exist on a nested object?",
+      options: [
+        "Assume it exists",
+        "Optional chaining (?.)",
+        "Wrap everything in a try block only",
+        "Ignore the possibility",
+      ],
       answer: 1,
-      explanation: "Optional chaining short-circuits to undefined instead of throwing when an intermediate value is missing.",
+      explanation:
+        "Optional chaining short-circuits to undefined instead of throwing when an intermediate value is missing.",
     },
   },
-  "Destructuring": {
+  Destructuring: {
     skills: ["objects", "arrays"],
     syntax: `const user = { name: "Ada", role: "engineer" };\nconst { name, role = "learner" } = user;\nconst [first, second] = [10, 20];\nconsole.log(name, role, first, second);`,
     output: "Ada engineer 10 20",
     explanation:
       "Destructuring unpacks values from objects and arrays into named variables in a single statement, optionally supplying defaults for missing properties.",
     why: "It removes repetitive user.name, user.role, user.email-style access and makes function parameters self-documenting.",
-    realWorld: "React components destructure props ({ title, onClose }) in almost every function signature you'll write.",
+    realWorld:
+      "React components destructure props ({ title, onClose }) in almost every function signature you'll write.",
     mistakes: [
       "Misspelling a property name and getting undefined instead of an error",
       "Forgetting defaults for optional properties that might be missing",
       "Destructuring deeply nested structures in one unreadable line",
     ],
-    summary: "Use destructuring to unpack objects and arrays into clearly named variables, with defaults where useful.",
-    challengePrompt: "Destructure id, title, and a defaulted 'done' flag from the task object.",
+    summary:
+      "Use destructuring to unpack objects and arrays into clearly named variables, with defaults where useful.",
+    challengePrompt:
+      "Destructure id, title, and a defaulted 'done' flag from the task object.",
     challengeStarter: `const task = { id: 1, title: "Ship it" };\n// destructure id, title, and done (default false)\nconsole.log(id, title, done);`,
     challengeHint: "const { id, title, done = false } = task;",
     challengeSolution: `const task = { id: 1, title: "Ship it" };\nconst { id, title, done = false } = task;\nconsole.log(id, title, done);`,
     quiz: {
-      question: "What does `const { role = \"learner\" } = user;` do if user.role is undefined?",
-      options: ["Throws an error", "Sets role to \"learner\"", "Sets role to undefined", "Deletes the role property"],
+      question:
+        'What does `const { role = "learner" } = user;` do if user.role is undefined?',
+      options: [
+        "Throws an error",
+        'Sets role to "learner"',
+        "Sets role to undefined",
+        "Deletes the role property",
+      ],
       answer: 1,
-      explanation: "Destructuring defaults apply exactly when the source value is undefined.",
+      explanation:
+        "Destructuring defaults apply exactly when the source value is undefined.",
     },
   },
   "Spread, rest & immutability": {
@@ -813,22 +947,31 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Spread (...) copies enumerable properties out of an object or array; rest (...) collects remaining arguments into a single array parameter. Together they support an immutable style: build a new value instead of mutating the old one.",
     why: "Immutable updates make change tracking predictable — you can compare old vs. new by reference instead of deep-inspecting for mutations.",
-    realWorld: "Every React setState({ ...state, field: value }) call and Redux reducer relies on this exact spread pattern.",
+    realWorld:
+      "Every React setState({ ...state, field: value }) call and Redux reducer relies on this exact spread pattern.",
     mistakes: [
       "Assuming spread deep-copies nested objects (it only copies one level)",
       "Forgetting that property order matters — later spread properties overwrite earlier ones",
       "Mixing up rest parameters (...args in a function signature) with spread (...arr in a call)",
     ],
-    summary: "Use spread to build new objects/arrays immutably, and rest to collect variable arguments.",
-    challengePrompt: "Write addItem(cart, item) that returns a new array with item appended, without mutating cart.",
+    summary:
+      "Use spread to build new objects/arrays immutably, and rest to collect variable arguments.",
+    challengePrompt:
+      "Write addItem(cart, item) that returns a new array with item appended, without mutating cart.",
     challengeStarter: `function addItem(cart, item) {\n  cart.push(item);\n  return cart;\n}\nconst original = ["pen"];\nconst next = addItem(original, "book");\nconsole.log(original, next);`,
     challengeHint: "Return [...cart, item] instead of mutating with push.",
     challengeSolution: `function addItem(cart, item) {\n  return [...cart, item];\n}\nconst original = ["pen"];\nconst next = addItem(original, "book");\nconsole.log(original, next);`,
     quiz: {
       question: "How deep does object spread ({ ...obj }) copy?",
-      options: ["Infinitely deep", "Only one level — nested objects are still shared by reference", "It doesn't copy at all", "Only arrays, never objects"],
+      options: [
+        "Infinitely deep",
+        "Only one level — nested objects are still shared by reference",
+        "It doesn't copy at all",
+        "Only arrays, never objects",
+      ],
       answer: 1,
-      explanation: "Spread is a shallow copy; nested objects/arrays inside it are still shared references.",
+      explanation:
+        "Spread is a shallow copy; nested objects/arrays inside it are still shared references.",
     },
   },
   "map, filter & find": {
@@ -838,14 +981,17 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "map transforms every element into a new array of the same length; filter keeps only elements matching a condition; find returns the first matching element (or undefined). Each name tells you exactly what shape to expect back.",
     why: "These three methods replace most manual loops over arrays and make the intent of the transformation obvious from the method name alone.",
-    realWorld: "Rendering a list of UI cards from data is almost always items.filter(...).map(item => <Card .../>) in one readable chain.",
+    realWorld:
+      "Rendering a list of UI cards from data is almost always items.filter(...).map(item => <Card .../>) in one readable chain.",
     mistakes: [
       "Using map when you meant filter (map always returns the same length, with undefined for skipped items)",
       "Forgetting find returns undefined, not an error, when nothing matches",
       "Not returning a value from the map callback, producing an array of undefined",
     ],
-    summary: "Use map to transform every item, filter to keep matching items, and find to get the first match.",
-    challengePrompt: "Get the names of every user older than 18 using filter then map.",
+    summary:
+      "Use map to transform every item, filter to keep matching items, and find to get the first match.",
+    challengePrompt:
+      "Get the names of every user older than 18 using filter then map.",
     challengeStarter: `const users = [{ name: "Ana", age: 17 }, { name: "Bo", age: 22 }];\n// your code\n`,
     challengeHint: "users.filter(u => u.age > 18).map(u => u.name)",
     challengeSolution: `const users = [{ name: "Ana", age: 17 }, { name: "Bo", age: 22 }];\nconst adultNames = users.filter(u => u.age > 18).map(u => u.name);\nconsole.log(adultNames);`,
@@ -853,7 +999,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
       question: "What does array.find() return when no element matches?",
       options: ["null", "An empty array", "undefined", "Throws an error"],
       answer: 2,
-      explanation: "find() returns undefined when nothing satisfies the callback, so always check before using the result.",
+      explanation:
+        "find() returns undefined when nothing satisfies the callback, so always check before using the result.",
     },
   },
   "reduce, sort & analysis": {
@@ -863,19 +1010,23 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "reduce folds an entire array down to a single value (a total, a grouped object, a maximum) using an accumulator. sort compares elements pairwise using a comparator you supply — without one, it sorts lexicographically, surprising anyone sorting numbers.",
     why: "reduce is the most general array method — map and filter can both be written in terms of it — so understanding it well unlocks custom aggregations.",
-    realWorld: "A dashboard computing 'total revenue this month' from a list of orders is a single reduce call over real transaction data.",
+    realWorld:
+      "A dashboard computing 'total revenue this month' from a list of orders is a single reduce call over real transaction data.",
     mistakes: [
       "Forgetting the initial value in reduce, causing the first element to be used unexpectedly as the accumulator",
       "Sorting numbers without a comparator and getting lexicographic order (e.g. [10, 2, 1])",
       "Mutating the original array with sort instead of copying first",
     ],
-    summary: "Use reduce to fold an array to one value, and always pass a comparator when sorting numbers.",
-    challengePrompt: "Fix the numeric sort so [10, 2, 1] sorts correctly using a comparator.",
+    summary:
+      "Use reduce to fold an array to one value, and always pass a comparator when sorting numbers.",
+    challengePrompt:
+      "Fix the numeric sort so [10, 2, 1] sorts correctly using a comparator.",
     challengeStarter: `const numbers = [10, 2, 1];\nconsole.log(numbers.sort());`,
     challengeHint: "Pass (a, b) => a - b to sort.",
     challengeSolution: `const numbers = [10, 2, 1];\nconsole.log([...numbers].sort((a, b) => a - b));`,
     quiz: {
-      question: "What happens if you call array.sort() on numbers with no comparator?",
+      question:
+        "What happens if you call array.sort() on numbers with no comparator?",
       options: [
         "It sorts numerically as expected",
         "It sorts each number as a string, producing surprising order",
@@ -883,7 +1034,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "It leaves the array unchanged",
       ],
       answer: 1,
-      explanation: "Without a comparator, sort() converts elements to strings, so 10 sorts before 2.",
+      explanation:
+        "Without a comparator, sort() converts elements to strings, so 10 sorts before 2.",
     },
   },
   "The DOM tree": {
@@ -893,14 +1045,17 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "The DOM represents an HTML page as a tree of nodes that JavaScript can read and change. Every element has a parent, and most have children, mirroring the nesting of the original HTML.",
     why: "Every interactive web feature — a button that reacts to a click, text that updates — is JavaScript reading or rewriting a piece of this tree.",
-    realWorld: "Browser DevTools' Elements panel is a live, interactive view of exactly this tree.",
+    realWorld:
+      "Browser DevTools' Elements panel is a live, interactive view of exactly this tree.",
     mistakes: [
       "Assuming the DOM tree matches your source file structure exactly instead of the rendered output",
       "Forgetting scripts must often wait for the DOM to exist before querying it",
       "Confusing the DOM (a live object tree) with the original HTML source text",
     ],
-    summary: "The DOM is a tree of nodes mirroring your HTML; JavaScript reads and rewrites it to build interactivity.",
-    challengePrompt: "Given a simulated tree object, count how many direct children it has.",
+    summary:
+      "The DOM is a tree of nodes mirroring your HTML; JavaScript reads and rewrites it to build interactivity.",
+    challengePrompt:
+      "Given a simulated tree object, count how many direct children it has.",
     challengeStarter: `const node = { tag: "main", children: [{ tag: "h1" }, { tag: "p" }, { tag: "button" }] };\nfunction childCount(node) {\n  // your code\n}\nconsole.log(childCount(node));`,
     challengeHint: "Return node.children.length.",
     challengeSolution: `function childCount(node) {\n  return node.children.length;\n}\nconst node = { tag: "main", children: [{ tag: "h1" }, { tag: "p" }, { tag: "button" }] };\nconsole.log(childCount(node));`,
@@ -913,7 +1068,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "The server-side rendering engine",
       ],
       answer: 1,
-      explanation: "The DOM is the browser's in-memory, live representation of the page as a node tree.",
+      explanation:
+        "The DOM is the browser's in-memory, live representation of the page as a node tree.",
     },
   },
   "Selecting & changing elements": {
@@ -923,22 +1079,28 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "querySelector finds the first element matching a CSS selector (or null if none match); once you have a reference, you can change its text, attributes, and classes directly.",
     why: "Selecting narrowly and defensively (checking for null) prevents an entire class of 'Cannot read properties of null' runtime crashes.",
-    realWorld: "A 'mark as read' button toggling a CSS class on a notification is this exact select-then-mutate pattern.",
+    realWorld:
+      "A 'mark as read' button toggling a CSS class on a notification is this exact select-then-mutate pattern.",
     mistakes: [
       "Not checking whether querySelector returned null before using the result",
       "Using innerHTML with untrusted input, opening an XSS vulnerability",
       "Selecting too broadly (a whole page) instead of narrowing to what you need",
     ],
-    summary: "Select narrowly with querySelector, guard against null, and prefer textContent over innerHTML for plain text.",
-    challengePrompt: "Simulate updating an element object's text safely, only if it exists.",
+    summary:
+      "Select narrowly with querySelector, guard against null, and prefer textContent over innerHTML for plain text.",
+    challengePrompt:
+      "Simulate updating an element object's text safely, only if it exists.",
     challengeStarter: `function updateText(element, text) {\n  element.textContent = text;\n  return element;\n}\nconsole.log(updateText(null, "hi"));`,
-    challengeHint: "Guard with `if (!element) return null;` before touching textContent.",
+    challengeHint:
+      "Guard with `if (!element) return null;` before touching textContent.",
     challengeSolution: `function updateText(element, text) {\n  if (!element) return null;\n  element.textContent = text;\n  return element;\n}\nconsole.log(updateText(null, "hi"));`,
     quiz: {
-      question: "What does document.querySelector return when nothing matches the selector?",
+      question:
+        "What does document.querySelector return when nothing matches the selector?",
       options: ["An empty string", "undefined", "null", "Throws an error"],
       answer: 2,
-      explanation: "querySelector returns null on no match, so always guard before using the result.",
+      explanation:
+        "querySelector returns null on no match, so always guard before using the result.",
     },
   },
   "Creating UI": {
@@ -948,19 +1110,23 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Building UI with the DOM API means creating elements (document.createElement), setting their content, and appending them to a parent — the same pipeline any framework automates for you under the hood.",
     why: "Understanding the raw create-configure-append pipeline demystifies what frameworks like React are actually doing when they 'render'.",
-    realWorld: "A to-do list adding a new <li> when you submit a form is exactly this create-configure-append sequence.",
+    realWorld:
+      "A to-do list adding a new <li> when you submit a form is exactly this create-configure-append sequence.",
     mistakes: [
       "Rebuilding the entire list from scratch on every change instead of adding just the new item",
       "Forgetting to append the created element to the document, so nothing appears",
       "Using string concatenation to build HTML instead of the DOM API, risking injection bugs",
     ],
-    summary: "Create elements, configure their content and attributes, then append them to a parent to build UI.",
-    challengePrompt: "Write renderList(items) returning an array of simulated <li> element objects.",
+    summary:
+      "Create elements, configure their content and attributes, then append them to a parent to build UI.",
+    challengePrompt:
+      "Write renderList(items) returning an array of simulated <li> element objects.",
     challengeStarter: `function renderList(items) {\n  // your code\n}\nconsole.log(renderList(["a", "b"]));`,
-    challengeHint: "Map each item to { tag: \"li\", textContent: item }.",
+    challengeHint: 'Map each item to { tag: "li", textContent: item }.',
     challengeSolution: `function renderList(items) {\n  return items.map(item => ({ tag: "li", textContent: item }));\n}\nconsole.log(renderList(["a", "b"]));`,
     quiz: {
-      question: "What is the typical pipeline for building UI with the raw DOM API?",
+      question:
+        "What is the typical pipeline for building UI with the raw DOM API?",
       options: [
         "Create, configure, append",
         "Append, create, delete",
@@ -968,7 +1134,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "There is no consistent pattern",
       ],
       answer: 0,
-      explanation: "Create the element, configure its content/attributes, then append it to a parent node.",
+      explanation:
+        "Create the element, configure its content/attributes, then append it to a parent node.",
     },
   },
   "Events & the event object": {
@@ -978,14 +1145,17 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "addEventListener attaches a callback that runs when a named event fires; the callback receives an event object describing what happened, including event.target — the exact element the event originated from.",
     why: "Nearly every interactive feature starts with an event listener; reading event.target correctly is what lets one listener handle many elements.",
-    realWorld: "A shopping cart's 'remove item' buttons all sharing one listener that reads event.target to know which item was clicked.",
+    realWorld:
+      "A shopping cart's 'remove item' buttons all sharing one listener that reads event.target to know which item was clicked.",
     mistakes: [
       "Confusing event.target (where the event started) with event.currentTarget (where the listener is attached)",
       "Forgetting to call event.preventDefault() on a form submit, causing an unwanted page reload",
       "Attaching a new listener every render instead of once, causing duplicate handlers",
     ],
-    summary: "addEventListener wires a callback to a DOM event; event.target tells you exactly what triggered it.",
-    challengePrompt: "Given a simulated event object, write handleClick that returns the clicked element's id.",
+    summary:
+      "addEventListener wires a callback to a DOM event; event.target tells you exactly what triggered it.",
+    challengePrompt:
+      "Given a simulated event object, write handleClick that returns the clicked element's id.",
     challengeStarter: `function handleClick(event) {\n  // your code\n}\nconsole.log(handleClick({ target: { id: "save-button" } }));`,
     challengeHint: "Return event.target.id.",
     challengeSolution: `function handleClick(event) {\n  return event.target.id;\n}\nconsole.log(handleClick({ target: { id: "save-button" } }));`,
@@ -998,7 +1168,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "The browser window",
       ],
       answer: 1,
-      explanation: "event.target is the deepest element where the event actually occurred, which may differ from where you attached the listener.",
+      explanation:
+        "event.target is the deepest element where the event actually occurred, which may differ from where you attached the listener.",
     },
   },
   "Forms & validation": {
@@ -1008,16 +1179,20 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Form submission reloads the page by default, so preventDefault() is almost always the first line of a submit handler. Validation should run before you trust or send any user-entered value.",
     why: "Client-side validation catches obvious mistakes instantly, improving the experience, even though the server must always re-validate for security.",
-    realWorld: "Every signup form rejecting an invalid email before it ever reaches a server is this exact pattern.",
+    realWorld:
+      "Every signup form rejecting an invalid email before it ever reaches a server is this exact pattern.",
     mistakes: [
       "Forgetting event.preventDefault(), causing an unwanted full-page reload",
       "Trusting client-side validation alone and skipping server-side checks",
       "Validating only on submit instead of giving earlier, incremental feedback",
     ],
-    summary: "Call preventDefault() on submit, validate before trusting input, and never skip server-side validation too.",
-    challengePrompt: "Write isValidEmail(value) with a simple but real check (contains @ and a dot after it).",
+    summary:
+      "Call preventDefault() on submit, validate before trusting input, and never skip server-side validation too.",
+    challengePrompt:
+      "Write isValidEmail(value) with a simple but real check (contains @ and a dot after it).",
     challengeStarter: `function isValidEmail(value) {\n  // your code\n}\nconsole.log(isValidEmail("a@b.com"));\nconsole.log(isValidEmail("nope"));`,
-    challengeHint: "Use a regular expression like /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.",
+    challengeHint:
+      "Use a regular expression like /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.",
     challengeSolution: `function isValidEmail(value) {\n  return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value);\n}\nconsole.log(isValidEmail("a@b.com"));\nconsole.log(isValidEmail("nope"));`,
     quiz: {
       question: "Why call event.preventDefault() in a form's submit handler?",
@@ -1028,7 +1203,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "It submits the form twice",
       ],
       answer: 1,
-      explanation: "Without it, the browser navigates away (reloading the page) as soon as the form submits.",
+      explanation:
+        "Without it, the browser navigates away (reloading the page) as soon as the form submits.",
     },
   },
   "Bubbling & delegation": {
@@ -1038,16 +1214,19 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Events bubble upward from the element they occurred on through each ancestor. Delegation exploits this: attach one listener to a shared parent instead of one per child, then check event.target inside it.",
     why: "Delegation handles elements added after the listener was attached (like new list items) without ever re-binding, and it uses far less memory than hundreds of individual listeners.",
-    realWorld: "A comments section attaching one 'click' listener to the whole thread to catch 'delete' clicks on any comment, present or future.",
+    realWorld:
+      "A comments section attaching one 'click' listener to the whole thread to catch 'delete' clicks on any comment, present or future.",
     mistakes: [
       "Attaching a separate listener to every list item instead of one delegated listener on the parent",
       "Forgetting event.target might be a child of the element you actually care about (use closest())",
       "Not accounting for dynamically added elements when binding listeners individually",
     ],
-    summary: "Use event delegation — one listener on a shared ancestor, checking event.target — for lists and dynamic content.",
-    challengePrompt: "Write findClickedId(event) that returns the closest list item's id from a simulated event.",
+    summary:
+      "Use event delegation — one listener on a shared ancestor, checking event.target — for lists and dynamic content.",
+    challengePrompt:
+      "Write findClickedId(event) that returns the closest list item's id from a simulated event.",
     challengeStarter: `function findClickedId(event) {\n  // event.target has a closest(selector) method in this simulation\n  // your code\n}\nconst item = { dataset: { id: "42" } };\nconsole.log(findClickedId({ target: { closest: () => item } }));`,
-    challengeHint: "Call event.target.closest(\"li\") then read .dataset.id.",
+    challengeHint: 'Call event.target.closest("li") then read .dataset.id.',
     challengeSolution: `function findClickedId(event) {\n  const item = event.target.closest("li");\n  return item ? item.dataset.id : null;\n}\nconst item = { dataset: { id: "42" } };\nconsole.log(findClickedId({ target: { closest: () => item } }));`,
     quiz: {
       question: "What is the main benefit of event delegation?",
@@ -1058,26 +1237,31 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "It prevents all default browser behavior",
       ],
       answer: 1,
-      explanation: "Delegation relies on bubbling so a single parent listener can catch events from many, even future, children.",
+      explanation:
+        "Delegation relies on bubbling so a single parent listener can catch events from many, even future, children.",
     },
   },
-  "Timers": {
+  Timers: {
     skills: ["async", "events"],
     syntax: `const id = setTimeout(() => console.log("later"), 1000);\nclearTimeout(id); // cancels it before it fires`,
     output: "Nothing logs — the timer was cancelled",
     explanation:
       "setTimeout schedules a callback to run once after a delay; setInterval repeats it. Both return an id you can pass to clearTimeout/clearInterval to cancel the scheduled work.",
     why: "Forgetting to clear timers is a classic source of memory leaks and 'why is this still running after I navigated away' bugs.",
-    realWorld: "A toast notification that auto-dismisses after 3 seconds, but clears its timer early if the user dismisses it manually first.",
+    realWorld:
+      "A toast notification that auto-dismisses after 3 seconds, but clears its timer early if the user dismisses it manually first.",
     mistakes: [
       "Never clearing a timer when the component or feature using it goes away",
       "Assuming setTimeout(fn, 0) runs synchronously (it still waits for the call stack to clear first)",
       "Using setInterval when a single setTimeout would do",
     ],
-    summary: "Schedule with setTimeout/setInterval, and always keep the id so you can cancel it when it's no longer needed.",
-    challengePrompt: "Write a debounced-style scheduler stub: scheduleOnce(fn, ms) returns a cancel function.",
+    summary:
+      "Schedule with setTimeout/setInterval, and always keep the id so you can cancel it when it's no longer needed.",
+    challengePrompt:
+      "Write a debounced-style scheduler stub: scheduleOnce(fn, ms) returns a cancel function.",
     challengeStarter: `function scheduleOnce(fn, ms) {\n  // your code — return a function that cancels the timer\n}\nconst cancel = scheduleOnce(() => console.log("ran"), 50);\ntypeof cancel === "function" && console.log("has cancel");`,
-    challengeHint: "Store the id from setTimeout, then return () => clearTimeout(id).",
+    challengeHint:
+      "Store the id from setTimeout, then return () => clearTimeout(id).",
     challengeSolution: `function scheduleOnce(fn, ms) {\n  const id = setTimeout(fn, ms);\n  return () => clearTimeout(id);\n}\nconst cancel = scheduleOnce(() => console.log("ran"), 50);\ntypeof cancel === "function" && console.log("has cancel");`,
     quiz: {
       question: "What does setTimeout(fn, 0) actually guarantee?",
@@ -1088,7 +1272,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "fn runs exactly 0 times",
       ],
       answer: 1,
-      explanation: "Even a 0ms delay is queued and only runs once the current synchronous code finishes.",
+      explanation:
+        "Even a 0ms delay is queued and only runs once the current synchronous code finishes.",
     },
   },
   "Browser storage": {
@@ -1098,19 +1283,23 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "localStorage persists string data on the user's device across page reloads and browser restarts, with no expiration until explicitly cleared. Since it only stores strings, objects must be serialized with JSON.stringify/parse.",
     why: "It's the simplest way to remember user preferences or app state without a backend, and it's exactly how this platform's own progress tracking works.",
-    realWorld: "This very platform stores your lesson, challenge, and quiz progress in localStorage as versioned JSON.",
+    realWorld:
+      "This very platform stores your lesson, challenge, and quiz progress in localStorage as versioned JSON.",
     mistakes: [
-      "Forgetting to JSON.stringify an object before storing it (it becomes \"[object Object]\")",
+      'Forgetting to JSON.stringify an object before storing it (it becomes "[object Object]")',
       "Not wrapping JSON.parse in a try/catch when reading back potentially corrupted data",
       "Assuming localStorage is available (it can throw in private browsing or be disabled)",
     ],
-    summary: "Use localStorage for simple device-local persistence, always serializing objects and guarding parse failures.",
-    challengePrompt: "Write safeParse(json, fallback) that never throws on invalid JSON.",
+    summary:
+      "Use localStorage for simple device-local persistence, always serializing objects and guarding parse failures.",
+    challengePrompt:
+      "Write safeParse(json, fallback) that never throws on invalid JSON.",
     challengeStarter: `function safeParse(json, fallback) {\n  // your code\n}\nconsole.log(safeParse("not-json", { ok: true }));`,
     challengeHint: "Wrap JSON.parse in try/catch and return fallback on error.",
     challengeSolution: `function safeParse(json, fallback) {\n  try {\n    return JSON.parse(json);\n  } catch {\n    return fallback;\n  }\n}\nconsole.log(safeParse("not-json", { ok: true }));`,
     quiz: {
-      question: "Why must objects be JSON.stringify'd before storing them in localStorage?",
+      question:
+        "Why must objects be JSON.stringify'd before storing them in localStorage?",
       options: [
         "localStorage only stores strings",
         "It encrypts the data",
@@ -1118,26 +1307,31 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "localStorage has a special object mode",
       ],
       answer: 0,
-      explanation: "localStorage's API only accepts and returns strings, so objects need explicit serialization.",
+      explanation:
+        "localStorage's API only accepts and returns strings, so objects need explicit serialization.",
     },
   },
   Modules: {
     skills: ["architecture"],
     syntax: `// format.js\nexport function formatPrice(amount) {\n  return \`$${"${amount.toFixed(2)}"}\`;\n}\n// app.js\nimport { formatPrice } from "./format.js";`,
-    output: "app.js can call formatPrice(9.5) → \"$9.50\"",
+    output: 'app.js can call formatPrice(9.5) → "$9.50"',
     explanation:
       "Modules let you split code into files with an explicit public API (export) while keeping implementation details private by default. import brings only what you name into another file's scope.",
     why: "Modules are what makes large codebases navigable — each file has one clear responsibility and a small, deliberate surface area other files depend on.",
-    realWorld: "Every npm package you'll ever install is a module (or set of modules) exporting a small, documented public API.",
+    realWorld:
+      "Every npm package you'll ever install is a module (or set of modules) exporting a small, documented public API.",
     mistakes: [
       "Exporting everything by default instead of a deliberate, minimal API",
       "Creating circular imports between two modules that need each other",
       "Confusing default exports (one per file) with named exports (many per file)",
     ],
-    summary: "Split code into modules with a small, explicit export surface; import only what each file needs.",
-    challengePrompt: "Given a module-style object, call its exported function correctly.",
+    summary:
+      "Split code into modules with a small, explicit export surface; import only what each file needs.",
+    challengePrompt:
+      "Given a module-style object, call its exported function correctly.",
     challengeStarter: `const formatModule = {\n  formatPrice(amount) {\n    return \`$${"${amount.toFixed(2)}"}\`;\n  },\n};\n// simulate: import { formatPrice } from "./format.js";\nconst { formatPrice } = formatModule;\nconsole.log(formatPrice(9.5));`,
-    challengeHint: "Destructure formatPrice off formatModule, mirroring a named import.",
+    challengeHint:
+      "Destructure formatPrice off formatModule, mirroring a named import.",
     challengeSolution: `const formatModule = {\n  formatPrice(amount) {\n    return \`$${"${amount.toFixed(2)}"}\`;\n  },\n};\nconst { formatPrice } = formatModule;\nconsole.log(formatPrice(9.5));`,
     quiz: {
       question: "What is the main benefit of splitting code into modules?",
@@ -1148,7 +1342,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "It is required for loops to work",
       ],
       answer: 1,
-      explanation: "Modules enforce a deliberate boundary between a file's implementation and what it exposes to others.",
+      explanation:
+        "Modules enforce a deliberate boundary between a file's implementation and what it exposes to others.",
     },
   },
   Closures: {
@@ -1159,16 +1354,20 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "A closure is a function that remembers the variables from the scope it was created in, even after that outer function has returned. Each call to makeCounter creates a fresh, private count that only its returned function can touch.",
     why: "Closures are how JavaScript creates private state without classes — count above cannot be reached or corrupted from outside the returned function.",
-    realWorld: "React's useState hook is built on this exact closure pattern to give each component instance its own private state.",
+    realWorld:
+      "React's useState hook is built on this exact closure pattern to give each component instance its own private state.",
     mistakes: [
       "Expecting two calls to makeCounter() to share the same count (each call creates an independent closure)",
       "Creating closures inside a loop with var and being surprised they all share the same final value",
       "Not realizing the outer variables stay alive in memory as long as the closure does",
     ],
-    summary: "A closure retains access to its defining scope's variables even after that scope has returned — the basis for private state.",
-    challengePrompt: "Write makeBankAccount(balance) returning { deposit, getBalance } that keeps balance private.",
+    summary:
+      "A closure retains access to its defining scope's variables even after that scope has returned — the basis for private state.",
+    challengePrompt:
+      "Write makeBankAccount(balance) returning { deposit, getBalance } that keeps balance private.",
     challengeStarter: `function makeBankAccount(balance) {\n  // your code\n}\nconst account = makeBankAccount(100);\naccount.deposit(50);\nconsole.log(account.getBalance());`,
-    challengeHint: "Keep balance as a variable in makeBankAccount's scope; deposit and getBalance both close over it.",
+    challengeHint:
+      "Keep balance as a variable in makeBankAccount's scope; deposit and getBalance both close over it.",
     challengeSolution: `function makeBankAccount(balance) {\n  return {\n    deposit(amount) { balance += amount; },\n    getBalance() { return balance; },\n  };\n}\nconst account = makeBankAccount(100);\naccount.deposit(50);\nconsole.log(account.getBalance());`,
     quiz: {
       question: "What does a closure allow a returned function to do?",
@@ -1179,7 +1378,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "Automatically become a class method",
       ],
       answer: 1,
-      explanation: "Closures retain a live reference to their outer scope's variables for as long as the closure exists.",
+      explanation:
+        "Closures retain a live reference to their outer scope's variables for as long as the closure exists.",
     },
   },
   "Higher-order functions": {
@@ -1189,16 +1389,20 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "A higher-order function either takes a function as an argument, returns one, or both. map, filter, and reduce are higher-order functions you already use; withLogging shows how to write your own.",
     why: "Higher-order functions let you inject behavior (logging, caching, retrying) around any function without duplicating code inside each one.",
-    realWorld: "Debounce, throttle, and memoize — all upcoming lessons — are higher-order functions that wrap any function with extra behavior.",
+    realWorld:
+      "Debounce, throttle, and memoize — all upcoming lessons — are higher-order functions that wrap any function with extra behavior.",
     mistakes: [
       "Forgetting to forward all arguments with ...args when wrapping a function",
       "Forgetting to return the wrapped function's result",
       "Confusing 'takes a callback' (like map) with 'higher-order function' as if they were unrelated ideas",
     ],
-    summary: "A higher-order function takes and/or returns a function, letting you compose new behavior around existing logic.",
-    challengePrompt: "Write withRetryCount(fn) that returns a wrapper counting how many times it has been called.",
+    summary:
+      "A higher-order function takes and/or returns a function, letting you compose new behavior around existing logic.",
+    challengePrompt:
+      "Write withRetryCount(fn) that returns a wrapper counting how many times it has been called.",
     challengeStarter: `function withCallCount(fn) {\n  // your code — attach a .calls counter to the wrapper\n}\nconst wrapped = withCallCount(() => "ok");\nwrapped();\nwrapped();\nconsole.log(wrapped.calls);`,
-    challengeHint: "Increment a variable each call, and attach it to the returned function as a property.",
+    challengeHint:
+      "Increment a variable each call, and attach it to the returned function as a property.",
     challengeSolution: `function withCallCount(fn) {\n  let calls = 0;\n  const wrapper = (...args) => {\n    calls++;\n    wrapper.calls = calls;\n    return fn(...args);\n  };\n  wrapper.calls = 0;\n  return wrapper;\n}\nconst wrapped = withCallCount(() => "ok");\nwrapped();\nwrapped();\nconsole.log(wrapped.calls);`,
     quiz: {
       question: "What makes a function 'higher-order'?",
@@ -1209,7 +1413,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "It has more than two parameters",
       ],
       answer: 1,
-      explanation: "The defining trait is treating functions as values — passing or returning them like any other data.",
+      explanation:
+        "The defining trait is treating functions as values — passing or returning them like any other data.",
     },
   },
   "this & execution context": {
@@ -1219,44 +1424,60 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "`this` is determined by how a function is called, not where it was defined. Calling user.greet() sets this to user; extracting the same function and calling it alone loses that binding entirely.",
     why: "Losing `this` when passing a method as a callback (like an event handler) is one of the most common intermediate JavaScript bugs.",
-    realWorld: "A class-based event handler that reads undefined instead of expected state is almost always a lost `this` binding, fixed with an arrow function or .bind().",
+    realWorld:
+      "A class-based event handler that reads undefined instead of expected state is almost always a lost `this` binding, fixed with an arrow function or .bind().",
     mistakes: [
       "Passing obj.method as a callback and losing its `this` binding",
       "Assuming arrow functions have their own `this` (they inherit it from the enclosing scope instead)",
       "Forgetting to .bind(this) or use an arrow function inside a class method used as a callback",
     ],
-    summary: "`this` depends on the call site; arrow functions inherit `this` from where they're defined instead of how they're called.",
-    challengePrompt: "Fix greetLater so it still logs the correct name after being detached from the object.",
+    summary:
+      "`this` depends on the call site; arrow functions inherit `this` from where they're defined instead of how they're called.",
+    challengePrompt:
+      "Fix greetLater so it still logs the correct name after being detached from the object.",
     challengeStarter: `const user = { name: "Ada", greet() { return this.name; } };\nconst greetLater = user.greet;\nconsole.log(greetLater());`,
     challengeHint: "Bind it: const greetLater = user.greet.bind(user);",
     challengeSolution: `const user = { name: "Ada", greet() { return this.name; } };\nconst greetLater = user.greet.bind(user);\nconsole.log(greetLater());`,
     quiz: {
-      question: "What determines the value of `this` inside a regular function?",
-      options: ["Where the function is defined", "How the function is called", "The function's name", "Its return type"],
+      question:
+        "What determines the value of `this` inside a regular function?",
+      options: [
+        "Where the function is defined",
+        "How the function is called",
+        "The function's name",
+        "Its return type",
+      ],
       answer: 1,
-      explanation: "`this` is bound at call time based on the call site — obj.fn() binds this to obj, a detached call does not.",
+      explanation:
+        "`this` is bound at call time based on the call site — obj.fn() binds this to obj, a detached call does not.",
     },
   },
   "Hoisting & the TDZ": {
     skills: ["scope", "variables"],
     syntax: `console.log(typeof hoisted); // "function"\nfunction hoisted() {}\n\nconsole.log(inTDZ); // ReferenceError\nlet inTDZ = 5;`,
-    output: 'function\nReferenceError: Cannot access \'inTDZ\' before initialization',
+    output:
+      "function\nReferenceError: Cannot access 'inTDZ' before initialization",
     explanation:
       "Function declarations are fully hoisted — usable before their line. let and const are hoisted too, but remain in a 'temporal dead zone' from the start of the scope until their declaration line, throwing if accessed early.",
     why: "Understanding the TDZ explains a confusing but very deliberate error message instead of leaving it as a mystery.",
-    realWorld: "Refactoring tools and linters that warn about 'used before defined' are protecting you from exactly this hoisting behavior.",
+    realWorld:
+      "Refactoring tools and linters that warn about 'used before defined' are protecting you from exactly this hoisting behavior.",
     mistakes: [
       "Assuming let/const behave like var and return undefined before their line (they throw instead)",
       "Relying on function hoisting to organize code in a confusing top-to-bottom order",
       "Being surprised that var IS accessible (as undefined) before its declaration line",
     ],
-    summary: "Function declarations hoist fully; let/const hoist into a temporal dead zone that throws until initialized.",
-    challengePrompt: "Reorder the code so the TDZ ReferenceError no longer occurs.",
+    summary:
+      "Function declarations hoist fully; let/const hoist into a temporal dead zone that throws until initialized.",
+    challengePrompt:
+      "Reorder the code so the TDZ ReferenceError no longer occurs.",
     challengeStarter: `console.log(score);\nlet score = 10;`,
-    challengeHint: "Move the declaration above the console.log, or remove the early access.",
+    challengeHint:
+      "Move the declaration above the console.log, or remove the early access.",
     challengeSolution: `let score = 10;\nconsole.log(score);`,
     quiz: {
-      question: "What happens when you access a `let` variable before its declaration line?",
+      question:
+        "What happens when you access a `let` variable before its declaration line?",
       options: [
         "It returns undefined",
         "It throws a ReferenceError (the temporal dead zone)",
@@ -1264,7 +1485,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "It is hoisted with a default value of 0",
       ],
       answer: 1,
-      explanation: "let/const are hoisted but stay uninitialized in the TDZ, throwing if accessed before their declaration executes.",
+      explanation:
+        "let/const are hoisted but stay uninitialized in the TDZ, throwing if accessed before their declaration executes.",
     },
   },
   "Reference, value & copying": {
@@ -1275,14 +1497,17 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Primitives are copied by value, but objects and arrays are copied by reference: userB doesn't get its own object, it gets a second pointer to the very same one. Mutating through either name mutates the one shared object.",
     why: "This is the single most common source of 'I changed one thing and something unrelated also changed' bugs in real applications.",
-    realWorld: "A bug where editing one item in a UI list mysteriously changes another is almost always two variables sharing one object by reference.",
+    realWorld:
+      "A bug where editing one item in a UI list mysteriously changes another is almost always two variables sharing one object by reference.",
     mistakes: [
       "Assuming const userB = userA creates an independent copy",
       "Mutating a shared object when a fresh copy (via spread) was needed",
       "Comparing two structurally-equal objects with === and being surprised it's false (reference equality, not deep equality)",
     ],
-    summary: "Objects and arrays are copied by reference; use spread or structuredClone to create an independent copy when needed.",
-    challengePrompt: "Fix renameCopy so it renames a copy without mutating the original user.",
+    summary:
+      "Objects and arrays are copied by reference; use spread or structuredClone to create an independent copy when needed.",
+    challengePrompt:
+      "Fix renameCopy so it renames a copy without mutating the original user.",
     challengeStarter: `function renameCopy(user, name) {\n  user.name = name;\n  return user;\n}\nconst original = { name: "Ada" };\nconst renamed = renameCopy(original, "Grace");\nconsole.log(original.name, renamed.name);`,
     challengeHint: "Spread user into a new object before mutating it.",
     challengeSolution: `function renameCopy(user, name) {\n  return { ...user, name };\n}\nconst original = { name: "Ada" };\nconst renamed = renameCopy(original, "Grace");\nconsole.log(original.name, renamed.name);`,
@@ -1295,7 +1520,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "b copies only a's primitive properties",
       ],
       answer: 1,
-      explanation: "Assignment copies the reference, not the object — both names point at one shared object.",
+      explanation:
+        "Assignment copies the reference, not the object — both names point at one shared object.",
     },
   },
   "Classes & inheritance": {
@@ -1305,22 +1531,32 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "class syntax is a cleaner way to write constructor functions and prototype-based inheritance. extends lets a subclass reuse a parent's behavior and override specific methods.",
     why: "Classes give a familiar, structured way to model related objects (Animal, Dog, Cat) that share behavior but differ in specifics.",
-    realWorld: "UI component libraries and game entities (Player extends Character) commonly use exactly this class-and-inheritance structure.",
+    realWorld:
+      "UI component libraries and game entities (Player extends Character) commonly use exactly this class-and-inheritance structure.",
     mistakes: [
       "Forgetting to call super(...) in a subclass constructor before using `this`",
       "Overusing inheritance for code reuse when composition (small combined objects) would be simpler",
       "Forgetting that methods are shared on the prototype, not copied onto every instance",
     ],
-    summary: "Classes structure constructor-and-prototype patterns cleanly; extends enables inheritance and method overriding.",
-    challengePrompt: "Add a Cat subclass that overrides speak() to return '<name> meows'.",
+    summary:
+      "Classes structure constructor-and-prototype patterns cleanly; extends enables inheritance and method overriding.",
+    challengePrompt:
+      "Add a Cat subclass that overrides speak() to return '<name> meows'.",
     challengeStarter: `class Animal {\n  constructor(name) { this.name = name; }\n  speak() { return \`${"${this.name}"} makes a sound\`; }\n}\n// add Cat here\nconsole.log(new Cat("Tom").speak());`,
-    challengeHint: "class Cat extends Animal { speak() { return `${this.name} meows`; } }",
+    challengeHint:
+      "class Cat extends Animal { speak() { return `${this.name} meows`; } }",
     challengeSolution: `class Animal {\n  constructor(name) { this.name = name; }\n  speak() { return \`${"${this.name}"} makes a sound\`; }\n}\nclass Cat extends Animal {\n  speak() { return \`${"${this.name}"} meows\`; }\n}\nconsole.log(new Cat("Tom").speak());`,
     quiz: {
       question: "What must a subclass constructor call before using `this`?",
-      options: ["this.init()", "super(...)", "new.target()", "Nothing is required"],
+      options: [
+        "this.init()",
+        "super(...)",
+        "new.target()",
+        "Nothing is required",
+      ],
       answer: 1,
-      explanation: "super(...) runs the parent constructor and must happen before `this` is used in a derived class.",
+      explanation:
+        "super(...) runs the parent constructor and must happen before `this` is used in a derived class.",
     },
   },
   "Prototypes & private state": {
@@ -1331,22 +1567,33 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Every object has an internal prototype it delegates missing lookups to, forming a chain that ends at Object.prototype, then null. Private class fields (#count) are a modern way to hide state that the prototype chain will never expose to outside code.",
     why: "Understanding the prototype chain explains where array/object built-in methods (like .map or .hasOwnProperty) actually come from, and private fields prevent accidental external mutation of internal state.",
-    realWorld: "Every library's internal counters, caches, or connection state use private fields exactly like this to prevent consumers from reaching in and corrupting them.",
+    realWorld:
+      "Every library's internal counters, caches, or connection state use private fields exactly like this to prevent consumers from reaching in and corrupting them.",
     mistakes: [
       "Trying to access a #privateField from outside the class and being surprised by the SyntaxError",
       "Assuming every object property is 'own' when many are inherited via the prototype chain",
       "Manually reassigning an object's prototype in hot code paths, which is slow and rarely necessary",
     ],
-    summary: "Objects delegate missing properties up a prototype chain; private class fields (#field) hide implementation state completely.",
-    challengePrompt: "Add a #balance private field to BankAccount with a public getBalance() method.",
+    summary:
+      "Objects delegate missing properties up a prototype chain; private class fields (#field) hide implementation state completely.",
+    challengePrompt:
+      "Add a #balance private field to BankAccount with a public getBalance() method.",
     challengeStarter: `class BankAccount {\n  // add a private #balance field starting at 0 and a getBalance() method\n}\nconst acc = new BankAccount();\nconsole.log(acc.getBalance());`,
-    challengeHint: "Declare `#balance = 0;` then `getBalance() { return this.#balance; }`.",
+    challengeHint:
+      "Declare `#balance = 0;` then `getBalance() { return this.#balance; }`.",
     challengeSolution: `class BankAccount {\n  #balance = 0;\n  getBalance() { return this.#balance; }\n}\nconst acc = new BankAccount();\nconsole.log(acc.getBalance());`,
     quiz: {
-      question: "What happens if you try to access a class's #privateField from outside the class body?",
-      options: ["It returns undefined", "A SyntaxError — private fields are not accessible at all outside the class", "It works like a normal property", "It throws only in strict mode"],
+      question:
+        "What happens if you try to access a class's #privateField from outside the class body?",
+      options: [
+        "It returns undefined",
+        "A SyntaxError — private fields are not accessible at all outside the class",
+        "It works like a normal property",
+        "It throws only in strict mode",
+      ],
       answer: 1,
-      explanation: "Private fields are enforced by the language itself, not just convention — outside access is a syntax error.",
+      explanation:
+        "Private fields are enforced by the language itself, not just convention — outside access is a syntax error.",
     },
   },
   "Sync vs async": {
@@ -1356,22 +1603,28 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Synchronous code runs immediately, in order, on the call stack. Asynchronous work (timers, network requests) is handed off and its callback only runs after the current synchronous code finishes completely.",
     why: "This single ordering fact explains almost every 'why did this run in the wrong order' confusion beginners have with timers and network calls.",
-    realWorld: "A page that shows a loading spinner immediately, then updates once a fetch resolves later, is sync-then-async in exactly this order.",
+    realWorld:
+      "A page that shows a loading spinner immediately, then updates once a fetch resolves later, is sync-then-async in exactly this order.",
     mistakes: [
       "Expecting a setTimeout callback to run before the synchronous code below it",
       "Assuming async code runs 'in parallel' on another CPU core (JavaScript is single-threaded)",
       "Not realizing setTimeout(fn, 0) still waits for the current call stack to empty",
     ],
-    summary: "Synchronous code always finishes first; asynchronous callbacks run only after the call stack is empty.",
-    challengePrompt: "Predict and verify the logging order of three statements mixing sync code and a timer.",
+    summary:
+      "Synchronous code always finishes first; asynchronous callbacks run only after the call stack is empty.",
+    challengePrompt:
+      "Predict and verify the logging order of three statements mixing sync code and a timer.",
     challengeStarter: `console.log("start");\nsetTimeout(() => console.log("timer"), 0);\nconsole.log("end");`,
-    challengeHint: "Synchronous lines always run to completion before any timer callback, regardless of delay.",
+    challengeHint:
+      "Synchronous lines always run to completion before any timer callback, regardless of delay.",
     challengeSolution: `console.log("start");\nsetTimeout(() => console.log("timer"), 0);\nconsole.log("end");\n// order: start, end, timer`,
     quiz: {
-      question: "In what order do these log: console.log('a'); setTimeout(() => console.log('b'), 0); console.log('c');?",
+      question:
+        "In what order do these log: console.log('a'); setTimeout(() => console.log('b'), 0); console.log('c');?",
       options: ["a, b, c", "b, a, c", "a, c, b", "c, b, a"],
       answer: 2,
-      explanation: "Synchronous statements run first; the timer callback is deferred until the stack is empty.",
+      explanation:
+        "Synchronous statements run first; the timer callback is deferred until the stack is empty.",
     },
   },
   "Event loop": {
@@ -1382,22 +1635,33 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "The event loop moves finished async work from queues onto the empty call stack. Microtasks (Promise callbacks) always drain completely before the next macrotask (a timer, an event) is allowed to run.",
     why: "This exact ordering rule — all microtasks before the next macrotask — is asked about constantly in interviews and explains subtle async bugs.",
-    realWorld: "A UI update queued in a Promise .then() reliably runs before the next setTimeout-scheduled render, because of this exact priority.",
+    realWorld:
+      "A UI update queued in a Promise .then() reliably runs before the next setTimeout-scheduled render, because of this exact priority.",
     mistakes: [
       "Assuming Promises and setTimeout(fn, 0) resolve in the order they were written, ignoring queue priority",
       "Not knowing microtasks fully drain before the next macrotask begins",
       "Confusing the call stack (synchronous) with the task queues (deferred)",
     ],
-    summary: "The event loop always drains all pending microtasks (Promises) before running the next macrotask (timers, events).",
-    challengePrompt: "Predict the log order of a mix of sync code, a Promise, and a setTimeout.",
+    summary:
+      "The event loop always drains all pending microtasks (Promises) before running the next macrotask (timers, events).",
+    challengePrompt:
+      "Predict the log order of a mix of sync code, a Promise, and a setTimeout.",
     challengeStarter: `console.log("A");\nsetTimeout(() => console.log("B"), 0);\nPromise.resolve().then(() => console.log("C"));\nconsole.log("D");`,
-    challengeHint: "Sync first (A, D), then all microtasks (C), then macrotasks (B).",
+    challengeHint:
+      "Sync first (A, D), then all microtasks (C), then macrotasks (B).",
     challengeSolution: `console.log("A");\nsetTimeout(() => console.log("B"), 0);\nPromise.resolve().then(() => console.log("C"));\nconsole.log("D");\n// order: A, D, C, B`,
     quiz: {
-      question: "Which runs first once the call stack is empty: a pending Promise .then() or a pending setTimeout(fn, 0)?",
-      options: ["setTimeout always wins", "The Promise .then() microtask runs first", "They run simultaneously", "It's random"],
+      question:
+        "Which runs first once the call stack is empty: a pending Promise .then() or a pending setTimeout(fn, 0)?",
+      options: [
+        "setTimeout always wins",
+        "The Promise .then() microtask runs first",
+        "They run simultaneously",
+        "It's random",
+      ],
       answer: 1,
-      explanation: "All queued microtasks drain before the event loop moves on to the next macrotask.",
+      explanation:
+        "All queued microtasks drain before the event loop moves on to the next macrotask.",
     },
   },
   Promises: {
@@ -1407,22 +1671,32 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "A Promise represents a value that isn't ready yet. It starts pending, then settles once to either fulfilled (resolve was called) or rejected (reject was called) — never both, and never more than once.",
     why: "Promises replaced deeply nested callback pyramids with a flat, chainable, and far more readable way to sequence async work.",
-    realWorld: "Every fetch() call returns a Promise that eventually fulfills with a Response or rejects with a network error.",
+    realWorld:
+      "Every fetch() call returns a Promise that eventually fulfills with a Response or rejects with a network error.",
     mistakes: [
       "Forgetting to return a Promise from a .then() callback, breaking the chain",
       "Not attaching a .catch() and letting rejections go unhandled",
       "Nesting .then() calls instead of chaining them flatly",
     ],
-    summary: "A Promise settles exactly once, to fulfilled or rejected; chain with .then() and always handle rejection with .catch().",
-    challengePrompt: "Write delay(ms, value) returning a Promise that resolves with value after ms.",
+    summary:
+      "A Promise settles exactly once, to fulfilled or rejected; chain with .then() and always handle rejection with .catch().",
+    challengePrompt:
+      "Write delay(ms, value) returning a Promise that resolves with value after ms.",
     challengeStarter: `function delay(ms, value) {\n  // your code\n}\ndelay(5, "ready").then((v) => console.log(v));`,
-    challengeHint: "Wrap setTimeout in `new Promise((resolve) => ...)` and call resolve(value).",
+    challengeHint:
+      "Wrap setTimeout in `new Promise((resolve) => ...)` and call resolve(value).",
     challengeSolution: `function delay(ms, value) {\n  return new Promise((resolve) => setTimeout(() => resolve(value), ms));\n}\ndelay(5, "ready").then((v) => console.log(v));`,
     quiz: {
       question: "How many times can a single Promise settle?",
-      options: ["Zero or more times", "Exactly once, to either fulfilled or rejected", "Once for each .then()", "Twice — once for resolve, once for reject"],
+      options: [
+        "Zero or more times",
+        "Exactly once, to either fulfilled or rejected",
+        "Once for each .then()",
+        "Twice — once for resolve, once for reject",
+      ],
       answer: 1,
-      explanation: "A Promise transitions from pending to settled exactly once, and the outcome is permanent.",
+      explanation:
+        "A Promise transitions from pending to settled exactly once, and the outcome is permanent.",
     },
   },
   "async and await": {
@@ -1432,22 +1706,31 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "async/await is syntax sugar over Promises: await pauses the async function until the awaited Promise settles, letting asynchronous code read top-to-bottom like synchronous code. An async function always returns a Promise.",
     why: "await removes the visual nesting of chained .then() calls, making multi-step async logic dramatically easier to read and debug.",
-    realWorld: "Nearly all modern API-calling code — fetch, then parse JSON, then use it — is written with await instead of chained .then() calls.",
+    realWorld:
+      "Nearly all modern API-calling code — fetch, then parse JSON, then use it — is written with await instead of chained .then() calls.",
     mistakes: [
       "Forgetting the async keyword on a function that uses await",
       "Awaiting inside a loop when the calls could run concurrently with Promise.all instead",
       "Forgetting a try/catch, so a rejected await throws uncaught",
     ],
-    summary: "await pauses an async function until a Promise settles, letting async logic read like straight-line synchronous code.",
-    challengePrompt: "Write an async function loadDouble(n) that awaits a delayed value and returns it doubled.",
+    summary:
+      "await pauses an async function until a Promise settles, letting async logic read like straight-line synchronous code.",
+    challengePrompt:
+      "Write an async function loadDouble(n) that awaits a delayed value and returns it doubled.",
     challengeStarter: `function delay(ms, value) {\n  return new Promise((resolve) => setTimeout(() => resolve(value), ms));\n}\nasync function loadDouble(n) {\n  // your code\n}\nloadDouble(4).then(console.log);`,
     challengeHint: "const value = await delay(5, n); return value * 2;",
     challengeSolution: `function delay(ms, value) {\n  return new Promise((resolve) => setTimeout(() => resolve(value), ms));\n}\nasync function loadDouble(n) {\n  const value = await delay(5, n);\n  return value * 2;\n}\nloadDouble(4).then(console.log);`,
     quiz: {
       question: "What does an async function always return?",
-      options: ["undefined", "The raw value written after return", "A Promise", "A callback"],
+      options: [
+        "undefined",
+        "The raw value written after return",
+        "A Promise",
+        "A callback",
+      ],
       answer: 2,
-      explanation: "Calling an async function always returns a Promise, even if the function body returns a plain value.",
+      explanation:
+        "Calling an async function always returns a Promise, even if the function body returns a plain value.",
     },
   },
   "Errors & try/catch": {
@@ -1457,22 +1740,33 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "try/catch runs code that might throw, and recovers instead of crashing the whole program if it does. Around async code, it catches both synchronous throws and rejected awaited Promises.",
     why: "Unhandled errors crash scripts and leave users staring at a broken UI; deliberate error handling lets you show a helpful message instead.",
-    realWorld: "Every 'Something went wrong, try again' UI state you've seen is a caught error rendered as a fallback instead of a blank crash.",
+    realWorld:
+      "Every 'Something went wrong, try again' UI state you've seen is a caught error rendered as a fallback instead of a blank crash.",
     mistakes: [
       "Wrapping code in try/catch but doing nothing useful in the catch block",
       "Forgetting fetch() does not reject on HTTP error statuses like 404 — you must check response.ok yourself",
       "Swallowing errors silently instead of logging or surfacing them",
     ],
-    summary: "Use try/catch to recover from thrown errors and rejected awaits, and always check response.ok explicitly with fetch.",
-    challengePrompt: "Write safeDivide(a, b) that throws on division by zero and returns null when caught.",
+    summary:
+      "Use try/catch to recover from thrown errors and rejected awaits, and always check response.ok explicitly with fetch.",
+    challengePrompt:
+      "Write safeDivide(a, b) that throws on division by zero and returns null when caught.",
     challengeStarter: `function divide(a, b) {\n  if (b === 0) throw new Error("Cannot divide by zero");\n  return a / b;\n}\nfunction safeDivide(a, b) {\n  // your code — call divide, catch, return null on error\n}\nconsole.log(safeDivide(10, 0));`,
-    challengeHint: "Wrap the call to divide in try/catch and return null in the catch block.",
+    challengeHint:
+      "Wrap the call to divide in try/catch and return null in the catch block.",
     challengeSolution: `function divide(a, b) {\n  if (b === 0) throw new Error("Cannot divide by zero");\n  return a / b;\n}\nfunction safeDivide(a, b) {\n  try {\n    return divide(a, b);\n  } catch {\n    return null;\n  }\n}\nconsole.log(safeDivide(10, 0));`,
     quiz: {
-      question: "Does fetch() reject its Promise when the server responds with a 404?",
-      options: ["Yes, always", "No — you must check response.ok yourself", "Only in strict mode", "Only for POST requests"],
+      question:
+        "Does fetch() reject its Promise when the server responds with a 404?",
+      options: [
+        "Yes, always",
+        "No — you must check response.ok yourself",
+        "Only in strict mode",
+        "Only for POST requests",
+      ],
       answer: 1,
-      explanation: "fetch only rejects on network failure; HTTP error statuses still resolve successfully and must be checked manually.",
+      explanation:
+        "fetch only rejects on network failure; HTTP error statuses still resolve successfully and must be checked manually.",
     },
   },
   "HTTP, JSON & REST": {
@@ -1482,22 +1776,27 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "REST APIs expose resources at URLs and use HTTP methods (GET, POST, PUT, DELETE) to act on them, returning status codes that describe the outcome. JSON is the near-universal format for the request/response bodies.",
     why: "Nearly every real app talks to at least one REST API; reading status codes and JSON shapes correctly is a daily skill.",
-    realWorld: "A weather app's request to a forecast API and the JSON it parses back is a textbook example of this exact protocol.",
+    realWorld:
+      "A weather app's request to a forecast API and the JSON it parses back is a textbook example of this exact protocol.",
     mistakes: [
       "Assuming every response is JSON without checking the content type",
       "Not distinguishing 2xx (success), 4xx (client error), and 5xx (server error) status ranges",
       "Sending a POST body without setting the Content-Type header",
     ],
-    summary: "REST resources live at URLs and respond over HTTP with status codes and (usually) JSON bodies.",
-    challengePrompt: "Write describeStatus(code) that classifies an HTTP status into success/client error/server error.",
+    summary:
+      "REST resources live at URLs and respond over HTTP with status codes and (usually) JSON bodies.",
+    challengePrompt:
+      "Write describeStatus(code) that classifies an HTTP status into success/client error/server error.",
     challengeStarter: `function describeStatus(code) {\n  // your code\n}\nconsole.log(describeStatus(404));`,
     challengeHint: "Check ranges: 200-299, 400-499, 500-599.",
     challengeSolution: `function describeStatus(code) {\n  if (code >= 200 && code < 300) return "success";\n  if (code >= 400 && code < 500) return "client error";\n  if (code >= 500) return "server error";\n  return "unknown";\n}\nconsole.log(describeStatus(404));`,
     quiz: {
-      question: "What HTTP status range indicates a client error, like a bad request?",
+      question:
+        "What HTTP status range indicates a client error, like a bad request?",
       options: ["100-199", "200-299", "400-499", "500-599"],
       answer: 2,
-      explanation: "4xx statuses mean the request itself was invalid; 5xx means the server failed while handling a valid request.",
+      explanation:
+        "4xx statuses mean the request itself was invalid; 5xx means the server failed while handling a valid request.",
     },
   },
   "Fetch & UI states": {
@@ -1507,44 +1806,61 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Every real fetch needs at least four UI states: idle, loading, success, and error — and empty as a fifth when success returns nothing. Skipping any of them leaves users staring at a blank or frozen screen.",
     why: "Handling all states explicitly is what separates a demo from a production-quality feature that behaves well on slow networks or failures.",
-    realWorld: "A search results page showing a spinner, then either results, a 'no results' empty state, or a retry button on failure covers exactly these states.",
+    realWorld:
+      "A search results page showing a spinner, then either results, a 'no results' empty state, or a retry button on failure covers exactly these states.",
     mistakes: [
       "Only handling the success case and leaving users stuck on a spinner forever if the request fails",
       "Forgetting a distinct empty state when success returns an empty array",
       "Not offering a retry action on the error state",
     ],
-    summary: "Model loading, success, empty, and error as explicit UI states — never assume the request will simply succeed.",
-    challengePrompt: "Write classifyResult(result) returning 'error' | 'empty' | 'success' from a { ok, data } shape.",
+    summary:
+      "Model loading, success, empty, and error as explicit UI states — never assume the request will simply succeed.",
+    challengePrompt:
+      "Write classifyResult(result) returning 'error' | 'empty' | 'success' from a { ok, data } shape.",
     challengeStarter: `function classifyResult(result) {\n  // your code\n}\nconsole.log(classifyResult({ ok: true, data: [] }));`,
-    challengeHint: "Check !result.ok first, then data.length === 0, then default to success.",
+    challengeHint:
+      "Check !result.ok first, then data.length === 0, then default to success.",
     challengeSolution: `function classifyResult(result) {\n  if (!result.ok) return "error";\n  if (result.data.length === 0) return "empty";\n  return "success";\n}\nconsole.log(classifyResult({ ok: true, data: [] }));`,
     quiz: {
-      question: "Besides loading and success, what other UI state do real fetches need?",
-      options: ["Only success matters", "Error, and often empty", "Nothing else is needed", "A loading spinner is always sufficient"],
+      question:
+        "Besides loading and success, what other UI state do real fetches need?",
+      options: [
+        "Only success matters",
+        "Error, and often empty",
+        "Nothing else is needed",
+        "A loading spinner is always sufficient",
+      ],
       answer: 1,
-      explanation: "Networks fail and empty results happen — both need their own explicit, user-visible state.",
+      explanation:
+        "Networks fail and empty results happen — both need their own explicit, user-visible state.",
     },
   },
   "Concurrency with Promise.all": {
     skills: ["promises", "async"],
     syntax: `const [user, repos] = await Promise.all([\n  fetch("/api/user").then(r => r.json()),\n  fetch("/api/repos").then(r => r.json()),\n]);`,
-    output: "Both requests run concurrently; both must succeed for Promise.all to resolve",
+    output:
+      "Both requests run concurrently; both must succeed for Promise.all to resolve",
     explanation:
       "Promise.all runs independent async operations concurrently instead of one after another, resolving with all their results in order once every one of them succeeds — or rejecting immediately if any one fails.",
     why: "Awaiting independent requests sequentially wastes time; running them concurrently with Promise.all can cut real load time roughly in half or more.",
-    realWorld: "A profile page loading user info and their posts at the same time, instead of waiting for one before starting the other.",
+    realWorld:
+      "A profile page loading user info and their posts at the same time, instead of waiting for one before starting the other.",
     mistakes: [
       "Awaiting independent requests one after another (sequentially) when they could run concurrently",
       "Not realizing Promise.all rejects entirely if even one input rejects, losing the other results",
       "Reaching for Promise.all when Promise.allSettled is what's actually needed (to tolerate partial failure)",
     ],
-    summary: "Use Promise.all to run independent async work concurrently; use Promise.allSettled when partial failure is acceptable.",
-    challengePrompt: "Write loadAll(fetchers) that runs an array of functions returning Promises concurrently.",
+    summary:
+      "Use Promise.all to run independent async work concurrently; use Promise.allSettled when partial failure is acceptable.",
+    challengePrompt:
+      "Write loadAll(fetchers) that runs an array of functions returning Promises concurrently.",
     challengeStarter: `function loadAll(fetchers) {\n  // your code\n}\nloadAll([() => Promise.resolve(1), () => Promise.resolve(2)]).then(console.log);`,
-    challengeHint: "Map each fetcher to fetcher(), then wrap the array in Promise.all.",
+    challengeHint:
+      "Map each fetcher to fetcher(), then wrap the array in Promise.all.",
     challengeSolution: `function loadAll(fetchers) {\n  return Promise.all(fetchers.map((fn) => fn()));\n}\nloadAll([() => Promise.resolve(1), () => Promise.resolve(2)]).then(console.log);`,
     quiz: {
-      question: "What happens if one of several Promises passed to Promise.all rejects?",
+      question:
+        "What happens if one of several Promises passed to Promise.all rejects?",
       options: [
         "Promise.all ignores it and resolves with the rest",
         "Promise.all immediately rejects with that error",
@@ -1552,7 +1868,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "It retries the failed one automatically",
       ],
       answer: 1,
-      explanation: "Promise.all is all-or-nothing — a single rejection rejects the combined Promise right away.",
+      explanation:
+        "Promise.all is all-or-nothing — a single rejection rejects the combined Promise right away.",
     },
   },
   "Clean code & modules": {
@@ -1562,19 +1879,24 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Clean code favors small functions and modules with one clear responsibility, descriptive names over comments explaining unclear ones, and consistent structure across a codebase.",
     why: "Code is read far more often than it's written; clarity now saves hours of confusion for you or a teammate later.",
-    realWorld: "Code review comments like 'can you extract this into its own function?' are this principle being applied in a real team.",
+    realWorld:
+      "Code review comments like 'can you extract this into its own function?' are this principle being applied in a real team.",
     mistakes: [
       "Writing one giant function that does five unrelated things",
       "Naming things generically (data, temp, handleStuff) instead of descriptively",
       "Duplicating logic in multiple places instead of extracting one shared function",
     ],
-    summary: "Keep functions and modules small and single-purpose, with descriptive names that reduce the need for comments.",
-    challengePrompt: "Split calculateOrder into two smaller, named functions: one for the subtotal, one for tax.",
+    summary:
+      "Keep functions and modules small and single-purpose, with descriptive names that reduce the need for comments.",
+    challengePrompt:
+      "Split calculateOrder into two smaller, named functions: one for the subtotal, one for tax.",
     challengeStarter: `function calculateOrder(items, taxRate) {\n  let subtotal = 0;\n  for (const item of items) subtotal += item.price * item.qty;\n  return subtotal + subtotal * taxRate;\n}`,
-    challengeHint: "Extract subtotal(items) and applyTax(amount, rate) as separate named functions.",
+    challengeHint:
+      "Extract subtotal(items) and applyTax(amount, rate) as separate named functions.",
     challengeSolution: `function subtotal(items) {\n  return items.reduce((sum, item) => sum + item.price * item.qty, 0);\n}\nfunction applyTax(amount, rate) {\n  return amount + amount * rate;\n}\nfunction calculateOrder(items, taxRate) {\n  return applyTax(subtotal(items), taxRate);\n}`,
     quiz: {
-      question: "What is a strong signal a function should be split into smaller ones?",
+      question:
+        "What is a strong signal a function should be split into smaller ones?",
       options: [
         "It has a short name",
         "It does several unrelated things or is hard to summarize in one sentence",
@@ -1582,7 +1904,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "It is called more than once",
       ],
       answer: 1,
-      explanation: "A function that's hard to describe in one clear sentence is usually doing too much.",
+      explanation:
+        "A function that's hard to describe in one clear sentence is usually doing too much.",
     },
   },
   "Errors & defensive code": {
@@ -1592,22 +1915,32 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Defensive code validates its assumptions about input before acting on them, returning a sensible fallback instead of crashing when those assumptions are violated by unexpected data.",
     why: "Real input — API responses, user forms — is messier than the happy path you tested; defensive checks are what keep a feature working in production.",
-    realWorld: "A profile page that shows 'Unknown user' instead of crashing when a malformed record comes back from an API is defensive code in action.",
+    realWorld:
+      "A profile page that shows 'Unknown user' instead of crashing when a malformed record comes back from an API is defensive code in action.",
     mistakes: [
       "Assuming input always matches the expected shape",
       "Validating only in development and skipping it in the code that ships",
       "Throwing generic errors with no useful message for whoever debugs it later",
     ],
-    summary: "Validate assumptions about input explicitly and fail gracefully with fallbacks instead of crashing.",
-    challengePrompt: "Make getFirstName defensive against a missing or malformed user argument.",
+    summary:
+      "Validate assumptions about input explicitly and fail gracefully with fallbacks instead of crashing.",
+    challengePrompt:
+      "Make getFirstName defensive against a missing or malformed user argument.",
     challengeStarter: `function getFirstName(user) {\n  return user.name.split(" ")[0];\n}\nconsole.log(getFirstName(null));`,
-    challengeHint: "Guard with `if (!user || typeof user.name !== \"string\") return \"Unknown\";` first.",
+    challengeHint:
+      'Guard with `if (!user || typeof user.name !== "string") return "Unknown";` first.',
     challengeSolution: `function getFirstName(user) {\n  if (!user || typeof user.name !== "string") return "Unknown";\n  return user.name.split(" ")[0];\n}\nconsole.log(getFirstName(null));`,
     quiz: {
       question: "What is 'defensive code' primarily protecting against?",
-      options: ["Slow networks only", "Input that doesn't match the shape your code assumes", "Syntax errors", "Other developers reading your code"],
+      options: [
+        "Slow networks only",
+        "Input that doesn't match the shape your code assumes",
+        "Syntax errors",
+        "Other developers reading your code",
+      ],
       answer: 1,
-      explanation: "Defensive code validates assumptions about input so unexpected shapes fail gracefully instead of crashing.",
+      explanation:
+        "Defensive code validates assumptions about input so unexpected shapes fail gracefully instead of crashing.",
     },
   },
   "Debounce & throttle": {
@@ -1617,22 +1950,33 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Debounce delays running a function until a burst of calls has paused for a set time, collapsing many rapid calls into one. Throttle instead guarantees a function runs at most once per fixed interval, no matter how often it's called.",
     why: "A search box firing an API request on every keystroke would overwhelm the server; debounce collapses that burst into one request after typing pauses.",
-    realWorld: "Auto-save in a document editor is almost always debounced so it doesn't save on every single keystroke.",
+    realWorld:
+      "Auto-save in a document editor is almost always debounced so it doesn't save on every single keystroke.",
     mistakes: [
       "Reaching for throttle when debounce is what's needed, or vice versa",
       "Forgetting to clear the previous timer in a debounce implementation, causing every call to fire",
       "Debouncing something that needs an immediate response, like a button click",
     ],
-    summary: "Debounce waits for a pause before running once; throttle guarantees at most one run per interval.",
-    challengePrompt: "Implement throttle(fn, interval) that allows at most one call per interval.",
+    summary:
+      "Debounce waits for a pause before running once; throttle guarantees at most one run per interval.",
+    challengePrompt:
+      "Implement throttle(fn, interval) that allows at most one call per interval.",
     challengeStarter: `function throttle(fn, interval) {\n  // your code\n}\nconst t = throttle(() => {}, 100);\nconsole.log(typeof t);`,
-    challengeHint: "Track the last-called timestamp; only call fn if enough time has passed since then.",
+    challengeHint:
+      "Track the last-called timestamp; only call fn if enough time has passed since then.",
     challengeSolution: `function throttle(fn, interval) {\n  let last = 0;\n  return (...args) => {\n    const now = Date.now();\n    if (now - last >= interval) {\n      last = now;\n      fn(...args);\n    }\n  };\n}\nconst t = throttle(() => {}, 100);\nconsole.log(typeof t);`,
     quiz: {
-      question: "Which technique is best for a search-as-you-type input calling an API?",
-      options: ["Neither is needed", "Throttle", "Debounce", "Both are identical"],
+      question:
+        "Which technique is best for a search-as-you-type input calling an API?",
+      options: [
+        "Neither is needed",
+        "Throttle",
+        "Debounce",
+        "Both are identical",
+      ],
       answer: 2,
-      explanation: "Debounce waits for typing to pause before firing once, avoiding a request per keystroke.",
+      explanation:
+        "Debounce waits for typing to pause before firing once, avoiding a request per keystroke.",
     },
   },
   "Memoization & performance": {
@@ -1642,22 +1986,32 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Memoization caches a pure function's results keyed by its arguments, so an expensive computation only runs once per unique input, no matter how many times it's called.",
     why: "It's a direct, measurable performance win for expensive pure computations that get called repeatedly with the same inputs.",
-    realWorld: "React's useMemo hook applies exactly this idea to avoid recomputing expensive derived values on every render.",
+    realWorld:
+      "React's useMemo hook applies exactly this idea to avoid recomputing expensive derived values on every render.",
     mistakes: [
       "Memoizing an impure function whose result can change even with the same arguments",
       "Letting the cache grow unbounded in a long-running process without any eviction",
       "Using JSON.stringify as a cache key for arguments that include functions or circular structures",
     ],
-    summary: "Memoization caches a pure function's output by its arguments to avoid redundant, expensive recomputation.",
-    challengePrompt: "Use memoize to cache an expensive-looking square function and verify it's only computed once per input.",
+    summary:
+      "Memoization caches a pure function's output by its arguments to avoid redundant, expensive recomputation.",
+    challengePrompt:
+      "Use memoize to cache an expensive-looking square function and verify it's only computed once per input.",
     challengeStarter: `function memoize(fn) {\n  const cache = new Map();\n  return (...args) => {\n    const key = JSON.stringify(args);\n    if (!cache.has(key)) cache.set(key, fn(...args));\n    return cache.get(key);\n  };\n}\nlet calls = 0;\nconst square = memoize((n) => { calls++; return n * n; });\nsquare(4);\nsquare(4);\nconsole.log(calls);`,
-    challengeHint: "The second call with the same argument should be served from cache, so calls stays 1.",
+    challengeHint:
+      "The second call with the same argument should be served from cache, so calls stays 1.",
     challengeSolution: `function memoize(fn) {\n  const cache = new Map();\n  return (...args) => {\n    const key = JSON.stringify(args);\n    if (!cache.has(key)) cache.set(key, fn(...args));\n    return cache.get(key);\n  };\n}\nlet calls = 0;\nconst square = memoize((n) => { calls++; return n * n; });\nsquare(4);\nsquare(4);\nconsole.log(calls);`,
     quiz: {
       question: "Memoization is safe to apply to which kind of function?",
-      options: ["Any function", "Only pure functions, whose output depends solely on their input", "Only async functions", "Only functions with no parameters"],
+      options: [
+        "Any function",
+        "Only pure functions, whose output depends solely on their input",
+        "Only async functions",
+        "Only functions with no parameters",
+      ],
       answer: 1,
-      explanation: "Caching by argument only makes sense if the same arguments always produce the same result.",
+      explanation:
+        "Caching by argument only makes sense if the same arguments always produce the same result.",
     },
   },
   "Big O fundamentals": {
@@ -1667,22 +2021,33 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Big O describes how an algorithm's time or space grows as input size grows, ignoring constant factors. O(1) is constant, O(n) is linear, O(n²) is quadratic — the shape of growth is what matters, not one measurement.",
     why: "It gives you a vocabulary to reason about whether an approach will still be fast enough at 10x or 1000x the data, before you find out the hard way in production.",
-    realWorld: "Choosing a Set (O(1) lookup) over repeatedly scanning an array (O(n) lookup) inside a loop is a classic Big O-driven optimization.",
+    realWorld:
+      "Choosing a Set (O(1) lookup) over repeatedly scanning an array (O(n) lookup) inside a loop is a classic Big O-driven optimization.",
     mistakes: [
       "Nesting a loop inside a loop over the same data, silently creating O(n²) behavior",
       "Optimizing constant factors while ignoring an algorithm's growth shape",
       "Assuming Big O measures actual wall-clock speed rather than growth rate",
     ],
-    summary: "Big O describes how work grows with input size — recognize O(1), O(n), and O(n²) patterns in your own code.",
-    challengePrompt: "Identify and fix the accidental O(n²) pattern: check for duplicates using a Set instead of a nested loop.",
+    summary:
+      "Big O describes how work grows with input size — recognize O(1), O(n), and O(n²) patterns in your own code.",
+    challengePrompt:
+      "Identify and fix the accidental O(n²) pattern: check for duplicates using a Set instead of a nested loop.",
     challengeStarter: `function hasDuplicate(list) {\n  for (let i = 0; i < list.length; i++) {\n    for (let j = 0; j < list.length; j++) {\n      if (i !== j && list[i] === list[j]) return true;\n    }\n  }\n  return false;\n}`,
-    challengeHint: "A Set lets you check 'have I seen this before?' in O(1) per item instead of scanning the whole list again.",
+    challengeHint:
+      "A Set lets you check 'have I seen this before?' in O(1) per item instead of scanning the whole list again.",
     challengeSolution: `function hasDuplicate(list) {\n  const seen = new Set();\n  for (const item of list) {\n    if (seen.has(item)) return true;\n    seen.add(item);\n  }\n  return false;\n}`,
     quiz: {
-      question: "What does O(n²) typically indicate about an algorithm's structure?",
-      options: ["It runs in constant time", "It commonly involves a loop nested inside another loop over the same data", "It always uses recursion", "It is the fastest possible approach"],
+      question:
+        "What does O(n²) typically indicate about an algorithm's structure?",
+      options: [
+        "It runs in constant time",
+        "It commonly involves a loop nested inside another loop over the same data",
+        "It always uses recursion",
+        "It is the fastest possible approach",
+      ],
       answer: 1,
-      explanation: "Quadratic time usually comes from comparing every element against every other element.",
+      explanation:
+        "Quadratic time usually comes from comparing every element against every other element.",
     },
   },
   "Stacks, queues, maps & sets": {
@@ -1692,22 +2057,32 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "A stack is last-in-first-out (push/pop), a queue is first-in-first-out (push/shift). Set stores unique values with O(1) lookup; Map stores key-value pairs with any key type and O(1) lookup, unlike plain objects limited to string/symbol keys.",
     why: "Picking the right structure — a Set for uniqueness checks, a Map for lookups keyed by non-string data — turns an awkward nested loop into one clean, fast operation.",
-    realWorld: "A 'recently viewed items' feature that must stay unique and ordered is a textbook Set-backed structure.",
+    realWorld:
+      "A 'recently viewed items' feature that must stay unique and ordered is a textbook Set-backed structure.",
     mistakes: [
       "Using an array with .includes() for repeated membership checks instead of a Set",
       "Forgetting Map preserves insertion order and accepts object keys, unlike plain objects",
       "Confusing a stack's LIFO order with a queue's FIFO order",
     ],
-    summary: "Reach for Set for uniqueness/O(1) lookup, Map for flexible key-value lookup, and stacks/queues for ordered processing.",
-    challengePrompt: "Write uniqueValues(list) using a Set to remove duplicates while preserving order.",
+    summary:
+      "Reach for Set for uniqueness/O(1) lookup, Map for flexible key-value lookup, and stacks/queues for ordered processing.",
+    challengePrompt:
+      "Write uniqueValues(list) using a Set to remove duplicates while preserving order.",
     challengeStarter: `function uniqueValues(list) {\n  // your code\n}\nconsole.log(uniqueValues([1, 2, 2, 3, 1]));`,
     challengeHint: "return [...new Set(list)];",
     challengeSolution: `function uniqueValues(list) {\n  return [...new Set(list)];\n}\nconsole.log(uniqueValues([1, 2, 2, 3, 1]));`,
     quiz: {
-      question: "What is the key advantage of a Set over an array for membership checks?",
-      options: ["Sets preserve duplicates", "Set.has() is O(1) instead of scanning the whole array", "Sets can only hold numbers", "There is no real difference"],
+      question:
+        "What is the key advantage of a Set over an array for membership checks?",
+      options: [
+        "Sets preserve duplicates",
+        "Set.has() is O(1) instead of scanning the whole array",
+        "Sets can only hold numbers",
+        "There is no real difference",
+      ],
       answer: 1,
-      explanation: "Sets use hashing internally, making has() checks constant time regardless of size.",
+      explanation:
+        "Sets use hashing internally, making has() checks constant time regardless of size.",
     },
   },
   "Testing & DevTools": {
@@ -1717,22 +2092,33 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "A test states an expected result and fails loudly the moment reality diverges from it, catching regressions the moment they're introduced instead of weeks later. DevTools' breakpoints, watch expressions, and network tab complement tests during investigation.",
     why: "Tests turn 'I think this still works' into 'I know this still works', and are what let you refactor confidently.",
-    realWorld: "Every automated test suite (Vitest, Jest) that runs in CI on every pull request is this exact idea, scaled to a whole codebase.",
+    realWorld:
+      "Every automated test suite (Vitest, Jest) that runs in CI on every pull request is this exact idea, scaled to a whole codebase.",
     mistakes: [
       "Only testing the happy path and skipping edge cases (empty input, zero, negative numbers)",
       "Writing a test so vague it can't tell you what specifically broke",
       "Relying only on manual clicking through the app instead of an automated test",
     ],
-    summary: "Tests encode expected behavior so regressions fail loudly and immediately; pair them with DevTools for live investigation.",
-    challengePrompt: "Write a test-style check that catches a bug in a subtract function.",
+    summary:
+      "Tests encode expected behavior so regressions fail loudly and immediately; pair them with DevTools for live investigation.",
+    challengePrompt:
+      "Write a test-style check that catches a bug in a subtract function.",
     challengeStarter: `function subtract(a, b) { return a + b; } // bug\nif (subtract(5, 2) !== 3) throw new Error("subtract(5,2) should be 3");`,
-    challengeHint: "Fix the operator so the function actually subtracts, then rerun the check.",
+    challengeHint:
+      "Fix the operator so the function actually subtracts, then rerun the check.",
     challengeSolution: `function subtract(a, b) { return a - b; }\nif (subtract(5, 2) !== 3) throw new Error("subtract(5,2) should be 3");\nconsole.log("subtract passed");`,
     quiz: {
-      question: "What is the main value of an automated test over manually checking behavior?",
-      options: ["It looks more professional", "It catches regressions immediately and repeatably, without manual effort", "It makes the code run faster", "It replaces the need for code review"],
+      question:
+        "What is the main value of an automated test over manually checking behavior?",
+      options: [
+        "It looks more professional",
+        "It catches regressions immediately and repeatably, without manual effort",
+        "It makes the code run faster",
+        "It replaces the need for code review",
+      ],
       answer: 1,
-      explanation: "Automated tests re-verify behavior on every change for free, catching regressions humans would miss.",
+      explanation:
+        "Automated tests re-verify behavior on every change for free, catching regressions humans would miss.",
     },
   },
   "npm, Git & GitHub": {
@@ -1742,22 +2128,33 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "npm manages your project's dependencies and scripts; Git tracks every change as a commit; GitHub hosts that history and coordinates review through pull requests. Small, focused commits and branches make review and rollback dramatically easier.",
     why: "This is the actual daily workflow of professional software teams — nobody edits shared production code without version control and review.",
-    realWorld: "This very project's commit history and pull request workflow is the exact process being described here.",
+    realWorld:
+      "This very project's commit history and pull request workflow is the exact process being described here.",
     mistakes: [
       "Committing directly to main instead of a feature branch",
       "Writing vague commit messages like 'fix stuff'",
       "Committing node_modules or secrets instead of relying on .gitignore and environment variables",
     ],
-    summary: "Use focused feature branches, clear commit messages, and pull requests — the standard professional Git workflow.",
-    challengePrompt: "Write a function that validates a commit message follows a 'type: description' convention.",
+    summary:
+      "Use focused feature branches, clear commit messages, and pull requests — the standard professional Git workflow.",
+    challengePrompt:
+      "Write a function that validates a commit message follows a 'type: description' convention.",
     challengeStarter: `function isConventionalCommit(message) {\n  // your code\n}\nconsole.log(isConventionalCommit("feat: add search"));\nconsole.log(isConventionalCommit("fixed stuff"));`,
-    challengeHint: "Use a regex like /^(feat|fix|docs|test|chore|refactor): .+/.",
+    challengeHint:
+      "Use a regex like /^(feat|fix|docs|test|chore|refactor): .+/.",
     challengeSolution: `function isConventionalCommit(message) {\n  return /^(feat|fix|docs|test|chore|refactor): .+/.test(message);\n}\nconsole.log(isConventionalCommit("feat: add search"));\nconsole.log(isConventionalCommit("fixed stuff"));`,
     quiz: {
-      question: "Why do professional teams work in feature branches instead of committing directly to main?",
-      options: ["Branches are required by npm", "It isolates in-progress work and enables review before merging", "It makes Git faster", "There is no real reason"],
+      question:
+        "Why do professional teams work in feature branches instead of committing directly to main?",
+      options: [
+        "Branches are required by npm",
+        "It isolates in-progress work and enables review before merging",
+        "It makes Git faster",
+        "There is no real reason",
+      ],
       answer: 1,
-      explanation: "Feature branches let work be reviewed, tested, and discussed in a pull request before it reaches main.",
+      explanation:
+        "Feature branches let work be reviewed, tested, and discussed in a pull request before it reaches main.",
     },
   },
   "Project architecture": {
@@ -1767,16 +2164,20 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Project architecture is the set of decisions about how code is organized — where UI lives versus logic versus data — made deliberately up front so the codebase stays navigable as it grows.",
     why: "A clear structure means any contributor (including future you) can predict where new code belongs without asking.",
-    realWorld: "This platform's own src/app, src/components, src/content, src/lib, src/types split is exactly this kind of deliberate architecture.",
+    realWorld:
+      "This platform's own src/app, src/components, src/content, src/lib, src/types split is exactly this kind of deliberate architecture.",
     mistakes: [
       "Letting UI components directly own business logic that should be testable in isolation",
       "Mixing data, logic, and presentation in one file as a project grows",
       "Copying a folder structure without understanding what problem it solves",
     ],
-    summary: "Separate UI, logic, and data deliberately so the codebase stays predictable and testable as it grows.",
-    challengePrompt: "Given a mixed function, separate the pure calculation from the console output.",
+    summary:
+      "Separate UI, logic, and data deliberately so the codebase stays predictable and testable as it grows.",
+    challengePrompt:
+      "Given a mixed function, separate the pure calculation from the console output.",
     challengeStarter: `function reportTotal(items) {\n  let total = 0;\n  for (const i of items) total += i.price;\n  console.log("Total:", total);\n}`,
-    challengeHint: "Extract a pure calculateTotal(items) function, then have reportTotal call and log it.",
+    challengeHint:
+      "Extract a pure calculateTotal(items) function, then have reportTotal call and log it.",
     challengeSolution: `function calculateTotal(items) {\n  return items.reduce((sum, i) => sum + i.price, 0);\n}\nfunction reportTotal(items) {\n  console.log("Total:", calculateTotal(items));\n}`,
     quiz: {
       question: "Why separate pure calculation logic from console/UI output?",
@@ -1787,29 +2188,36 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "Functions cannot both calculate and log",
       ],
       answer: 1,
-      explanation: "A pure function returning a value can be tested directly by asserting on its return value.",
+      explanation:
+        "A pure function returning a value can be tested directly by asserting on its return value.",
     },
   },
   "State & environment variables": {
     skills: ["architecture"],
     syntax: `// .env.local (never committed)\n// API_KEY=secret\nconst apiKey = process.env.API_KEY;`,
-    output: "Secrets stay out of source control and version-specific per environment",
+    output:
+      "Secrets stay out of source control and version-specific per environment",
     explanation:
       "Application state is the data that changes over time and drives what's rendered; environment variables configure how the app behaves per environment (development, production) without hardcoding secrets into source code.",
     why: "Committing an API key directly into source code is a real, common security incident; environment variables exist specifically to prevent it.",
-    realWorld: "Every production app's database URL and API keys are injected via environment variables, never committed to Git.",
+    realWorld:
+      "Every production app's database URL and API keys are injected via environment variables, never committed to Git.",
     mistakes: [
       "Committing a real API key or secret directly into a source file",
       "Reading environment variables inside client-side code where they'd be exposed to every visitor",
       "Mixing UI state with configuration that should be an environment variable",
     ],
-    summary: "Keep secrets and per-environment configuration in environment variables, never hardcoded in committed source.",
-    challengePrompt: "Write buildApiUrl(base, path) that safely joins a configurable base URL with a path.",
+    summary:
+      "Keep secrets and per-environment configuration in environment variables, never hardcoded in committed source.",
+    challengePrompt:
+      "Write buildApiUrl(base, path) that safely joins a configurable base URL with a path.",
     challengeStarter: `function buildApiUrl(base, path) {\n  // your code — avoid double slashes\n}\nconsole.log(buildApiUrl("https://api.example.com/", "/users"));`,
-    challengeHint: "Strip a trailing slash from base and a leading slash from path before joining with one slash.",
+    challengeHint:
+      "Strip a trailing slash from base and a leading slash from path before joining with one slash.",
     challengeSolution: `function buildApiUrl(base, path) {\n  return base.replace(/\\/$/, "") + "/" + path.replace(/^\\//, "");\n}\nconsole.log(buildApiUrl("https://api.example.com/", "/users"));`,
     quiz: {
-      question: "Why should secrets like API keys live in environment variables instead of source code?",
+      question:
+        "Why should secrets like API keys live in environment variables instead of source code?",
       options: [
         "Environment variables are faster",
         "Source code is committed to Git history and often shared or public",
@@ -1817,7 +2225,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "There is no real difference",
       ],
       answer: 1,
-      explanation: "Anything committed to Git can end up in history forever, even if later deleted — secrets don't belong there.",
+      explanation:
+        "Anything committed to Git can end up in history forever, even if later deleted — secrets don't belong there.",
     },
   },
   "Security & validation": {
@@ -1827,16 +2236,20 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Never trust input from users, forms, or external APIs — validate it explicitly before using it. On the web, also avoid injecting untrusted strings as HTML (XSS) and always validate on the server, since client-side checks can be bypassed entirely.",
     why: "Nearly every real security incident traces back to trusting input that turned out to be malicious or malformed.",
-    realWorld: "Every login form rate-limiting attempts and validating input server-side, even though it also validates client-side, follows this principle.",
+    realWorld:
+      "Every login form rate-limiting attempts and validating input server-side, even though it also validates client-side, follows this principle.",
     mistakes: [
       "Trusting client-side validation as the only line of defense",
       "Rendering untrusted user input as HTML instead of as text",
       "Not validating numeric ranges, allowing negative quantities or prices",
     ],
-    summary: "Validate all external input explicitly, treat it as untrusted, and never rely on client-side checks alone.",
-    challengePrompt: "Write sanitizeQuantity(input) that only accepts positive whole numbers, defaulting to 1 otherwise.",
+    summary:
+      "Validate all external input explicitly, treat it as untrusted, and never rely on client-side checks alone.",
+    challengePrompt:
+      "Write sanitizeQuantity(input) that only accepts positive whole numbers, defaulting to 1 otherwise.",
     challengeStarter: `function sanitizeQuantity(input) {\n  // your code\n}\nconsole.log(sanitizeQuantity("-3"));\nconsole.log(sanitizeQuantity("5"));`,
-    challengeHint: "Convert with Number(), then check Number.isInteger and > 0 before accepting it.",
+    challengeHint:
+      "Convert with Number(), then check Number.isInteger and > 0 before accepting it.",
     challengeSolution: `function sanitizeQuantity(input) {\n  const n = Number(input);\n  return Number.isInteger(n) && n > 0 ? n : 1;\n}\nconsole.log(sanitizeQuantity("-3"));\nconsole.log(sanitizeQuantity("5"));`,
     quiz: {
       question: "Why is client-side-only validation insufficient for security?",
@@ -1847,7 +2260,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "It is actually sufficient on its own",
       ],
       answer: 1,
-      explanation: "A user can call your API directly, skipping the browser and any client-side checks entirely.",
+      explanation:
+        "A user can call your API directly, skipping the browser and any client-side checks entirely.",
     },
   },
   "Accessibility & responsive UI": {
@@ -1857,19 +2271,23 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Accessible UI works for keyboard-only users and screen readers, not just a mouse and perfect eyesight: every interactive element needs a visible focus state and a clear accessible name. Responsive UI adapts layout to the viewport instead of assuming one screen size.",
     why: "Accessibility is both a real legal requirement in many contexts and simply correct: a meaningful fraction of users rely on these affordances daily.",
-    realWorld: "A modal dialog trapping focus and being closable with Escape is standard accessible-UI behavior in production apps.",
+    realWorld:
+      "A modal dialog trapping focus and being closable with Escape is standard accessible-UI behavior in production apps.",
     mistakes: [
       "Using a <div> with a click handler instead of a real <button>, losing keyboard support for free",
       "Icon-only buttons with no aria-label, announcing nothing meaningful to screen readers",
       "Removing focus outlines with CSS without providing any visible alternative",
     ],
-    summary: "Use semantic elements, label icon-only controls, keep focus visible, and design layouts that adapt to any viewport.",
-    challengePrompt: "Write buildAriaLabel(action, itemName) producing a clear accessible label string.",
+    summary:
+      "Use semantic elements, label icon-only controls, keep focus visible, and design layouts that adapt to any viewport.",
+    challengePrompt:
+      "Write buildAriaLabel(action, itemName) producing a clear accessible label string.",
     challengeStarter: `function buildAriaLabel(action, itemName) {\n  // your code\n}\nconsole.log(buildAriaLabel("Delete", "Buy milk"));`,
     challengeHint: 'Return something like `${action} "${itemName}"`.',
     challengeSolution: `function buildAriaLabel(action, itemName) {\n  return \`${"${action}"} "${"${itemName}"}"\`;\n}\nconsole.log(buildAriaLabel("Delete", "Buy milk"));`,
     quiz: {
-      question: "Why prefer a real <button> element over a <div> with a click handler?",
+      question:
+        "Why prefer a real <button> element over a <div> with a click handler?",
       options: [
         "Divs cannot have CSS applied",
         "Buttons get keyboard focus, Enter/Space activation, and screen reader semantics for free",
@@ -1877,7 +2295,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "Buttons render faster",
       ],
       answer: 1,
-      explanation: "Semantic HTML elements come with built-in accessibility behavior that a div must be manually rebuilt to match.",
+      explanation:
+        "Semantic HTML elements come with built-in accessibility behavior that a div must be manually rebuilt to match.",
     },
   },
   "Performance & Lighthouse": {
@@ -1887,44 +2306,58 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Performance work starts with measurement, not guessing — tools like Lighthouse quantify load time, interactivity, and visual stability so you can target the biggest real bottleneck instead of optimizing whatever feels slow.",
     why: "Slow pages measurably lose users and, for public sites, search ranking; performance is a feature, not an afterthought.",
-    realWorld: "An e-commerce site lazy-loading below-the-fold product images to improve its Lighthouse score is a direct application of this lesson.",
+    realWorld:
+      "An e-commerce site lazy-loading below-the-fold product images to improve its Lighthouse score is a direct application of this lesson.",
     mistakes: [
       "Optimizing based on a feeling instead of measuring with a real tool first",
       "Shipping large third-party libraries for a small feature",
       "Loading every image at full resolution regardless of display size",
     ],
-    summary: "Measure first with a tool like Lighthouse, then target the biggest real bottleneck instead of guessing.",
-    challengePrompt: "Write estimatePayloadKb(assets) summing an array of asset sizes, flagging if it's over a budget.",
+    summary:
+      "Measure first with a tool like Lighthouse, then target the biggest real bottleneck instead of guessing.",
+    challengePrompt:
+      "Write estimatePayloadKb(assets) summing an array of asset sizes, flagging if it's over a budget.",
     challengeStarter: `function estimatePayloadKb(assets, budgetKb) {\n  // your code — return { totalKb, overBudget }\n}\nconsole.log(estimatePayloadKb([100, 250, 80], 300));`,
     challengeHint: "Sum the array, then compare the total to budgetKb.",
     challengeSolution: `function estimatePayloadKb(assets, budgetKb) {\n  const totalKb = assets.reduce((sum, kb) => sum + kb, 0);\n  return { totalKb, overBudget: totalKb > budgetKb };\n}\nconsole.log(estimatePayloadKb([100, 250, 80], 300));`,
     quiz: {
       question: "What should come before optimizing a page's performance?",
-      options: ["Guessing which part feels slow", "Measuring with a real tool to find the actual bottleneck", "Rewriting everything in a different framework", "Removing all images"],
+      options: [
+        "Guessing which part feels slow",
+        "Measuring with a real tool to find the actual bottleneck",
+        "Rewriting everything in a different framework",
+        "Removing all images",
+      ],
       answer: 1,
-      explanation: "Measurement targets real bottlenecks; guessing often optimizes something that was never the problem.",
+      explanation:
+        "Measurement targets real bottlenecks; guessing often optimizes something that was never the problem.",
     },
   },
   "Deployment & Git workflow": {
     skills: ["architecture", "testing"],
     syntax: `# CI on every pull request\nnpm ci && npm run lint && npm run test && npm run build\n# then deploy the build artifact`,
-    output: "Every change is verified the same way before it reaches production",
+    output:
+      "Every change is verified the same way before it reaches production",
     explanation:
       "A deployment pipeline runs the same checks — install, lint, test, build — on every change before it ships, removing 'works on my machine' from the equation entirely.",
     why: "Automating verification catches regressions before users ever see them, and makes shipping routine instead of stressful.",
-    realWorld: "This platform's own GitHub Actions workflow runs exactly this install-lint-test-build sequence on every pull request.",
+    realWorld:
+      "This platform's own GitHub Actions workflow runs exactly this install-lint-test-build sequence on every pull request.",
     mistakes: [
       "Deploying directly from a local machine without running the same checks CI would run",
       "Skipping tests locally and only discovering failures after pushing",
       "Deploying straight to production without a review step",
     ],
-    summary: "Automate install, lint, test, and build on every change so shipping is routine and verified, not risky.",
-    challengePrompt: "Write a function that returns whether a build should be allowed to deploy, given check results.",
+    summary:
+      "Automate install, lint, test, and build on every change so shipping is routine and verified, not risky.",
+    challengePrompt:
+      "Write a function that returns whether a build should be allowed to deploy, given check results.",
     challengeStarter: `function canDeploy(checks) {\n  // checks: { lint, typecheck, test, build } booleans\n  // your code\n}\nconsole.log(canDeploy({ lint: true, typecheck: true, test: true, build: true }));`,
     challengeHint: "Return true only if every check in the object is true.",
     challengeSolution: `function canDeploy(checks) {\n  return Object.values(checks).every(Boolean);\n}\nconsole.log(canDeploy({ lint: true, typecheck: true, test: true, build: true }));`,
     quiz: {
-      question: "What is the main purpose of running lint/test/build in CI on every pull request?",
+      question:
+        "What is the main purpose of running lint/test/build in CI on every pull request?",
       options: [
         "To slow down development",
         "To verify every change the same way before it reaches production",
@@ -1932,7 +2365,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "To replace code review entirely",
       ],
       answer: 1,
-      explanation: "Consistent automated checks catch regressions before they reach users, regardless of who wrote the change.",
+      explanation:
+        "Consistent automated checks catch regressions before they reach users, regardless of who wrote the change.",
     },
   },
   "Interview preparation": {
@@ -1942,19 +2376,24 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Technical interviews evaluate process as much as the final answer: clarifying the problem, thinking out loud, testing edge cases, and discussing tradeoffs all matter as much as a working solution.",
     why: "This platform's dedicated Interview Center builds directly on the fundamentals, closures, async, and algorithm lessons throughout this course.",
-    realWorld: "Every real technical interview loop — phone screen, onsite, take-home — rewards this exact clarify-plan-code-test-discuss structure.",
+    realWorld:
+      "Every real technical interview loop — phone screen, onsite, take-home — rewards this exact clarify-plan-code-test-discuss structure.",
     mistakes: [
       "Starting to code immediately without clarifying the problem or constraints",
       "Going silent instead of narrating your thinking",
       "Never testing the solution against an edge case before declaring it done",
     ],
-    summary: "Clarify, plan aloud, code, test edge cases, and discuss tradeoffs — the structure interviewers are actually evaluating.",
-    challengePrompt: "Practice the workflow: write pseudocode comments, then implement isAnagram(a, b).",
+    summary:
+      "Clarify, plan aloud, code, test edge cases, and discuss tradeoffs — the structure interviewers are actually evaluating.",
+    challengePrompt:
+      "Practice the workflow: write pseudocode comments, then implement isAnagram(a, b).",
     challengeStarter: `// pseudocode:\n// 1. normalize both strings (lowercase, remove spaces)\n// 2. sort their characters\n// 3. compare the sorted results\nfunction isAnagram(a, b) {\n  // your code\n}\nconsole.log(isAnagram("listen", "silent"));`,
-    challengeHint: "Normalize with toLowerCase().replace(/\\s/g, ''), then compare [...s].sort().join('').",
+    challengeHint:
+      "Normalize with toLowerCase().replace(/\\s/g, ''), then compare [...s].sort().join('').",
     challengeSolution: `function isAnagram(a, b) {\n  const normalize = (s) => [...s.toLowerCase().replace(/\\s/g, "")].sort().join("");\n  return normalize(a) === normalize(b);\n}\nconsole.log(isAnagram("listen", "silent"));`,
     quiz: {
-      question: "What do interviewers evaluate beyond whether your final code works?",
+      question:
+        "What do interviewers evaluate beyond whether your final code works?",
       options: [
         "Nothing else matters",
         "How you clarify the problem, communicate your approach, and consider edge cases",
@@ -1962,7 +2401,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "Whether you memorized the exact solution beforehand",
       ],
       answer: 1,
-      explanation: "Process — clarifying, communicating, and testing — is a core part of what's being assessed.",
+      explanation:
+        "Process — clarifying, communicating, and testing — is a core part of what's being assessed.",
     },
   },
   "The path to TS, React & Node": {
@@ -1972,19 +2412,24 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
     explanation:
       "Everything in this course — variables, functions, arrays, objects, async, modules — is the direct foundation for TypeScript (adds static types), React (builds UI from functions and state), and Node.js (runs this same JavaScript on a server).",
     why: "You are not starting over after this course; you're adding layers onto exactly the mental models you've already built.",
-    realWorld: "A React component is a function returning UI; a Node.js API route is a function handling a request — both are the functions you've been writing all course.",
+    realWorld:
+      "A React component is a function returning UI; a Node.js API route is a function handling a request — both are the functions you've been writing all course.",
     mistakes: [
       "Believing React or TypeScript require learning JavaScript from scratch again",
       "Skipping fundamentals to rush into a framework, then getting stuck on core JavaScript behavior mid-framework",
       "Assuming Node.js is a different language rather than the same JavaScript on a different runtime",
     ],
-    summary: "TypeScript, React, and Node.js all build directly on the JavaScript fundamentals from this course — not a fresh start.",
-    challengePrompt: "Write a plain JS function the way you would before adding TypeScript types, as a bridge exercise.",
+    summary:
+      "TypeScript, React, and Node.js all build directly on the JavaScript fundamentals from this course — not a fresh start.",
+    challengePrompt:
+      "Write a plain JS function the way you would before adding TypeScript types, as a bridge exercise.",
     challengeStarter: `function add(a, b) {\n  // your code\n}\nconsole.log(add(2, 3));`,
-    challengeHint: "This is just addition — the point is noticing how little changes when types are added later.",
+    challengeHint:
+      "This is just addition — the point is noticing how little changes when types are added later.",
     challengeSolution: `function add(a, b) {\n  return a + b;\n}\nconsole.log(add(2, 3));`,
     quiz: {
-      question: "What is the relationship between the JavaScript in this course and React/Node.js?",
+      question:
+        "What is the relationship between the JavaScript in this course and React/Node.js?",
       options: [
         "They are unrelated languages",
         "React and Node.js are built directly on the same JavaScript fundamentals taught here",
@@ -1992,7 +2437,8 @@ const TOPIC_CONTENT: Record<string, TopicContent> = {
         "They only work with TypeScript, never plain JavaScript",
       ],
       answer: 1,
-      explanation: "React components and Node.js servers are written in the same JavaScript — the fundamentals transfer directly.",
+      explanation:
+        "React components and Node.js servers are written in the same JavaScript — the fundamentals transfer directly.",
     },
   },
 };
@@ -2007,7 +2453,11 @@ function slugify(topic: string) {
 
 function createLesson(week: WeekSeed, topic: string, index: number): Lesson {
   const difficulty: Difficulty =
-    week.number < 3 ? "beginner" : week.number < 7 ? "intermediate" : "advanced";
+    week.number < 3
+      ? "beginner"
+      : week.number < 7
+        ? "intermediate"
+        : "advanced";
   const content = TOPIC_CONTENT[topic];
   if (!content) {
     throw new Error(`Missing authored content for topic "${topic}"`);
@@ -2045,13 +2495,18 @@ function createLesson(week: WeekSeed, topic: string, index: number): Lesson {
 }
 
 function buildDays(week: WeekSeed, lessons: Lesson[]): DayPlan[] {
-  const groups = [lessons.slice(0, 2), lessons.slice(2, 5), lessons.slice(5, 8)];
+  const groups = [
+    lessons.slice(0, 2),
+    lessons.slice(2, 5),
+    lessons.slice(5, 8),
+  ];
   const days: DayPlan[] = groups.map((group, i) => ({
     day: i + 1,
     title: group.map((l) => l.title).join(" + "),
     lessonSlugs: group.map((l) => l.slug),
     estimatedMinutes: group.reduce((sum, l) => sum + l.estimatedMinutes, 0),
-    checkpoint: "Predict, run, and change one value in each example before moving on.",
+    checkpoint:
+      "Predict, run, and change one value in each example before moving on.",
   }));
   days.push({
     day: 4,
@@ -2071,7 +2526,9 @@ function buildDays(week: WeekSeed, lessons: Lesson[]): DayPlan[] {
 }
 
 export const curriculum: CourseWeek[] = seeds.map((week) => {
-  const lessons = week.topics.map((topic, index) => createLesson(week, topic, index));
+  const lessons = week.topics.map((topic, index) =>
+    createLesson(week, topic, index),
+  );
   const skills = [...new Set(lessons.flatMap((l) => l.skills))];
   return {
     ...week,

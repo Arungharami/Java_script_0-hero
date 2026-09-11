@@ -56,7 +56,11 @@ export function SiteHeader() {
         group: "Lessons",
       }));
     const challengeResults: Result[] = challenges
-      .filter((x) => `${x.title} ${x.category} ${x.relatedConcepts.join(" ")}`.toLowerCase().includes(q))
+      .filter((x) =>
+        `${x.title} ${x.category} ${x.relatedConcepts.join(" ")}`
+          .toLowerCase()
+          .includes(q),
+      )
       .slice(0, 4)
       .map((x) => ({
         title: x.title,
@@ -183,18 +187,21 @@ export function SiteHeader() {
         </div>
         {mobile && (
           <nav className="shell grid gap-1 pb-4 lg:hidden">
-            {[...links, ["Skills", "/skills"], ["Career", "/career"], ["Cheatsheets", "/resources/cheatsheets"]].map(
-              ([label, href]) => (
-                <Link
-                  onClick={() => setMobile(false)}
-                  className="rounded-lg px-3 py-2 text-sm"
-                  href={href}
-                  key={href}
-                >
-                  {label}
-                </Link>
-              ),
-            )}
+            {[
+              ...links,
+              ["Skills", "/skills"],
+              ["Career", "/career"],
+              ["Cheatsheets", "/resources/cheatsheets"],
+            ].map(([label, href]) => (
+              <Link
+                onClick={() => setMobile(false)}
+                className="rounded-lg px-3 py-2 text-sm"
+                href={href}
+                key={href}
+              >
+                {label}
+              </Link>
+            ))}
           </nav>
         )}
       </header>
@@ -242,7 +249,9 @@ export function SiteHeader() {
                         onClick={() => go(result.href)}
                         className="flex w-full items-center justify-between rounded-xl p-3 text-left hover:bg-[var(--bg)]"
                       >
-                        <span className="truncate font-medium">{result.title}</span>
+                        <span className="truncate font-medium">
+                          {result.title}
+                        </span>
                         <span className="ml-3 shrink-0 text-xs text-[var(--muted)]">
                           {result.label}
                         </span>

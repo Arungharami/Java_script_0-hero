@@ -6,8 +6,10 @@ export const projects: ProjectBrief[] = [
     title: "Interactive Personal Profile Generator",
     level: "Beginner",
     week: 1,
-    summary: "Turn profile inputs into a polished, validated summary using values, operators, and strings.",
-    problem: "Beginners rarely see WHY variables, types, and string handling matter until they build something that reads real input and produces readable output.",
+    summary:
+      "Turn profile inputs into a polished, validated summary using values, operators, and strings.",
+    problem:
+      "Beginners rarely see WHY variables, types, and string handling matter until they build something that reads real input and produces readable output.",
     userStories: [
       "As a visitor, I want to enter my name, birth year, and favorite language, so I get a personalized summary.",
       "As a visitor, I want clear feedback if I enter an invalid birth year, so I trust the result.",
@@ -31,7 +33,11 @@ export const projects: ProjectBrief[] = [
       "Build the summary string with a template literal",
       "Handle and display validation errors clearly",
     ],
-    bonuses: ["Add a live character counter for the name field", "Support multiple favorite languages", "Persist the last profile in localStorage"],
+    bonuses: [
+      "Add a live character counter for the name field",
+      "Support multiple favorite languages",
+      "Persist the last profile in localStorage",
+    ],
     testingChecklist: [
       "Submitting valid input produces the expected summary",
       "An empty name shows a validation error",
@@ -53,8 +59,10 @@ export const projects: ProjectBrief[] = [
     title: "Smart Calculator + Guessing Game",
     level: "Beginner",
     week: 2,
-    summary: "Build two logic-driven programs with reusable functions and defensive input handling.",
-    problem: "Conditions, functions, and loops only click once you use them to make real decisions repeatedly, not just read about them.",
+    summary:
+      "Build two logic-driven programs with reusable functions and defensive input handling.",
+    problem:
+      "Conditions, functions, and loops only click once you use them to make real decisions repeatedly, not just read about them.",
     userStories: [
       "As a user, I want to perform +, -, *, / on two numbers, so I can calculate results quickly.",
       "As a user, I want a clear error if I divide by zero, so the app never silently breaks.",
@@ -77,9 +85,13 @@ export const projects: ProjectBrief[] = [
       "Add higher/lower feedback and an attempts limit",
       "Wire both to a simple UI",
     ],
-    bonuses: ["Add calculator keyboard shortcuts", "Add difficulty levels to the guessing game", "Track and display a best-score streak"],
+    bonuses: [
+      "Add calculator keyboard shortcuts",
+      "Add difficulty levels to the guessing game",
+      "Track and display a best-score streak",
+    ],
     testingChecklist: [
-      "calculate(4, 0, \"/\") is handled without crashing",
+      'calculate(4, 0, "/") is handled without crashing',
       "The guessing game correctly reports higher/lower for at least three guesses",
       "The game correctly detects a win and a loss (out of attempts)",
     ],
@@ -99,8 +111,10 @@ export const projects: ProjectBrief[] = [
     title: "Expense Tracker Data Engine",
     level: "Intermediate",
     week: 3,
-    summary: "Model transactions, calculate totals, group categories, and generate useful summaries.",
-    problem: "Real applications live and die by how cleanly they model and transform collections of data — this project makes that the entire point.",
+    summary:
+      "Model transactions, calculate totals, group categories, and generate useful summaries.",
+    problem:
+      "Real applications live and die by how cleanly they model and transform collections of data — this project makes that the entire point.",
     userStories: [
       "As a user, I want to add an expense with an amount and category, so I can track my spending.",
       "As a user, I want to see my total spend per category, so I understand where my money goes.",
@@ -124,7 +138,11 @@ export const projects: ProjectBrief[] = [
       "Add category filtering with array methods",
       "Render live-updating summaries as expenses change",
     ],
-    bonuses: ["Add a date-range filter", "Add a simple bar chart of spend by category", "Persist expenses to localStorage"],
+    bonuses: [
+      "Add a date-range filter",
+      "Add a simple bar chart of spend by category",
+      "Persist expenses to localStorage",
+    ],
     testingChecklist: [
       "totalSpend returns the correct sum for a known set of expenses",
       "groupByCategory correctly buckets a mixed-category list",
@@ -146,8 +164,10 @@ export const projects: ProjectBrief[] = [
     title: "Professional Task Manager",
     level: "Intermediate",
     week: 4,
-    summary: "Create, edit, filter, search, prioritize, and persist accessible tasks.",
-    problem: "Every real product has a task/list-like feature — this project is the DOM, events, and storage lessons applied to the single most common UI pattern in software.",
+    summary:
+      "Create, edit, filter, search, prioritize, and persist accessible tasks.",
+    problem:
+      "Every real product has a task/list-like feature — this project is the DOM, events, and storage lessons applied to the single most common UI pattern in software.",
     userStories: [
       "As a user, I want to add, edit, and delete tasks, so I can manage my work.",
       "As a user, I want to filter tasks by completed/active, so I can focus on what's left.",
@@ -171,7 +191,11 @@ export const projects: ProjectBrief[] = [
       "Persist tasks to localStorage on every change",
       "Add keyboard support and ARIA labels to every control",
     ],
-    bonuses: ["Add drag-to-reorder", "Add due dates with overdue highlighting", "Add undo for accidental deletes"],
+    bonuses: [
+      "Add drag-to-reorder",
+      "Add due dates with overdue highlighting",
+      "Add undo for accidental deletes",
+    ],
     testingChecklist: [
       "Adding a task updates both the list and localStorage",
       "Filtering shows the correct subset for each filter state",
@@ -193,8 +217,10 @@ export const projects: ProjectBrief[] = [
     title: "Library Inventory System",
     level: "Intermediate",
     week: 5,
-    summary: "Design a maintainable domain model with classes, encapsulation, and modules.",
-    problem: "Modeling a real domain (books, members, loans) with classes is the clearest way to practice encapsulation and prototype-based design before scaling to a framework.",
+    summary:
+      "Design a maintainable domain model with classes, encapsulation, and modules.",
+    problem:
+      "Modeling a real domain (books, members, loans) with classes is the clearest way to practice encapsulation and prototype-based design before scaling to a framework.",
     userStories: [
       "As a librarian, I want to add books with a title, author, and copy count, so I can track inventory.",
       "As a librarian, I want to check a book out and back in, so I can track availability.",
@@ -218,7 +244,11 @@ export const projects: ProjectBrief[] = [
       "Render the inventory and wire the UI to the domain model",
       "Cover the domain model with unit tests",
     ],
-    bonuses: ["Add member accounts and loan history", "Add search/filter by author", "Add a due-date and overdue calculation"],
+    bonuses: [
+      "Add member accounts and loan history",
+      "Add search/filter by author",
+      "Add a due-date and overdue calculation",
+    ],
     testingChecklist: [
       "Checking out the last available copy makes the book unavailable",
       "Attempting to check out an unavailable book is rejected clearly",
@@ -240,8 +270,10 @@ export const projects: ProjectBrief[] = [
     title: "API Explorer",
     level: "Intermediate",
     week: 6,
-    summary: "Fetch public data with loading, empty, success, retry, and error states.",
-    problem: "Every real app talks to at least one API — this project forces you to handle every realistic outcome of a network call, not just the happy path.",
+    summary:
+      "Fetch public data with loading, empty, success, retry, and error states.",
+    problem:
+      "Every real app talks to at least one API — this project forces you to handle every realistic outcome of a network call, not just the happy path.",
     userStories: [
       "As a user, I want to search for public data and see results, so I can explore it.",
       "As a user, I want a clear loading indicator while a request is in flight, so I know the app is working.",
@@ -265,7 +297,11 @@ export const projects: ProjectBrief[] = [
       "Add a retry action that re-runs the last request",
       "Guard against out-of-order responses for rapid repeated searches",
     ],
-    bonuses: ["Debounce the search input", "Cache recent results in memory", "Add pagination for large result sets"],
+    bonuses: [
+      "Debounce the search input",
+      "Cache recent results in memory",
+      "Add pagination for large result sets",
+    ],
     testingChecklist: [
       "A failed request shows the error state, not a blank screen",
       "An empty result set shows a distinct empty state, not the error state",
@@ -287,8 +323,10 @@ export const projects: ProjectBrief[] = [
     title: "Product Search Dashboard",
     level: "Advanced",
     week: 7,
-    summary: "Combine API data, debounced search, filters, sorting, pagination, modules, and tests.",
-    problem: "This project is the closest thing to a real production feature in the whole course — the exact combination of concerns a junior developer ships in their first few months.",
+    summary:
+      "Combine API data, debounced search, filters, sorting, pagination, modules, and tests.",
+    problem:
+      "This project is the closest thing to a real production feature in the whole course — the exact combination of concerns a junior developer ships in their first few months.",
     userStories: [
       "As a user, I want to search products as I type, without spamming requests, so results feel responsive but efficient.",
       "As a user, I want to filter and sort results, so I can find what I need quickly.",
@@ -312,7 +350,11 @@ export const projects: ProjectBrief[] = [
       "Implement pagination over the filtered/sorted results",
       "Write unit tests for filtering, sorting, and pagination logic",
     ],
-    bonuses: ["Persist filters/sort in the URL query string", "Add a 'no results, try broadening your filters' suggestion", "Virtualize the results grid for very large datasets"],
+    bonuses: [
+      "Persist filters/sort in the URL query string",
+      "Add a 'no results, try broadening your filters' suggestion",
+      "Virtualize the results grid for very large datasets",
+    ],
     testingChecklist: [
       "Filtering and sorting compose correctly together",
       "Pagination shows the correct slice of results for each page",
@@ -334,8 +376,10 @@ export const projects: ProjectBrief[] = [
     title: "JavaScript Productivity Dashboard",
     level: "Advanced",
     week: 8,
-    summary: "Ship tasks, notes, search, an API widget, persistence, analytics, accessibility, and tests — the course capstone.",
-    problem: "The capstone combines every major skill from the course into one deployed, portfolio-ready product: state, DOM, async, testing, accessibility, and shipping.",
+    summary:
+      "Ship tasks, notes, search, an API widget, persistence, analytics, accessibility, and tests — the course capstone.",
+    problem:
+      "The capstone combines every major skill from the course into one deployed, portfolio-ready product: state, DOM, async, testing, accessibility, and shipping.",
     userStories: [
       "As a user, I want a unified dashboard combining tasks, notes, and a live API widget, so everything I need is in one place.",
       "As a user, I want my data to persist reliably across sessions, so I never lose my work.",
@@ -364,7 +408,11 @@ export const projects: ProjectBrief[] = [
       "Milestone 9 — Accessibility: full keyboard support, ARIA labeling, focus management",
       "Milestone 10 — Deploy: production build, deployment, and a real README",
     ],
-    bonuses: ["Add data export/import", "Add light/dark theme with a persisted preference", "Add a command palette (Ctrl/Cmd+K) for quick actions"],
+    bonuses: [
+      "Add data export/import",
+      "Add light/dark theme with a persisted preference",
+      "Add a command palette (Ctrl/Cmd+K) for quick actions",
+    ],
     testingChecklist: [
       "Every module's core logic has at least one automated test",
       "The full add-task → search → complete-task flow works end-to-end",
@@ -390,81 +438,227 @@ export const projects: ProjectBrief[] = [
     slug: "counter",
     title: "Counter",
     level: "Beginner",
-    summary: "Practice events and predictable state updates with the simplest possible interactive component.",
-    problem: "Before building anything complex, every developer needs total confidence in the smallest possible state-plus-event loop.",
-    userStories: ["As a user, I want to increment, decrement, and reset a counter, so I can see immediate, predictable feedback."],
-    planningChecklist: ["Decide the counter's initial value and step size", "Decide whether negative values are allowed"],
+    summary:
+      "Practice events and predictable state updates with the simplest possible interactive component.",
+    problem:
+      "Before building anything complex, every developer needs total confidence in the smallest possible state-plus-event loop.",
+    userStories: [
+      "As a user, I want to increment, decrement, and reset a counter, so I can see immediate, predictable feedback.",
+    ],
+    planningChecklist: [
+      "Decide the counter's initial value and step size",
+      "Decide whether negative values are allowed",
+    ],
     dataStructure: `let count = 0;`,
-    uiRequirements: ["Increment, decrement, and reset buttons", "A clear display of the current value"],
-    milestones: ["Render the initial count", "Wire increment/decrement/reset to button clicks", "Add a configurable step size"],
-    bonuses: ["Add keyboard shortcuts (arrow keys)", "Animate the count change", "Persist the count across reloads"],
-    testingChecklist: ["Incrementing and decrementing update the display correctly", "Reset always returns to the initial value"],
-    completionCriteria: ["All three controls work correctly from a keyboard alone", "No way to reach an unintended state through rapid clicking"],
-    requirements: ["Keyboard-accessible controls", "A single, clear source of truth for the count"],
+    uiRequirements: [
+      "Increment, decrement, and reset buttons",
+      "A clear display of the current value",
+    ],
+    milestones: [
+      "Render the initial count",
+      "Wire increment/decrement/reset to button clicks",
+      "Add a configurable step size",
+    ],
+    bonuses: [
+      "Add keyboard shortcuts (arrow keys)",
+      "Animate the count change",
+      "Persist the count across reloads",
+    ],
+    testingChecklist: [
+      "Incrementing and decrementing update the display correctly",
+      "Reset always returns to the initial value",
+    ],
+    completionCriteria: [
+      "All three controls work correctly from a keyboard alone",
+      "No way to reach an unintended state through rapid clicking",
+    ],
+    requirements: [
+      "Keyboard-accessible controls",
+      "A single, clear source of truth for the count",
+    ],
   },
   {
     slug: "quote-generator",
     title: "Quote Generator",
     level: "Beginner",
-    summary: "Render and rotate a small local data set — a gentle introduction to arrays and DOM updates together.",
-    problem: "Working with a small, local array of data is the simplest realistic rehearsal for the API-backed apps that come later.",
-    userStories: ["As a user, I want to see a random quote, so I get a bit of daily inspiration.", "As a user, I want a button to get a new quote, so I can browse more than one."],
-    planningChecklist: ["Gather at least 15 real quotes with authors", "Decide how to avoid immediately repeating the same quote twice in a row"],
+    summary:
+      "Render and rotate a small local data set — a gentle introduction to arrays and DOM updates together.",
+    problem:
+      "Working with a small, local array of data is the simplest realistic rehearsal for the API-backed apps that come later.",
+    userStories: [
+      "As a user, I want to see a random quote, so I get a bit of daily inspiration.",
+      "As a user, I want a button to get a new quote, so I can browse more than one.",
+    ],
+    planningChecklist: [
+      "Gather at least 15 real quotes with authors",
+      "Decide how to avoid immediately repeating the same quote twice in a row",
+    ],
     dataStructure: `const quotes = [{ text: "...", author: "..." }];`,
-    uiRequirements: ["A quote display area with text and author", "A 'New Quote' button"],
-    milestones: ["Store quotes as an array of objects", "Render a random quote on load", "Wire the button to pick a new random quote", "Avoid immediate repeats"],
-    bonuses: ["Add a 'copy quote' button", "Add category filtering", "Add a share-to-Twitter link"],
-    testingChecklist: ["Every quote in the array can actually be displayed", "The same quote never appears twice in a row"],
-    completionCriteria: ["At least 15 distinct quotes are included", "The button reliably produces a different quote each time"],
-    requirements: ["A reasonably sized, real data set", "No repeated quote on consecutive clicks"],
+    uiRequirements: [
+      "A quote display area with text and author",
+      "A 'New Quote' button",
+    ],
+    milestones: [
+      "Store quotes as an array of objects",
+      "Render a random quote on load",
+      "Wire the button to pick a new random quote",
+      "Avoid immediate repeats",
+    ],
+    bonuses: [
+      "Add a 'copy quote' button",
+      "Add category filtering",
+      "Add a share-to-Twitter link",
+    ],
+    testingChecklist: [
+      "Every quote in the array can actually be displayed",
+      "The same quote never appears twice in a row",
+    ],
+    completionCriteria: [
+      "At least 15 distinct quotes are included",
+      "The button reliably produces a different quote each time",
+    ],
+    requirements: [
+      "A reasonably sized, real data set",
+      "No repeated quote on consecutive clicks",
+    ],
   },
   {
     slug: "quiz-app",
     title: "Quiz App",
     level: "Intermediate",
-    summary: "Build reusable questions, scoring, and review states — a simplified version of this platform's own quiz engine.",
-    problem: "Building your own quiz engine is the best way to deeply understand state machines: idle, in-progress, and reviewed.",
-    userStories: ["As a user, I want to answer multiple-choice questions one at a time, so I can focus on each question.", "As a user, I want to see my final score and review my answers, so I can learn from mistakes."],
-    planningChecklist: ["Define the question data shape", "Decide the scoring rule and passing threshold", "Plan the three states: in-progress, finished, review"],
+    summary:
+      "Build reusable questions, scoring, and review states — a simplified version of this platform's own quiz engine.",
+    problem:
+      "Building your own quiz engine is the best way to deeply understand state machines: idle, in-progress, and reviewed.",
+    userStories: [
+      "As a user, I want to answer multiple-choice questions one at a time, so I can focus on each question.",
+      "As a user, I want to see my final score and review my answers, so I can learn from mistakes.",
+    ],
+    planningChecklist: [
+      "Define the question data shape",
+      "Decide the scoring rule and passing threshold",
+      "Plan the three states: in-progress, finished, review",
+    ],
     dataStructure: `const question = { question: "...", options: ["..."], answer: 0 };`,
-    uiRequirements: ["One question at a time with selectable options", "A progress indicator", "A results screen with a review of each answer"],
-    milestones: ["Render questions one at a time from an array", "Track the user's answers", "Calculate and display the final score", "Build a review screen showing correct vs. chosen answers"],
-    bonuses: ["Add a timer per question", "Add categories/difficulty selection", "Persist best score across sessions"],
-    testingChecklist: ["Scoring is correct for an all-correct and an all-wrong run", "The review screen accurately reflects what was answered"],
-    completionCriteria: ["Score calculation is covered by at least one automated test", "The review screen never shows incorrect information about a past answer"],
-    requirements: ["Accurate, tested scoring logic", "A clear review state distinct from the in-progress state"],
+    uiRequirements: [
+      "One question at a time with selectable options",
+      "A progress indicator",
+      "A results screen with a review of each answer",
+    ],
+    milestones: [
+      "Render questions one at a time from an array",
+      "Track the user's answers",
+      "Calculate and display the final score",
+      "Build a review screen showing correct vs. chosen answers",
+    ],
+    bonuses: [
+      "Add a timer per question",
+      "Add categories/difficulty selection",
+      "Persist best score across sessions",
+    ],
+    testingChecklist: [
+      "Scoring is correct for an all-correct and an all-wrong run",
+      "The review screen accurately reflects what was answered",
+    ],
+    completionCriteria: [
+      "Score calculation is covered by at least one automated test",
+      "The review screen never shows incorrect information about a past answer",
+    ],
+    requirements: [
+      "Accurate, tested scoring logic",
+      "A clear review state distinct from the in-progress state",
+    ],
   },
   {
     slug: "notes-app",
     title: "Notes App",
     level: "Intermediate",
-    summary: "Create searchable notes with local persistence — a smaller sibling of the Task Manager project.",
-    problem: "Notes apps exercise CRUD, search, and persistence together without the added complexity of filtering by status.",
-    userStories: ["As a user, I want to create, edit, and delete notes, so I can capture my thoughts.", "As a user, I want to search my notes by content, so I can find one quickly."],
-    planningChecklist: ["Define the note data shape (id, title, body, updatedAt)", "Decide the search matching strategy (title only, or title + body)"],
+    summary:
+      "Create searchable notes with local persistence — a smaller sibling of the Task Manager project.",
+    problem:
+      "Notes apps exercise CRUD, search, and persistence together without the added complexity of filtering by status.",
+    userStories: [
+      "As a user, I want to create, edit, and delete notes, so I can capture my thoughts.",
+      "As a user, I want to search my notes by content, so I can find one quickly.",
+    ],
+    planningChecklist: [
+      "Define the note data shape (id, title, body, updatedAt)",
+      "Decide the search matching strategy (title only, or title + body)",
+    ],
     dataStructure: `const note = { id: "n1", title: "", body: "", updatedAt: Date.now() };`,
-    uiRequirements: ["A list of notes with a search box", "A note editor for creating and updating"],
-    milestones: ["Render notes from an array", "Implement create/edit/delete", "Implement search filtering", "Persist notes to localStorage"],
-    bonuses: ["Add markdown rendering", "Add tags/categories", "Add a trash/undo-delete state"],
-    testingChecklist: ["Search correctly matches partial, case-insensitive text", "Deleting a note removes exactly one note"],
-    completionCriteria: ["Notes persist correctly across a reload", "Search updates results as the user types with no noticeable lag"],
-    requirements: ["Reliable localStorage persistence", "Case-insensitive search"],
+    uiRequirements: [
+      "A list of notes with a search box",
+      "A note editor for creating and updating",
+    ],
+    milestones: [
+      "Render notes from an array",
+      "Implement create/edit/delete",
+      "Implement search filtering",
+      "Persist notes to localStorage",
+    ],
+    bonuses: [
+      "Add markdown rendering",
+      "Add tags/categories",
+      "Add a trash/undo-delete state",
+    ],
+    testingChecklist: [
+      "Search correctly matches partial, case-insensitive text",
+      "Deleting a note removes exactly one note",
+    ],
+    completionCriteria: [
+      "Notes persist correctly across a reload",
+      "Search updates results as the user types with no noticeable lag",
+    ],
+    requirements: [
+      "Reliable localStorage persistence",
+      "Case-insensitive search",
+    ],
   },
   {
     slug: "weather-dashboard",
     title: "Weather Dashboard",
     level: "Intermediate",
-    summary: "Handle real API loading, empty, and error states with a focused, single-purpose widget.",
-    problem: "A weather widget is a small, self-contained way to practice the request-state modeling used throughout API Explorer and the capstone.",
-    userStories: ["As a user, I want to search for a city and see its current weather, so I can plan my day.", "As a user, I want a clear message if the city isn't found, so I'm not left confused."],
-    planningChecklist: ["Choose a weather API with a free tier for local development", "List the exact fields the UI needs from the response"],
+    summary:
+      "Handle real API loading, empty, and error states with a focused, single-purpose widget.",
+    problem:
+      "A weather widget is a small, self-contained way to practice the request-state modeling used throughout API Explorer and the capstone.",
+    userStories: [
+      "As a user, I want to search for a city and see its current weather, so I can plan my day.",
+      "As a user, I want a clear message if the city isn't found, so I'm not left confused.",
+    ],
+    planningChecklist: [
+      "Choose a weather API with a free tier for local development",
+      "List the exact fields the UI needs from the response",
+    ],
     dataStructure: `const weatherState = { status: "idle", city: "", data: null, error: null };`,
-    uiRequirements: ["A city search input", "A weather summary card", "Distinct loading, error, and not-found states"],
-    milestones: ["Wire a basic fetch call for a hardcoded city", "Add a search input for arbitrary cities", "Handle not-found and network-error cases distinctly", "Add a loading indicator"],
-    bonuses: ["Add a 5-day forecast", "Remember the last searched city", "Add unit toggling (°C/°F)"],
-    testingChecklist: ["A misspelled city shows a clear not-found message, not a crash", "A network failure shows a retry-capable error state"],
-    completionCriteria: ["Every one of loading/success/error/not-found has been manually verified", "response.ok is checked before parsing JSON"],
-    requirements: ["Explicit handling of not-found vs. network-error cases", "No API keys committed to source control"],
+    uiRequirements: [
+      "A city search input",
+      "A weather summary card",
+      "Distinct loading, error, and not-found states",
+    ],
+    milestones: [
+      "Wire a basic fetch call for a hardcoded city",
+      "Add a search input for arbitrary cities",
+      "Handle not-found and network-error cases distinctly",
+      "Add a loading indicator",
+    ],
+    bonuses: [
+      "Add a 5-day forecast",
+      "Remember the last searched city",
+      "Add unit toggling (°C/°F)",
+    ],
+    testingChecklist: [
+      "A misspelled city shows a clear not-found message, not a crash",
+      "A network failure shows a retry-capable error state",
+    ],
+    completionCriteria: [
+      "Every one of loading/success/error/not-found has been manually verified",
+      "response.ok is checked before parsing JSON",
+    ],
+    requirements: [
+      "Explicit handling of not-found vs. network-error cases",
+      "No API keys committed to source control",
+    ],
   },
 ];
 

@@ -199,7 +199,11 @@ function runInWorker(
       clearTimeout(timer);
       worker.terminate();
       URL.revokeObjectURL(url);
-      resolve({ console: [{ type: "error", text: "The sandbox crashed. Check your syntax." }] });
+      resolve({
+        console: [
+          { type: "error", text: "The sandbox crashed. Check your syntax." },
+        ],
+      });
     };
     worker.postMessage({ code, tests, mode });
   });
@@ -215,7 +219,11 @@ export function CodeRunner({
 }: {
   initialCode: string;
   tests?: TestCase[];
-  onTestResult?: (outcome: { passed: number; total: number; results: TestOutcome[] }) => void;
+  onTestResult?: (outcome: {
+    passed: number;
+    total: number;
+    results: TestOutcome[];
+  }) => void;
   title?: string;
 }) {
   const [code, setCode] = useState(initialCode);
@@ -226,8 +234,6 @@ export function CodeRunner({
   const [tab, setTab] = useState<Tab>("code");
   const area = useRef<HTMLTextAreaElement>(null);
   const hasTests = Boolean(tests && tests.length > 0);
-
-  useEffect(() => setCode(initialCode), [initialCode]);
 
   const run = useCallback(
     async (mode: "run" | "test") => {
@@ -241,7 +247,11 @@ export function CodeRunner({
         setTab("tests");
         if (outcome.tests) {
           const passed = outcome.tests.filter((t) => t.passed).length;
-          onTestResult?.({ passed, total: outcome.tests.length, results: outcome.tests });
+          onTestResult?.({
+            passed,
+            total: outcome.tests.length,
+            results: outcome.tests,
+          });
         }
       } else {
         setTab("console");
@@ -309,17 +319,21 @@ export function CodeRunner({
         )}
       </div>
       <div className="flex border-b border-white/10 text-xs font-semibold uppercase tracking-wider text-slate-400 lg:hidden">
-        {(["code", "console", ...(hasTests ? (["tests"] as const) : [])] as Tab[]).map(
-          (t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`flex-1 border-b-2 px-3 py-2.5 ${tab === t ? "border-[var(--accent)] text-white" : "border-transparent"}`}
-            >
-              {t === "code" ? "Code" : t === "console" ? "Output" : "Tests"}
-            </button>
-          ),
-        )}
+        {(
+          [
+            "code",
+            "console",
+            ...(hasTests ? (["tests"] as const) : []),
+          ] as Tab[]
+        ).map((t) => (
+          <button
+            key={t}
+            onClick={() => setTab(t)}
+            className={`flex-1 border-b-2 px-3 py-2.5 ${tab === t ? "border-[var(--accent)] text-white" : "border-transparent"}`}
+          >
+            {t === "code" ? "Code" : t === "console" ? "Output" : "Tests"}
+          </button>
+        ))}
       </div>
       <div className="grid lg:grid-cols-2">
         <textarea
@@ -330,7 +344,9 @@ export function CodeRunner({
           onChange={(e) => setCode(e.target.value)}
           className={`min-h-72 resize-y border-0 bg-[#0d100d] p-5 font-mono text-[13px] leading-6 text-slate-100 outline-none lg:border-r lg:border-white/10 ${tab === "code" ? "block" : "hidden"} lg:block`}
         />
-        <div className={`min-h-40 bg-black/40 ${tab === "code" ? "hidden" : "block"} lg:block`}>
+        <div
+          className={`min-h-40 bg-black/40 ${tab === "code" ? "hidden" : "block"} lg:block`}
+        >
           <div
             className={`${hasTests && tab !== "console" ? "hidden lg:block" : ""}`}
           >
@@ -399,18 +415,26 @@ export function CodeRunner({
                         ) : (
                           <XCircle size={15} className="shrink-0" />
                         )}
-                        <span>{t.hidden ? `Hidden test: ${t.description}` : t.description}</span>
+                        <span>
+                          {t.hidden
+                            ? `Hidden test: ${t.description}`
+                            : t.description}
+                        </span>
                       </div>
                       {!t.passed && (t.expected !== undefined || t.error) && (
                         <div className="mt-2 space-y-1 pl-6 font-mono text-xs text-slate-300">
                           {t.expected !== undefined ? (
                             <>
                               <p>
-                                <span className="text-slate-500">Expected: </span>
+                                <span className="text-slate-500">
+                                  Expected:{" "}
+                                </span>
                                 {t.expected}
                               </p>
                               <p>
-                                <span className="text-slate-500">Received: </span>
+                                <span className="text-slate-500">
+                                  Received:{" "}
+                                </span>
                                 {t.received}
                               </p>
                             </>

@@ -60,7 +60,9 @@ export function QuizEngine({
           {weakEntries.map(([skill, value]) => (
             <div key={skill}>
               <div className="mb-1 flex justify-between text-sm">
-                <span>{SKILL_LABELS[skill as keyof typeof SKILL_LABELS] ?? skill}</span>
+                <span>
+                  {SKILL_LABELS[skill as keyof typeof SKILL_LABELS] ?? skill}
+                </span>
                 <span className="text-[var(--muted)]">{value}%</span>
               </div>
               <div className="h-2 overflow-hidden rounded-full bg-[var(--line)]">

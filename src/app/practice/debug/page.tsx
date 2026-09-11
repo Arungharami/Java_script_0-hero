@@ -36,7 +36,9 @@ export default function DebugPage() {
     [category],
   );
   const exercise = debugLab.find((x) => x.slug === slug) ?? debugLab[0];
-  const solvedCount = debugLab.filter((x) => progress.debugProgress[x.slug]?.completed).length;
+  const solvedCount = debugLab.filter(
+    (x) => progress.debugProgress[x.slug]?.completed,
+  ).length;
 
   return (
     <AppShell>
@@ -76,7 +78,10 @@ export default function DebugPage() {
                     >
                       <span className="flex-1">{x.title}</span>
                       {hydrated && solved && (
-                        <CheckCircle2 size={15} className="shrink-0 text-green-600" />
+                        <CheckCircle2
+                          size={15}
+                          className="shrink-0 text-green-600"
+                        />
                       )}
                     </button>
                   </li>

@@ -7,17 +7,32 @@ export const modern: ChallengeSeed[] = [
     category: "Modern JavaScript",
     difficulty: "easy",
     skills: ["objects", "arrays"],
-    description: "Write summarizeUser(user) that destructures name and a defaulted role ('learner') and returns a summary string.",
+    description:
+      "Write summarizeUser(user) that destructures name and a defaulted role ('learner') and returns a summary string.",
     examples: ['summarizeUser({ name: "Ada" }) → "Ada (learner)"'],
     starterCode: `function summarizeUser(user) {\n  // your code — destructure name and role (default "learner")\n}`,
     tests: [
-      { description: "uses the default role when missing", assertion: 'expect(summarizeUser({ name: "Ada" })).toBe("Ada (learner)")' },
-      { description: "uses a provided role", assertion: 'expect(summarizeUser({ name: "Bo", role: "admin" })).toBe("Bo (admin)")' },
-      { hidden: true, description: "works with extra unrelated properties present", assertion: 'expect(summarizeUser({ name: "Cy", age: 30 })).toBe("Cy (learner)")' },
+      {
+        description: "uses the default role when missing",
+        assertion:
+          'expect(summarizeUser({ name: "Ada" })).toBe("Ada (learner)")',
+      },
+      {
+        description: "uses a provided role",
+        assertion:
+          'expect(summarizeUser({ name: "Bo", role: "admin" })).toBe("Bo (admin)")',
+      },
+      {
+        hidden: true,
+        description: "works with extra unrelated properties present",
+        assertion:
+          'expect(summarizeUser({ name: "Cy", age: 30 })).toBe("Cy (learner)")',
+      },
     ],
     hints: ['Destructure with `const { name, role = "learner" } = user;`'],
     solution: `function summarizeUser(user) {\n  const { name, role = "learner" } = user;\n  return \`${"${name}"} (${"${role}"})\`;\n}`,
-    explanation: "Destructuring with a default is more concise than manually checking user.role ?? 'learner'.",
+    explanation:
+      "Destructuring with a default is more concise than manually checking user.role ?? 'learner'.",
     relatedConcepts: ["Destructuring"],
   },
   {
@@ -26,17 +41,31 @@ export const modern: ChallengeSeed[] = [
     category: "Modern JavaScript",
     difficulty: "easy",
     skills: ["functions", "arrays"],
-    description: "Write sum(...numbers) using rest parameters to add any number of arguments.",
+    description:
+      "Write sum(...numbers) using rest parameters to add any number of arguments.",
     examples: ["sum(1, 2, 3) → 6", "sum() → 0"],
     starterCode: `function sum(...numbers) {\n  // your code\n}`,
     tests: [
-      { description: "sums three arguments", assertion: "expect(sum(1, 2, 3)).toBe(6)" },
-      { description: "returns 0 with no arguments", assertion: "expect(sum()).toBe(0)" },
-      { hidden: true, description: "sums many arguments", assertion: "expect(sum(1, 1, 1, 1, 1)).toBe(5)" },
+      {
+        description: "sums three arguments",
+        assertion: "expect(sum(1, 2, 3)).toBe(6)",
+      },
+      {
+        description: "returns 0 with no arguments",
+        assertion: "expect(sum()).toBe(0)",
+      },
+      {
+        hidden: true,
+        description: "sums many arguments",
+        assertion: "expect(sum(1, 1, 1, 1, 1)).toBe(5)",
+      },
     ],
-    hints: ["Rest parameters collect every argument into a real array you can reduce over."],
+    hints: [
+      "Rest parameters collect every argument into a real array you can reduce over.",
+    ],
     solution: `function sum(...numbers) {\n  return numbers.reduce((total, n) => total + n, 0);\n}`,
-    explanation: "Rest parameters replace the old, awkward `arguments` object with a genuine array.",
+    explanation:
+      "Rest parameters replace the old, awkward `arguments` object with a genuine array.",
     relatedConcepts: ["Spread, rest & immutability"],
   },
   {
@@ -45,17 +74,35 @@ export const modern: ChallengeSeed[] = [
     category: "Modern JavaScript",
     difficulty: "easy",
     skills: ["objects"],
-    description: "Write getCity(user) that safely returns user.address.city, or undefined if address is missing, using optional chaining.",
-    examples: ['getCity({ address: { city: "Delhi" } }) → "Delhi"', "getCity({}) → undefined"],
+    description:
+      "Write getCity(user) that safely returns user.address.city, or undefined if address is missing, using optional chaining.",
+    examples: [
+      'getCity({ address: { city: "Delhi" } }) → "Delhi"',
+      "getCity({}) → undefined",
+    ],
     starterCode: `function getCity(user) {\n  // your code\n}`,
     tests: [
-      { description: "reads an existing nested city", assertion: 'expect(getCity({ address: { city: "Delhi" } })).toBe("Delhi")' },
-      { description: "returns undefined when address is missing", assertion: "expect(getCity({})).toBe(undefined)" },
-      { hidden: true, description: "returns undefined for a null user", assertion: "expect(getCity(null)).toBe(undefined)" },
+      {
+        description: "reads an existing nested city",
+        assertion:
+          'expect(getCity({ address: { city: "Delhi" } })).toBe("Delhi")',
+      },
+      {
+        description: "returns undefined when address is missing",
+        assertion: "expect(getCity({})).toBe(undefined)",
+      },
+      {
+        hidden: true,
+        description: "returns undefined for a null user",
+        assertion: "expect(getCity(null)).toBe(undefined)",
+      },
     ],
-    hints: ["Chain ?. after each level that might not exist: user?.address?.city."],
+    hints: [
+      "Chain ?. after each level that might not exist: user?.address?.city.",
+    ],
     solution: `function getCity(user) {\n  return user?.address?.city;\n}`,
-    explanation: "Each ?. short-circuits to undefined the moment something in the chain is null or undefined, instead of throwing.",
+    explanation:
+      "Each ?. short-circuits to undefined the moment something in the chain is null or undefined, instead of throwing.",
     relatedConcepts: ["Nested data", "Deep Property Lookup"],
   },
   {
@@ -64,17 +111,34 @@ export const modern: ChallengeSeed[] = [
     category: "Modern JavaScript",
     difficulty: "medium",
     skills: ["scope", "functions"],
-    description: "Write makeCounter(start) returning { increment, decrement, value } that all share one private counter.",
+    description:
+      "Write makeCounter(start) returning { increment, decrement, value } that all share one private counter.",
     examples: ["const c = makeCounter(5); c.increment(); c.value() → 6"],
     starterCode: `function makeCounter(start) {\n  // your code\n}`,
     tests: [
-      { description: "increments from a starting value", assertion: "const c = makeCounter(5); c.increment(); expect(c.value()).toBe(6)" },
-      { description: "decrements correctly", assertion: "const c = makeCounter(5); c.decrement(); expect(c.value()).toBe(4)" },
-      { hidden: true, description: "keeps two counters independent", assertion: "const a = makeCounter(0); const b = makeCounter(0); a.increment(); expect(b.value()).toBe(0)" },
+      {
+        description: "increments from a starting value",
+        assertion:
+          "const c = makeCounter(5); c.increment(); expect(c.value()).toBe(6)",
+      },
+      {
+        description: "decrements correctly",
+        assertion:
+          "const c = makeCounter(5); c.decrement(); expect(c.value()).toBe(4)",
+      },
+      {
+        hidden: true,
+        description: "keeps two counters independent",
+        assertion:
+          "const a = makeCounter(0); const b = makeCounter(0); a.increment(); expect(b.value()).toBe(0)",
+      },
     ],
-    hints: ["Keep `start` as a variable in makeCounter's scope; all three returned functions close over it."],
+    hints: [
+      "Keep `start` as a variable in makeCounter's scope; all three returned functions close over it.",
+    ],
     solution: `function makeCounter(start) {\n  let count = start;\n  return {\n    increment() { count++; },\n    decrement() { count--; },\n    value() { return count; },\n  };\n}`,
-    explanation: "Each call to makeCounter creates a brand-new closure over its own `count`, so separate counters never interfere.",
+    explanation:
+      "Each call to makeCounter creates a brand-new closure over its own `count`, so separate counters never interfere.",
     relatedConcepts: ["Closures"],
   },
   {
@@ -83,17 +147,36 @@ export const modern: ChallengeSeed[] = [
     category: "Modern JavaScript",
     difficulty: "hard",
     skills: ["functions", "algorithms"],
-    description: "Cache a pure function's results by its arguments so repeated calls avoid repeated work.",
-    examples: ["const m = memoize(fn); m(2); m(2); // fn only actually runs once"],
+    description:
+      "Cache a pure function's results by its arguments so repeated calls avoid repeated work.",
+    examples: [
+      "const m = memoize(fn); m(2); m(2); // fn only actually runs once",
+    ],
     starterCode: `function memoize(fn) {\n  // your code\n}`,
     tests: [
-      { description: "caches a repeated call", assertion: "let calls = 0; const twice = memoize((n) => { calls++; return n * 2; }); twice(2); twice(2); expect(calls).toBe(1)" },
-      { description: "still returns the correct value", assertion: "const square = memoize((n) => n * n); expect(square(4)).toBe(16)" },
-      { hidden: true, description: "caches different arguments separately", assertion: "let calls = 0; const id = memoize((n) => { calls++; return n; }); id(1); id(2); id(1); expect(calls).toBe(2)" },
+      {
+        description: "caches a repeated call",
+        assertion:
+          "let calls = 0; const twice = memoize((n) => { calls++; return n * 2; }); twice(2); twice(2); expect(calls).toBe(1)",
+      },
+      {
+        description: "still returns the correct value",
+        assertion:
+          "const square = memoize((n) => n * n); expect(square(4)).toBe(16)",
+      },
+      {
+        hidden: true,
+        description: "caches different arguments separately",
+        assertion:
+          "let calls = 0; const id = memoize((n) => { calls++; return n; }); id(1); id(2); id(1); expect(calls).toBe(2)",
+      },
     ],
-    hints: ["Use a Map keyed by JSON.stringify(args) to store results the first time each argument combination is seen."],
+    hints: [
+      "Use a Map keyed by JSON.stringify(args) to store results the first time each argument combination is seen.",
+    ],
     solution: `function memoize(fn) {\n  const cache = new Map();\n  return (...args) => {\n    const key = JSON.stringify(args);\n    if (!cache.has(key)) cache.set(key, fn(...args));\n    return cache.get(key);\n  };\n}`,
-    explanation: "The cache key must capture every argument, not just the first, so JSON.stringify(args) is used rather than a single value.",
+    explanation:
+      "The cache key must capture every argument, not just the first, so JSON.stringify(args) is used rather than a single value.",
     relatedConcepts: ["Memoization & performance", "Closures"],
   },
   {
@@ -102,17 +185,35 @@ export const modern: ChallengeSeed[] = [
     category: "Modern JavaScript",
     difficulty: "hard",
     skills: ["functions", "async"],
-    description: "Return a debounced wrapper that delays calling fn until calls have stopped for `delay` ms.",
-    examples: ["const d = debounce(fn, 200); // fn only runs once typing pauses for 200ms"],
+    description:
+      "Return a debounced wrapper that delays calling fn until calls have stopped for `delay` ms.",
+    examples: [
+      "const d = debounce(fn, 200); // fn only runs once typing pauses for 200ms",
+    ],
     starterCode: `function debounce(fn, delay) {\n  // your code\n}`,
     tests: [
-      { description: "returns a function", assertion: 'expect(typeof debounce(() => {}, 10)).toBe("function")' },
-      { description: "only calls fn once after rapid calls settle", assertion: "await expectAsync(new Promise((resolve) => { let calls = 0; const d = debounce(() => calls++, 20); d(); d(); d(); setTimeout(() => resolve(calls), 60); })).toBe(1)" },
-      { hidden: true, description: "forwards the latest arguments", assertion: "await expectAsync(new Promise((resolve) => { let last; const d = debounce((v) => { last = v; }, 10); d(1); d(2); setTimeout(() => resolve(last), 40); })).toBe(2)" },
+      {
+        description: "returns a function",
+        assertion: 'expect(typeof debounce(() => {}, 10)).toBe("function")',
+      },
+      {
+        description: "only calls fn once after rapid calls settle",
+        assertion:
+          "await expectAsync(new Promise((resolve) => { let calls = 0; const d = debounce(() => calls++, 20); d(); d(); d(); setTimeout(() => resolve(calls), 60); })).toBe(1)",
+      },
+      {
+        hidden: true,
+        description: "forwards the latest arguments",
+        assertion:
+          "await expectAsync(new Promise((resolve) => { let last; const d = debounce((v) => { last = v; }, 10); d(1); d(2); setTimeout(() => resolve(last), 40); })).toBe(2)",
+      },
     ],
-    hints: ["Clear any pending setTimeout on every call, then schedule a new one for `delay` ms later."],
+    hints: [
+      "Clear any pending setTimeout on every call, then schedule a new one for `delay` ms later.",
+    ],
     solution: `function debounce(fn, delay) {\n  let timer;\n  return (...args) => {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn(...args), delay);\n  };\n}`,
-    explanation: "Clearing the previous timer on every call is what collapses a burst of calls into a single trailing execution.",
+    explanation:
+      "Clearing the previous timer on every call is what collapses a burst of calls into a single trailing execution.",
     relatedConcepts: ["Debounce & throttle", "Closures", "Timers"],
   },
   {
@@ -121,18 +222,40 @@ export const modern: ChallengeSeed[] = [
     category: "Modern JavaScript",
     difficulty: "hard",
     skills: ["functions", "async"],
-    description: "Return a throttled wrapper that calls fn at most once per `interval` ms, running immediately on the first call.",
-    examples: ["const t = throttle(fn, 100); // fn runs at most once per 100ms"],
+    description:
+      "Return a throttled wrapper that calls fn at most once per `interval` ms, running immediately on the first call.",
+    examples: [
+      "const t = throttle(fn, 100); // fn runs at most once per 100ms",
+    ],
     starterCode: `function throttle(fn, interval) {\n  // your code\n}`,
     tests: [
-      { description: "returns a function", assertion: 'expect(typeof throttle(() => {}, 10)).toBe("function")' },
-      { description: "runs immediately on the first call", assertion: "let calls = 0; const t = throttle(() => calls++, 100); t(); expect(calls).toBe(1)" },
-      { description: "ignores calls within the interval", assertion: "let calls = 0; const t = throttle(() => calls++, 1000); t(); t(); t(); expect(calls).toBe(1)" },
-      { hidden: true, description: "allows another call after the interval passes", assertion: "await expectAsync(new Promise((resolve) => { let calls = 0; const t = throttle(() => calls++, 20); t(); setTimeout(() => { t(); resolve(calls); }, 40); })).toBe(2)" },
+      {
+        description: "returns a function",
+        assertion: 'expect(typeof throttle(() => {}, 10)).toBe("function")',
+      },
+      {
+        description: "runs immediately on the first call",
+        assertion:
+          "let calls = 0; const t = throttle(() => calls++, 100); t(); expect(calls).toBe(1)",
+      },
+      {
+        description: "ignores calls within the interval",
+        assertion:
+          "let calls = 0; const t = throttle(() => calls++, 1000); t(); t(); t(); expect(calls).toBe(1)",
+      },
+      {
+        hidden: true,
+        description: "allows another call after the interval passes",
+        assertion:
+          "await expectAsync(new Promise((resolve) => { let calls = 0; const t = throttle(() => calls++, 20); t(); setTimeout(() => { t(); resolve(calls); }, 40); })).toBe(2)",
+      },
     ],
-    hints: ["Track the last-run timestamp with Date.now(); only invoke fn if enough time has elapsed since then."],
+    hints: [
+      "Track the last-run timestamp with Date.now(); only invoke fn if enough time has elapsed since then.",
+    ],
     solution: `function throttle(fn, interval) {\n  let last = 0;\n  return (...args) => {\n    const now = Date.now();\n    if (now - last >= interval) {\n      last = now;\n      fn(...args);\n    }\n  };\n}`,
-    explanation: "Unlike debounce, throttle guarantees at least one execution per interval instead of waiting for a pause.",
+    explanation:
+      "Unlike debounce, throttle guarantees at least one execution per interval instead of waiting for a pause.",
     relatedConcepts: ["Debounce & throttle", "Implement Debounce"],
   },
 ];

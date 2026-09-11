@@ -23,8 +23,16 @@ export interface ChallengeSeed {
   relatedConcepts: string[];
 }
 
-const XP: Record<ChallengeDifficulty, number> = { easy: 50, medium: 75, hard: 120 };
-const MINUTES: Record<ChallengeDifficulty, number> = { easy: 10, medium: 18, hard: 30 };
+const XP: Record<ChallengeDifficulty, number> = {
+  easy: 50,
+  medium: 75,
+  hard: 120,
+};
+const MINUTES: Record<ChallengeDifficulty, number> = {
+  easy: 10,
+  medium: 18,
+  hard: 30,
+};
 const DEFAULT_CONSTRAINTS = [
   "Keep the required function name so the tests can find it",
   "Return a value instead of only logging it",

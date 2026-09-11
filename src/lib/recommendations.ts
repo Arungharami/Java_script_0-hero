@@ -1,4 +1,9 @@
-import type { Challenge, CourseWeek, Lesson, LearningProgress } from "@/types/learning";
+import type {
+  Challenge,
+  CourseWeek,
+  Lesson,
+  LearningProgress,
+} from "@/types/learning";
 import type { SkillMastery } from "./mastery";
 
 export interface Recommendation {

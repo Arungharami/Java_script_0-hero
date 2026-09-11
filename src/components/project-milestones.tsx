@@ -22,7 +22,10 @@ export function ProjectMilestones({
         <span className="code text-sm">{hydrated ? pct : 0}%</span>
       </div>
       <div className="mb-5 h-2 overflow-hidden rounded-full bg-[var(--line)]">
-        <div className="h-full bg-[var(--accent)]" style={{ width: `${hydrated ? pct : 0}%` }} />
+        <div
+          className="h-full bg-[var(--accent)]"
+          style={{ width: `${hydrated ? pct : 0}%` }}
+        />
       </div>
       <div className="grid gap-3">
         {milestones.map((milestone, index) => {
@@ -37,9 +40,19 @@ export function ProjectMilestones({
               <span
                 className={`grid size-7 shrink-0 place-items-center rounded-full border ${checked ? "border-green-600 bg-green-600 text-white" : "border-[var(--line)]"}`}
               >
-                {checked ? <Check size={14} /> : <span className="code text-xs">{String(index + 1).padStart(2, "0")}</span>}
+                {checked ? (
+                  <Check size={14} />
+                ) : (
+                  <span className="code text-xs">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                )}
               </span>
-              <span className={checked ? "text-[var(--muted)] line-through" : ""}>{milestone}</span>
+              <span
+                className={checked ? "text-[var(--muted)] line-through" : ""}
+              >
+                {milestone}
+              </span>
             </button>
           );
         })}

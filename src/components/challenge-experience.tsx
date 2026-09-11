@@ -20,8 +20,14 @@ export function ChallengeExperience({
   const passed = record?.completed ?? false;
 
   const onTestResult = useCallback(
-    ({ passed: p, total }: { passed: number; total: number; results: TestOutcome[] }) =>
-      recordChallenge(challenge.slug, p, total),
+    ({
+      passed: p,
+      total,
+    }: {
+      passed: number;
+      total: number;
+      results: TestOutcome[];
+    }) => recordChallenge(challenge.slug, p, total),
     [recordChallenge, challenge.slug],
   );
 
@@ -67,13 +73,18 @@ export function ChallengeExperience({
       <div className="mt-5 flex flex-wrap gap-3">
         <button
           className="button text-sm"
-          onClick={() => setHintsShown((n) => Math.min(challenge.hints.length, n + 1))}
+          onClick={() =>
+            setHintsShown((n) => Math.min(challenge.hints.length, n + 1))
+          }
           disabled={hintsShown >= challenge.hints.length}
         >
           <Lightbulb size={16} />
           {hintsShown === 0 ? "Show hint" : "Show another hint"}
         </button>
-        <button className="button text-sm" onClick={() => setSolution(!solution)}>
+        <button
+          className="button text-sm"
+          onClick={() => setSolution(!solution)}
+        >
           <Sparkles size={16} />
           {solution ? "Hide solution" : "Reveal solution"}
         </button>
@@ -82,7 +93,8 @@ export function ChallengeExperience({
         <div className="mt-4 space-y-3">
           {challenge.hints.slice(0, hintsShown).map((hint, i) => (
             <div key={i} className="card p-4 text-sm text-[var(--muted)]">
-              <strong className="text-[var(--ink)]">Hint {i + 1}.</strong> {hint}
+              <strong className="text-[var(--ink)]">Hint {i + 1}.</strong>{" "}
+              {hint}
             </div>
           ))}
         </div>
@@ -92,7 +104,9 @@ export function ChallengeExperience({
           <pre className="code overflow-x-auto rounded-xl bg-black p-5 text-sm text-white">
             <code>{challenge.solution}</code>
           </pre>
-          <p className="mt-3 text-sm text-[var(--muted)]">{challenge.explanation}</p>
+          <p className="mt-3 text-sm text-[var(--muted)]">
+            {challenge.explanation}
+          </p>
           {challenge.relatedConcepts.length > 0 && (
             <p className="mt-3 text-sm">
               <span className="text-[var(--muted)]">Related concepts: </span>

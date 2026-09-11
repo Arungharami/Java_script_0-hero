@@ -21,11 +21,17 @@ const CATEGORIES: (InterviewCategory | "All")[] = [
   "Performance",
   "Algorithms",
 ];
-const DIFFICULTIES: (ChallengeDifficulty | "All")[] = ["All", "easy", "medium", "hard"];
+const DIFFICULTIES: (ChallengeDifficulty | "All")[] = [
+  "All",
+  "easy",
+  "medium",
+  "hard",
+];
 
 export default function InterviewPage() {
   const [category, setCategory] = useState<(typeof CATEGORIES)[number]>("All");
-  const [difficulty, setDifficulty] = useState<(typeof DIFFICULTIES)[number]>("All");
+  const [difficulty, setDifficulty] =
+    useState<(typeof DIFFICULTIES)[number]>("All");
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState<string | null>(null);
 
@@ -34,7 +40,11 @@ export default function InterviewPage() {
     return interviewQuestions.filter((item) => {
       if (category !== "All" && item.category !== category) return false;
       if (difficulty !== "All" && item.difficulty !== difficulty) return false;
-      if (q && !`${item.question} ${item.shortAnswer}`.toLowerCase().includes(q)) return false;
+      if (
+        q &&
+        !`${item.question} ${item.shortAnswer}`.toLowerCase().includes(q)
+      )
+        return false;
       return true;
     });
   }, [category, difficulty, query]);
@@ -47,9 +57,9 @@ export default function InterviewPage() {
           Prepare for the questions that actually get asked.
         </h1>
         <p className="mt-5 max-w-2xl text-lg text-[var(--muted)]">
-          {interviewQuestions.length} questions across 13 categories, each
-          with a short answer, a deep explanation, a code example, a common
-          wrong answer, an interview trap, and a follow-up question.
+          {interviewQuestions.length} questions across 13 categories, each with
+          a short answer, a deep explanation, a code example, a common wrong
+          answer, an interview trap, and a follow-up question.
         </p>
         <div className="mt-8 flex items-center gap-3 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4">
           <Search size={16} className="text-[var(--muted)]" />
@@ -97,9 +107,13 @@ export default function InterviewPage() {
                   <span className="rounded-full border border-[var(--line)] px-2.5 py-0.5 text-xs font-medium text-[var(--muted)]">
                     {item.category}
                   </span>
-                  <span className="capitalize text-xs text-[var(--muted)]">{item.difficulty}</span>
+                  <span className="capitalize text-xs text-[var(--muted)]">
+                    {item.difficulty}
+                  </span>
                   <strong className="ml-1 flex-1">{item.question}</strong>
-                  <span className="text-[var(--muted)]">{expanded ? "−" : "+"}</span>
+                  <span className="text-[var(--muted)]">
+                    {expanded ? "−" : "+"}
+                  </span>
                 </button>
                 {expanded && (
                   <div className="space-y-5 border-t border-[var(--line)] p-5 text-sm leading-6">
@@ -109,7 +123,9 @@ export default function InterviewPage() {
                     </div>
                     <div>
                       <p className="eyebrow">Deep explanation</p>
-                      <p className="mt-2 text-[var(--muted)]">{item.deepExplanation}</p>
+                      <p className="mt-2 text-[var(--muted)]">
+                        {item.deepExplanation}
+                      </p>
                     </div>
                     <div>
                       <p className="eyebrow">Code example</p>
@@ -118,16 +134,24 @@ export default function InterviewPage() {
                       </pre>
                     </div>
                     <div className="rounded-xl bg-red-500/5 p-4">
-                      <p className="eyebrow text-red-600">Common wrong answer</p>
-                      <p className="mt-2 text-[var(--muted)]">{item.commonWrongAnswer}</p>
+                      <p className="eyebrow text-red-600">
+                        Common wrong answer
+                      </p>
+                      <p className="mt-2 text-[var(--muted)]">
+                        {item.commonWrongAnswer}
+                      </p>
                     </div>
                     <div className="rounded-xl bg-amber-500/5 p-4">
                       <p className="eyebrow text-amber-600">Interview trap</p>
-                      <p className="mt-2 text-[var(--muted)]">{item.interviewTrap}</p>
+                      <p className="mt-2 text-[var(--muted)]">
+                        {item.interviewTrap}
+                      </p>
                     </div>
                     <div>
                       <p className="eyebrow">Follow-up question</p>
-                      <p className="mt-2 text-[var(--muted)]">{item.followUp}</p>
+                      <p className="mt-2 text-[var(--muted)]">
+                        {item.followUp}
+                      </p>
                     </div>
                   </div>
                 )}

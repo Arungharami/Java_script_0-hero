@@ -153,7 +153,10 @@ export function LessonExperience({
           <h2 className="mt-3 text-2xl font-semibold">Challenge</h2>
           <p className="mt-3 text-[var(--muted)]">{lesson.challenge.prompt}</p>
           <div className="mt-5">
-            <CodeRunner initialCode={lesson.challenge.starterCode} title="Practice" />
+            <CodeRunner
+              initialCode={lesson.challenge.starterCode}
+              title="Practice"
+            />
           </div>
           <div className="mt-4 flex flex-wrap gap-3">
             <button className="button text-sm" onClick={() => setHint(!hint)}>

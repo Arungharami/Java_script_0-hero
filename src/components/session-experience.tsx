@@ -24,7 +24,13 @@ type Activity =
   | { kind: "project" }
   | { kind: "complete" };
 
-export function SessionExperience({ week, day }: { week: CourseWeek; day: DayPlan }) {
+export function SessionExperience({
+  week,
+  day,
+}: {
+  week: CourseWeek;
+  day: DayPlan;
+}) {
   const { progress, completeLesson, awardXp, setCurrentPath } = useProgress();
   const [step, setStep] = useState(0);
   const [choice, setChoice] = useState<number>();
@@ -53,7 +59,8 @@ export function SessionExperience({ week, day }: { week: CourseWeek; day: DayPla
               {
                 kind: "challenge",
                 slug: recommendedSlugs[0],
-                title: challenges.find((c) => c.slug === recommendedSlugs[0])!.title,
+                title: challenges.find((c) => c.slug === recommendedSlugs[0])!
+                  .title,
               },
             ] as Activity[])
           : []),
@@ -62,7 +69,11 @@ export function SessionExperience({ week, day }: { week: CourseWeek; day: DayPla
       ];
     }
     if (day.title.toLowerCase().includes("practice")) {
-      return [{ kind: "goal" }, { kind: "practice-lab", slugs: recommendedSlugs }, { kind: "complete" }];
+      return [
+        { kind: "goal" },
+        { kind: "practice-lab", slugs: recommendedSlugs },
+        { kind: "complete" },
+      ];
     }
     return [{ kind: "goal" }, { kind: "project" }, { kind: "complete" }];
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -117,11 +128,21 @@ export function SessionExperience({ week, day }: { week: CourseWeek; day: DayPla
         {current.kind === "lesson" && (
           <div className="mt-8">
             <p className="eyebrow">Lesson</p>
-            <h1 className="mt-2 text-3xl font-semibold">{current.lesson.title}</h1>
-            <p className="mt-3 text-[var(--muted)]">{current.lesson.description}</p>
-            <p className="mt-4 leading-7 text-[var(--muted)]">{current.lesson.explanation[0]}</p>
+            <h1 className="mt-2 text-3xl font-semibold">
+              {current.lesson.title}
+            </h1>
+            <p className="mt-3 text-[var(--muted)]">
+              {current.lesson.description}
+            </p>
+            <p className="mt-4 leading-7 text-[var(--muted)]">
+              {current.lesson.explanation[0]}
+            </p>
             <div className="mt-5">
-              <CodeRunner initialCode={current.lesson.example} title="Working example" />
+              <CodeRunner
+                key={current.lesson.id}
+                initialCode={current.lesson.example}
+                title="Working example"
+              />
             </div>
             <button className="button button-primary mt-6" onClick={goNext}>
               Continue <ArrowRight size={16} />
@@ -132,10 +153,18 @@ export function SessionExperience({ week, day }: { week: CourseWeek; day: DayPla
         {current.kind === "exercise" && (
           <div className="mt-8">
             <p className="eyebrow">Exercise</p>
-            <h1 className="mt-2 text-3xl font-semibold">{current.lesson.title}</h1>
-            <p className="mt-3 text-[var(--muted)]">{current.lesson.challenge.prompt}</p>
+            <h1 className="mt-2 text-3xl font-semibold">
+              {current.lesson.title}
+            </h1>
+            <p className="mt-3 text-[var(--muted)]">
+              {current.lesson.challenge.prompt}
+            </p>
             <div className="mt-5">
-              <CodeRunner initialCode={current.lesson.challenge.starterCode} title="Exercise" />
+              <CodeRunner
+                key={current.lesson.id}
+                initialCode={current.lesson.challenge.starterCode}
+                title="Exercise"
+              />
             </div>
             <button
               className="button button-primary mt-6"
@@ -158,7 +187,10 @@ export function SessionExperience({ week, day }: { week: CourseWeek; day: DayPla
               to continue your session.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
-              <Link href={`/practice/challenge/${current.slug}`} className="button button-primary">
+              <Link
+                href={`/practice/challenge/${current.slug}`}
+                className="button button-primary"
+              >
                 Open challenge <ArrowRight size={16} />
               </Link>
               <button className="button" onClick={goNext}>
@@ -171,7 +203,9 @@ export function SessionExperience({ week, day }: { week: CourseWeek; day: DayPla
         {current.kind === "practice-lab" && (
           <div className="mt-8">
             <p className="eyebrow">Practice lab</p>
-            <h1 className="mt-2 text-3xl font-semibold">Solve two or more challenges</h1>
+            <h1 className="mt-2 text-3xl font-semibold">
+              Solve two or more challenges
+            </h1>
             <p className="mt-3 text-[var(--muted)]">{day.checkpoint}</p>
             <div className="mt-5 space-y-3">
               {current.slugs.length === 0 && (
@@ -183,9 +217,15 @@ export function SessionExperience({ week, day }: { week: CourseWeek; day: DayPla
               {current.slugs.map((slug) => {
                 const c = challenges.find((x) => x.slug === slug)!;
                 return (
-                  <Link key={slug} href={`/practice/challenge/${slug}`} className="card flex items-center gap-3 p-4">
+                  <Link
+                    key={slug}
+                    href={`/practice/challenge/${slug}`}
+                    className="card flex items-center gap-3 p-4"
+                  >
                     <span className="flex-1 font-medium">{c.title}</span>
-                    <span className="text-xs text-[var(--muted)]">{c.category}</span>
+                    <span className="text-xs text-[var(--muted)]">
+                      {c.category}
+                    </span>
                     <ArrowRight size={16} />
                   </Link>
                 );
@@ -200,10 +240,15 @@ export function SessionExperience({ week, day }: { week: CourseWeek; day: DayPla
         {current.kind === "project" && (
           <div className="card mt-8 p-8 text-center">
             <p className="eyebrow">Project + assessment</p>
-            <h1 className="mt-3 text-2xl font-semibold">{week.project.title}</h1>
+            <h1 className="mt-3 text-2xl font-semibold">
+              {week.project.title}
+            </h1>
             <p className="mt-3 text-[var(--muted)]">{day.checkpoint}</p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
-              <Link href={`/projects/${week.project.slug}`} className="button button-primary">
+              <Link
+                href={`/projects/${week.project.slug}`}
+                className="button button-primary"
+              >
                 Open project <ArrowRight size={16} />
               </Link>
               <Link href={`/learn/week/${week.number}/quiz`} className="button">
@@ -219,7 +264,9 @@ export function SessionExperience({ week, day }: { week: CourseWeek; day: DayPla
         {current.kind === "check" && (
           <div className="card mt-8 p-8">
             <p className="eyebrow">Knowledge check</p>
-            <h1 className="mt-3 text-xl font-semibold">{current.lesson.quiz.question}</h1>
+            <h1 className="mt-3 text-xl font-semibold">
+              {current.lesson.quiz.question}
+            </h1>
             <div className="mt-5 grid gap-2">
               {current.lesson.quiz.options.map((option, i) => (
                 <button
@@ -276,12 +323,17 @@ export function SessionExperience({ week, day }: { week: CourseWeek; day: DayPla
                 <Link
                   href={`/session/${week.number}/${day.day + 1}`}
                   className="button button-primary"
-                  onClick={() => setCurrentPath({ week: week.number, day: day.day + 1 })}
+                  onClick={() =>
+                    setCurrentPath({ week: week.number, day: day.day + 1 })
+                  }
                 >
                   Start next session <ArrowRight size={16} />
                 </Link>
               ) : (
-                <Link href={`/learn/week/${week.number + 1 <= 8 ? week.number + 1 : week.number}`} className="button button-primary">
+                <Link
+                  href={`/learn/week/${week.number + 1 <= 8 ? week.number + 1 : week.number}`}
+                  className="button button-primary"
+                >
                   Continue to Week {Math.min(8, week.number + 1)}
                 </Link>
               )}
