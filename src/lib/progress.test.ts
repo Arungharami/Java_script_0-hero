@@ -58,16 +58,28 @@ describe("progress utilities", () => {
         bestScore: 100,
         lastScore: 100,
       });
-      expect(migrated.projectProgress.calculator).toEqual({ completedMilestones: [] });
+      expect(migrated.projectProgress.calculator).toEqual({
+        completedMilestones: [],
+      });
     });
   });
 
   describe("recordChallengeResult", () => {
     it("marks a challenge completed only when every test passes", () => {
       const first = recordChallengeResult(undefined, 3, 5);
-      expect(first).toMatchObject({ completed: false, attempts: 1, bestPassedTests: 3, totalTests: 5 });
+      expect(first).toMatchObject({
+        completed: false,
+        attempts: 1,
+        bestPassedTests: 3,
+        totalTests: 5,
+      });
       const second = recordChallengeResult(first, 5, 5);
-      expect(second).toMatchObject({ completed: true, attempts: 2, bestPassedTests: 5, totalTests: 5 });
+      expect(second).toMatchObject({
+        completed: true,
+        attempts: 2,
+        bestPassedTests: 5,
+        totalTests: 5,
+      });
     });
     it("keeps the best pass count across attempts, even after a worse retry", () => {
       const passed = recordChallengeResult(undefined, 5, 5);

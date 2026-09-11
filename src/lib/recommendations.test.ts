@@ -1,16 +1,34 @@
 import { describe, expect, it } from "vitest";
 import { buildRecommendations } from "./recommendations";
 import { emptyProgress } from "./progress";
-import type { Challenge, CourseWeek, Lesson, LearningProgress } from "@/types/learning";
+import type {
+  Challenge,
+  CourseWeek,
+  Lesson,
+  LearningProgress,
+} from "@/types/learning";
 import type { SkillMastery } from "./mastery";
 
 type LessonWithWeek = Lesson & { week: CourseWeek };
 
-const week = (number: number) => ({ number, title: "Test Week" }) as unknown as CourseWeek;
-const lessonWithWeek = (id: string, slug: string, weekNumber: number): LessonWithWeek =>
-  ({ id, slug, title: id, week: week(weekNumber) }) as unknown as LessonWithWeek;
-const challenge = (slug: string, category: string, relatedConcepts: string[] = []) =>
-  ({ slug, title: slug, category, relatedConcepts }) as unknown as Challenge;
+const week = (number: number) =>
+  ({ number, title: "Test Week" }) as unknown as CourseWeek;
+const lessonWithWeek = (
+  id: string,
+  slug: string,
+  weekNumber: number,
+): LessonWithWeek =>
+  ({
+    id,
+    slug,
+    title: id,
+    week: week(weekNumber),
+  }) as unknown as LessonWithWeek;
+const challenge = (
+  slug: string,
+  category: string,
+  relatedConcepts: string[] = [],
+) => ({ slug, title: slug, category, relatedConcepts }) as unknown as Challenge;
 
 describe("buildRecommendations", () => {
   const lessons = [lessonWithWeek("w1-l1", "l1", 1)];
@@ -19,12 +37,19 @@ describe("buildRecommendations", () => {
     const progress: LearningProgress = {
       ...emptyProgress,
       challengeProgress: {
-        "hard-one": { completed: false, attempts: 4, bestPassedTests: 2, totalTests: 5 },
+        "hard-one": {
+          completed: false,
+          attempts: 4,
+          bestPassedTests: 2,
+          totalTests: 5,
+        },
       },
     };
     const challenges = [challenge("hard-one", "Arrays", ["Array mutation"])];
     const recs = buildRecommendations(progress, lessons, challenges, []);
-    expect(recs.some((r) => r.kind === "review" && r.href.includes("hard-one"))).toBe(true);
+    expect(
+      recs.some((r) => r.kind === "review" && r.href.includes("hard-one")),
+    ).toBe(true);
   });
 
   it("recommends practice when many lessons are done but few challenges attempted", () => {
@@ -56,10 +81,17 @@ describe("buildRecommendations", () => {
       ...emptyProgress,
       completedLessons: ["a", "b", "c", "d", "e", "f"],
       challengeProgress: {
-        "hard-one": { completed: false, attempts: 5, bestPassedTests: 1, totalTests: 5 },
+        "hard-one": {
+          completed: false,
+          attempts: 5,
+          bestPassedTests: 1,
+          totalTests: 5,
+        },
       },
     };
-    const mastery: SkillMastery[] = [{ skill: "promises", label: "Promises", value: 10, hasData: true }];
+    const mastery: SkillMastery[] = [
+      { skill: "promises", label: "Promises", value: 10, hasData: true },
+    ];
     const challenges = [challenge("hard-one", "Arrays")];
     const recs = buildRecommendations(progress, lessons, challenges, mastery);
     expect(recs.length).toBeLessThanOrEqual(4);

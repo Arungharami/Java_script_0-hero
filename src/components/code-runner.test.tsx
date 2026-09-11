@@ -17,7 +17,11 @@ class MockWorker {
         data: {
           console: [],
           tests: [
-            { description: "handles normal input", hidden: false, passed: true },
+            {
+              description: "handles normal input",
+              hidden: false,
+              passed: true,
+            },
             {
               description: "handles punctuation",
               hidden: false,
@@ -36,8 +40,8 @@ class MockWorker {
 describe("CodeRunner", () => {
   beforeEach(() => {
     vi.stubGlobal("Worker", MockWorker);
-    vi.spyOn(URL, "createObjectURL").mockReturnValue("blob:mock");
-    vi.spyOn(URL, "revokeObjectURL").mockImplementation(() => {});
+    URL.createObjectURL = vi.fn(() => "blob:mock");
+    URL.revokeObjectURL = vi.fn();
   });
   afterEach(() => {
     vi.unstubAllGlobals();
@@ -55,7 +59,9 @@ describe("CodeRunner", () => {
     );
     fireEvent.click(screen.getByRole("button", { name: /run tests/i }));
 
-    await waitFor(() => expect(screen.getByText("1 / 2 passed")).toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.getByText("1 / 2 passed")).toBeInTheDocument(),
+    );
     expect(screen.getByText("handles normal input")).toBeInTheDocument();
     expect(screen.getByText("handles punctuation")).toBeInTheDocument();
     expect(screen.getByText('"hello"')).toBeInTheDocument();
@@ -67,7 +73,11 @@ describe("CodeRunner", () => {
 
   it("only shows a Run Tests button when tests are provided", () => {
     render(<CodeRunner initialCode="console.log(1)" />);
-    expect(screen.queryByRole("button", { name: /run tests/i })).not.toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /run code/i })).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /run tests/i }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /run code/i }),
+    ).toBeInTheDocument();
   });
 });

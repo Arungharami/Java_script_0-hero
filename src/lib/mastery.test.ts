@@ -13,8 +13,6 @@ const lesson = (id: string, skills: Lesson["skills"]) =>
   ({ id, skills }) as unknown as Lesson;
 const challenge = (slug: string, skills: Challenge["skills"]) =>
   ({ slug, skills }) as unknown as Challenge;
-const debugExercise = (slug: string, skills: DebugExercise["skills"]) =>
-  ({ slug, skills }) as unknown as DebugExercise;
 
 describe("computeSkillMastery", () => {
   const lessons = [lesson("w1-l1", ["arrays"]), lesson("w1-l2", ["arrays"])];
@@ -63,13 +61,7 @@ describe("computeSkillMastery", () => {
   });
 
   it("never fabricates mastery for skills with no lessons, challenges, or quizzes", () => {
-    const mastery = computeSkillMastery(
-      emptyProgress,
-      [],
-      [],
-      [],
-      [],
-    );
+    const mastery = computeSkillMastery(emptyProgress, [], [], [], []);
     expect(mastery.every((m) => !m.hasData && m.value === 0)).toBe(true);
   });
 });
@@ -85,7 +77,9 @@ describe("overallMastery", () => {
   });
   it("returns 0 when nothing has data yet", () => {
     expect(
-      overallMastery([{ skill: "arrays" as const, label: "Arrays", value: 0, hasData: false }]),
+      overallMastery([
+        { skill: "arrays" as const, label: "Arrays", value: 0, hasData: false },
+      ]),
     ).toBe(0);
   });
 });

@@ -59,8 +59,7 @@ export function computeSkillMastery(
     // Only counts as recorded activity once at least one relevant lesson is
     // actually completed — an untouched skill reports "no data", not 0%.
     if (skillLessons.length > 0 && doneLessons > 0) {
-      const done = doneLessons;
-      parts.push((done / skillLessons.length) * 100);
+      parts.push((doneLessons / skillLessons.length) * 100);
     }
 
     const skillChallenges = challenges.filter((c) => c.skills.includes(skill));
