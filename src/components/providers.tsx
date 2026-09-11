@@ -10,13 +10,12 @@ import {
 } from "react";
 import {
   emptyProgress,
-  PROGRESS_KEY,
-  readProgress,
   recordChallengeResult,
   recordQuizResult,
   toggleMilestone,
   withActivityToday,
 } from "@/lib/progress";
+import { localProgressRepository } from "@/lib/progress-repository";
 import { validateImportedProgress } from "@/lib/progress-schema";
 import type {
   CurrentPath,
@@ -51,14 +50,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
-      setProgress(readProgress(window.localStorage.getItem(PROGRESS_KEY)));
-      setHydrated(true);
+      void localProgressRepository.load().then((loaded) => {
+        setProgress(loaded);
+        setHydrated(true);
+      });
     });
     return () => cancelAnimationFrame(frame);
   }, []);
   useEffect(() => {
-    if (hydrated)
-      window.localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+    if (hydrated) void localProgressRepository.save(progress);
   }, [progress, hydrated]);
   const update = useCallback(
     (fn: (p: LearningProgress) => LearningProgress) => setProgress(fn),

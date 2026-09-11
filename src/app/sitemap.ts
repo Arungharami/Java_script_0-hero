@@ -13,6 +13,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/projects",
     "/playground",
     "/dashboard",
+    "/skills",
+    "/interview",
+    "/career",
     "/resources/cheatsheets",
   ];
   return [
@@ -22,8 +25,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...curriculum.flatMap((w) => [
       { url: `${base}/learn/week/${w.number}` },
+      { url: `${base}/learn/week/${w.number}/quiz` },
       ...w.lessons.map((l) => ({
         url: `${base}/learn/week/${w.number}/${l.slug}`,
+      })),
+      ...w.days.map((d) => ({
+        url: `${base}/session/${w.number}/${d.day}`,
       })),
     ]),
     ...challenges.map((c) => ({ url: `${base}/practice/challenge/${c.slug}` })),
