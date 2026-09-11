@@ -7,6 +7,9 @@ import { useEffect, useMemo, useState } from "react";
 import { allLessons } from "@/content/curriculum";
 import { challenges } from "@/content/challenges";
 import { projects } from "@/content/projects";
+import { cheatsheets } from "@/content/cheatsheets";
+import { interviewQuestions } from "@/content/interview-questions";
+import { debugLab } from "@/content/debug-lab";
 import { useProgress } from "./providers";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -15,10 +18,13 @@ const links = [
   ["Roadmap", "/roadmap"],
   ["Practice", "/practice"],
   ["Projects", "/projects"],
+  ["Interview", "/interview"],
   ["Playground", "/playground"],
   ["Dashboard", "/dashboard"],
-  ["Cheatsheets", "/resources/cheatsheets"],
 ];
+
+type Result = { title: string; label: string; href: string; group: string };
+
 export function SiteHeader() {
   const path = usePathname();
   const router = useRouter();
@@ -37,36 +43,80 @@ export function SiteHeader() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
-  const results = useMemo(() => {
+  const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return [];
-    return [
-      ...allLessons
-        .filter((x) => `${x.title} ${x.description}`.toLowerCase().includes(q))
-        .slice(0, 5)
-        .map((x) => ({
-          title: x.title,
-          label: `Week ${x.week.number} lesson`,
-          href: `/learn/week/${x.week.number}/${x.slug}`,
-        })),
-      ...challenges
-        .filter((x) => `${x.title} ${x.category}`.toLowerCase().includes(q))
-        .slice(0, 3)
-        .map((x) => ({
-          title: x.title,
-          label: "Challenge",
-          href: `/practice/challenge/${x.slug}`,
-        })),
-      ...projects
-        .filter((x) => `${x.title} ${x.summary}`.toLowerCase().includes(q))
-        .slice(0, 3)
-        .map((x) => ({
-          title: x.title,
-          label: "Project",
-          href: `/projects/${x.slug}`,
-        })),
-    ].slice(0, 8);
+    if (!q) return [] as { label: string; items: Result[] }[];
+    const lessons: Result[] = allLessons
+      .filter((x) => `${x.title} ${x.description}`.toLowerCase().includes(q))
+      .slice(0, 4)
+      .map((x) => ({
+        title: x.title,
+        label: `Week ${x.week.number}`,
+        href: `/learn/week/${x.week.number}/${x.slug}`,
+        group: "Lessons",
+      }));
+    const challengeResults: Result[] = challenges
+      .filter((x) => `${x.title} ${x.category} ${x.relatedConcepts.join(" ")}`.toLowerCase().includes(q))
+      .slice(0, 4)
+      .map((x) => ({
+        title: x.title,
+        label: x.category,
+        href: `/practice/challenge/${x.slug}`,
+        group: "Challenges",
+      }));
+    const debugResults: Result[] = debugLab
+      .filter((x) => `${x.title} ${x.category}`.toLowerCase().includes(q))
+      .slice(0, 3)
+      .map((x) => ({
+        title: x.title,
+        label: x.category,
+        href: "/practice/debug",
+        group: "Challenges",
+      }));
+    const projectResults: Result[] = projects
+      .filter((x) => `${x.title} ${x.summary}`.toLowerCase().includes(q))
+      .slice(0, 3)
+      .map((x) => ({
+        title: x.title,
+        label: "Project",
+        href: `/projects/${x.slug}`,
+        group: "Projects",
+      }));
+    const resourceResults: Result[] = cheatsheets
+      .filter((x) => `${x.title} ${x.description}`.toLowerCase().includes(q))
+      .slice(0, 3)
+      .map((x) => ({
+        title: x.title,
+        label: "Cheat sheet",
+        href: "/resources/cheatsheets",
+        group: "Resources",
+      }));
+    const interviewResults: Result[] = interviewQuestions
+      .filter((x) => `${x.question} ${x.category}`.toLowerCase().includes(q))
+      .slice(0, 3)
+      .map((x) => ({
+        title: x.question,
+        label: x.category,
+        href: "/interview",
+        group: "Interview",
+      }));
+    const all = [
+      ...lessons,
+      ...challengeResults,
+      ...debugResults,
+      ...projectResults,
+      ...resourceResults,
+      ...interviewResults,
+    ];
+    const byGroup = new Map<string, Result[]>();
+    for (const item of all) {
+      const list = byGroup.get(item.group) ?? [];
+      list.push(item);
+      byGroup.set(item.group, list);
+    }
+    return [...byGroup.entries()].map(([label, items]) => ({ label, items }));
   }, [query]);
+  const totalResults = groups.reduce((sum, g) => sum + g.items.length, 0);
   const current =
     allLessons.find((x) => x.id === progress.currentLesson) ?? allLessons[0];
   const go = (href: string) => {
@@ -133,16 +183,18 @@ export function SiteHeader() {
         </div>
         {mobile && (
           <nav className="shell grid gap-1 pb-4 lg:hidden">
-            {links.map(([label, href]) => (
-              <Link
-                onClick={() => setMobile(false)}
-                className="rounded-lg px-3 py-2 text-sm"
-                href={href}
-                key={href}
-              >
-                {label}
-              </Link>
-            ))}
+            {[...links, ["Skills", "/skills"], ["Career", "/career"], ["Cheatsheets", "/resources/cheatsheets"]].map(
+              ([label, href]) => (
+                <Link
+                  onClick={() => setMobile(false)}
+                  className="rounded-lg px-3 py-2 text-sm"
+                  href={href}
+                  key={href}
+                >
+                  {label}
+                </Link>
+              ),
+            )}
           </nav>
         )}
       </header>
@@ -152,6 +204,7 @@ export function SiteHeader() {
           role="dialog"
           aria-modal="true"
           aria-label="Search"
+          onClick={(e) => e.target === e.currentTarget && setSearch(false)}
         >
           <div className="mx-auto max-w-xl overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)] shadow-2xl">
             <div className="flex items-center gap-3 border-b border-[var(--line)] p-4">
@@ -161,7 +214,7 @@ export function SiteHeader() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 className="w-full bg-transparent outline-none"
-                placeholder="Search lessons, challenges, projects…"
+                placeholder="Search lessons, challenges, projects, interview questions…"
                 aria-label="Search query"
               />
               <button
@@ -171,23 +224,31 @@ export function SiteHeader() {
                 <X />
               </button>
             </div>
-            <div className="max-h-96 p-2">
-              {query && results.length === 0 ? (
+            <div className="max-h-96 overflow-y-auto p-2">
+              {query && totalResults === 0 ? (
                 <p className="p-8 text-center text-sm text-[var(--muted)]">
-                  No results yet. Try a concept such as arrays or async.
+                  No results yet. Try a concept such as arrays, closures, or
+                  async.
                 </p>
               ) : (
-                results.map((result) => (
-                  <button
-                    key={result.href}
-                    onClick={() => go(result.href)}
-                    className="flex w-full items-center justify-between rounded-xl p-3 text-left hover:bg-[var(--bg)]"
-                  >
-                    <span className="font-medium">{result.title}</span>
-                    <span className="text-xs text-[var(--muted)]">
-                      {result.label}
-                    </span>
-                  </button>
+                groups.map((group) => (
+                  <div key={group.label} className="mb-2">
+                    <p className="px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
+                      {group.label}
+                    </p>
+                    {group.items.map((result, i) => (
+                      <button
+                        key={`${result.href}-${i}`}
+                        onClick={() => go(result.href)}
+                        className="flex w-full items-center justify-between rounded-xl p-3 text-left hover:bg-[var(--bg)]"
+                      >
+                        <span className="truncate font-medium">{result.title}</span>
+                        <span className="ml-3 shrink-0 text-xs text-[var(--muted)]">
+                          {result.label}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
                 ))
               )}
             </div>
