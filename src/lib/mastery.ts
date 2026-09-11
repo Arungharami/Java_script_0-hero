@@ -53,10 +53,13 @@ export function computeSkillMastery(
     const parts: number[] = [];
 
     const skillLessons = lessons.filter((l) => l.skills.includes(skill));
-    if (skillLessons.length > 0) {
-      const done = skillLessons.filter((l) =>
-        progress.completedLessons.includes(l.id),
-      ).length;
+    const doneLessons = skillLessons.filter((l) =>
+      progress.completedLessons.includes(l.id),
+    ).length;
+    // Only counts as recorded activity once at least one relevant lesson is
+    // actually completed — an untouched skill reports "no data", not 0%.
+    if (skillLessons.length > 0 && doneLessons > 0) {
+      const done = doneLessons;
       parts.push((done / skillLessons.length) * 100);
     }
 
