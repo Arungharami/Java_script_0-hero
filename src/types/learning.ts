@@ -218,7 +218,7 @@ export interface ProjectBrief {
   slug: string;
   title: string;
   level: "Beginner" | "Intermediate" | "Advanced";
-  week: number;
+  week?: number;
   summary: string;
   problem: string;
   userStories: string[];
