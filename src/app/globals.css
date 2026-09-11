@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f7f8f6;
+  --surface: #ffffff;
+  --ink: #151815;
+  --muted: #626a62;
+  --line: #dfe4dc;
+  --accent: #d9ff43;
+  --accent-ink: #182000;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0d0b;
+    --surface: #121512;
+    --ink: #f4f7f1;
+    --muted: #a4ada1;
+    --line: #293029;
+    --accent: #d9ff43;
+    --accent-ink: #182000;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f7f8f6;
+  --surface: #ffffff;
+  --ink: #151815;
+  --muted: #626a62;
+  --line: #dfe4dc;
+  --accent: #d9ff43;
+  --accent-ink: #182000;
+}
+:root[data-theme="dark"] {
+  --bg: #0b0d0b;
+  --surface: #121512;
+  --ink: #f4f7f1;
+  --muted: #a4ada1;
+  --line: #293029;
+  --accent: #d9ff43;
+  --accent-ink: #182000;
+  color-scheme: dark;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans), sans-serif;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 72%, #2563eb);
+  outline-offset: 3px;
+}
+.shell {
+  width: min(1180px, calc(100% - 32px));
+  margin-inline: auto;
+}
+.eyebrow {
+  font: 650 12px/1 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  font-weight: 700;
+  transition:
+    transform 0.15s,
+    background 0.15s;
+}
+.button:hover {
+  transform: translateY(-1px);
+}
+.button-primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+.code {
+  font-family: var(--font-mono);
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

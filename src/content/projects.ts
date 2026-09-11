@@ -1,0 +1,103 @@
+export const projects = [
+  [
+    "calculator",
+    "Calculator",
+    "Beginner",
+    "Evaluate basic operations with validated numeric input.",
+  ],
+  [
+    "guessing-game",
+    "Number Guessing Game",
+    "Beginner",
+    "Guide the player with higher/lower feedback.",
+  ],
+  [
+    "counter",
+    "Counter",
+    "Beginner",
+    "Practice events and predictable state updates.",
+  ],
+  [
+    "quote-generator",
+    "Quote Generator",
+    "Beginner",
+    "Render and rotate a small local data set.",
+  ],
+  [
+    "todo-app",
+    "Todo App",
+    "Intermediate",
+    "Create, edit, complete, filter, and persist tasks.",
+  ],
+  [
+    "expense-tracker",
+    "Expense Tracker",
+    "Intermediate",
+    "Model transactions and calculate category summaries.",
+  ],
+  [
+    "quiz-app",
+    "Quiz App",
+    "Intermediate",
+    "Build reusable questions, scoring, and review states.",
+  ],
+  [
+    "weather-dashboard",
+    "Weather Dashboard",
+    "Intermediate",
+    "Handle real API loading, empty, and error states.",
+  ],
+  [
+    "notes-app",
+    "Notes App",
+    "Intermediate",
+    "Create searchable notes with local persistence.",
+  ],
+  [
+    "product-explorer",
+    "Product Explorer",
+    "Advanced",
+    "Combine search, filters, sorting, and pagination.",
+  ],
+  [
+    "github-profile-explorer",
+    "GitHub Profile Explorer",
+    "Advanced",
+    "Explore public profiles and repositories safely.",
+  ],
+  [
+    "productivity-dashboard",
+    "Productivity Dashboard",
+    "Advanced",
+    "Unify tasks, notes, widgets, and analytics.",
+  ],
+  [
+    "final-capstone",
+    "Final Capstone",
+    "Advanced",
+    "Plan, test, document, and ship a portfolio-grade dashboard.",
+  ],
+].map(([slug, title, level, summary]) => ({
+  slug,
+  title,
+  level,
+  summary,
+  milestones: [
+    "Clarify user stories and edge cases",
+    "Sketch data and UI states",
+    "Build the smallest working flow",
+    "Add persistence and error handling",
+    "Test, audit accessibility, and document",
+  ],
+  requirements: [
+    "Responsive keyboard-accessible interface",
+    "Clear empty, success, and error states",
+    "Modular JavaScript with descriptive names",
+    "A README explaining decisions and setup",
+  ],
+  bonuses: [
+    "Add import/export",
+    "Add undo support",
+    "Measure and improve performance",
+  ],
+}));
