@@ -1,39 +1,79 @@
 "use client";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { CheckCircle2, RotateCcw } from "lucide-react";
 import { useProgress } from "./providers";
-type Question = {
-  question: string;
-  options: string[];
-  answer: number;
-  explanation: string;
+import { scoreWeightedQuiz } from "@/lib/quiz";
+import { SKILL_LABELS } from "@/lib/mastery";
+import type { QuizQuestion } from "@/types/learning";
+
+const TYPE_LABELS: Record<QuizQuestion["type"], string> = {
+  "multiple-choice": "Multiple choice",
+  "true-false": "True or false",
+  "predict-output": "Predict the output",
+  "identify-error": "Identify the error",
+  "select-code": "Select the correct code",
+  scenario: "Scenario",
 };
+
 export function QuizEngine({
   id,
   questions,
 }: {
   id: string;
-  questions: Question[];
+  questions: QuizQuestion[];
 }) {
-  const { saveQuiz } = useProgress();
+  const { progress, recordQuiz } = useProgress();
   const [index, setIndex] = useState(0);
   const [choice, setChoice] = useState<number>();
-  const [answers, setAnswers] = useState<boolean[]>([]);
+  const [answers, setAnswers] = useState<(number | undefined)[]>([]);
   const [checked, setChecked] = useState(false);
+  const previousAttempt = progress.quizAttempts[id];
   const finished = index === questions.length;
-  const score = Math.round(
-    (answers.filter(Boolean).length / questions.length) * 100,
+  const result = useMemo(
+    () => (finished ? scoreWeightedQuiz(questions, answers) : undefined),
+    [finished, questions, answers],
   );
-  if (finished)
+
+  if (finished && result) {
+    const passed = result.score >= 70;
+    const weakEntries = Object.entries(result.weakSkills) as [string, number][];
     return (
       <div className="card p-8 text-center">
-        <CheckCircle2 className="mx-auto text-green-600" size={40} />
+        <CheckCircle2
+          className={`mx-auto ${passed ? "text-green-600" : "text-[var(--muted)]"}`}
+          size={40}
+        />
         <h2 className="mt-5 text-3xl font-semibold">
-          {score >= 70 ? "Checkpoint passed" : "Keep practicing"}
+          {passed ? "Checkpoint passed" : "Keep practicing"}
         </h2>
         <p className="mt-3 text-[var(--muted)]">
-          You scored {score}%. A score of 70% or higher passes.
+          You scored {result.score}% ({result.correctCount} / {questions.length}{" "}
+          correct). A score of 70% or higher passes. Unlimited retries.
         </p>
+        {previousAttempt && (
+          <p className="mt-1 text-sm text-[var(--muted)]">
+            Best score: {previousAttempt.bestScore}% · Attempt{" "}
+            {previousAttempt.attempts}
+          </p>
+        )}
+        <div className="mx-auto mt-6 grid max-w-md gap-3 text-left">
+          {weakEntries.map(([skill, value]) => (
+            <div key={skill}>
+              <div className="mb-1 flex justify-between text-sm">
+                <span>
+                  {SKILL_LABELS[skill as keyof typeof SKILL_LABELS] ?? skill}
+                </span>
+                <span className="text-[var(--muted)]">{value}%</span>
+              </div>
+              <div className="h-2 overflow-hidden rounded-full bg-[var(--line)]">
+                <div
+                  className={`h-full ${value < 70 ? "bg-amber-500" : "bg-[var(--accent)]"}`}
+                  style={{ width: `${value}%` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
         <button
           className="button mt-6"
           onClick={() => {
@@ -48,6 +88,8 @@ export function QuizEngine({
         </button>
       </div>
     );
+  }
+
   const current = questions[index];
   return (
     <div className="card p-6 sm:p-8">
@@ -55,7 +97,9 @@ export function QuizEngine({
         <span>
           Question {index + 1} / {questions.length}
         </span>
-        <span>{answers.filter(Boolean).length} correct</span>
+        <span className="rounded-full border border-[var(--line)] px-2.5 py-0.5 text-xs font-medium">
+          {TYPE_LABELS[current.type]}
+        </span>
       </div>
       <div className="mt-4 h-2 overflow-hidden rounded-full bg-[var(--line)]">
         <div
@@ -64,6 +108,11 @@ export function QuizEngine({
         />
       </div>
       <h2 className="mt-8 text-2xl font-semibold">{current.question}</h2>
+      {current.code && (
+        <pre className="code mt-4 overflow-x-auto rounded-xl bg-black p-4 text-sm text-white">
+          <code>{current.code}</code>
+        </pre>
+      )}
       <div className="mt-6 grid gap-3">
         {current.options.map((option, i) => (
           <button
@@ -89,25 +138,26 @@ export function QuizEngine({
         onClick={() => {
           if (!checked) {
             setChecked(true);
-            setAnswers([...answers, choice === current.answer]);
           } else {
+            const nextAnswers = [...answers];
+            nextAnswers[index] = choice;
             const next = index + 1;
             if (next === questions.length) {
-              const final = [...answers, choice === current.answer];
-              saveQuiz(
-                id,
-                Math.round(
-                  (final.filter(Boolean).length / questions.length) * 100,
-                ),
-              );
+              const final = scoreWeightedQuiz(questions, nextAnswers);
+              recordQuiz(id, final.score, final.weakSkills);
             }
+            setAnswers(nextAnswers);
             setIndex(next);
             setChoice(undefined);
             setChecked(false);
           }
         }}
       >
-        {checked ? "Next question" : "Check answer"}
+        {checked
+          ? index + 1 === questions.length
+            ? "See results"
+            : "Next question"
+          : "Check answer"}
       </button>
     </div>
   );

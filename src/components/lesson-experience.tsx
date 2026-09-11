@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import type { CourseWeek, Lesson } from "@/types/learning";
 import { CodeRunner } from "./code-runner";
+import { ConceptVisual } from "./concept-visual";
 import { useProgress } from "./providers";
 
 export function LessonExperience({
@@ -24,7 +25,7 @@ export function LessonExperience({
   previous?: Lesson;
   next?: Lesson;
 }) {
-  const { progress, completeLesson, saveQuiz, setCurrentLesson, toggleMode } =
+  const { progress, completeLesson, awardXp, setCurrentLesson, toggleMode } =
     useProgress();
   const [hint, setHint] = useState(false);
   const [solution, setSolution] = useState(false);
@@ -100,6 +101,7 @@ export function LessonExperience({
                 {x}
               </p>
             ))}
+            {lesson.mentalModel && <ConceptVisual kind={lesson.mentalModel} />}
           </section>
         )}
         <section className="mt-12">
@@ -109,7 +111,7 @@ export function LessonExperience({
             run it and change one value.
           </p>
           <div className="mt-5">
-            <CodeRunner initialCode={lesson.example} />
+            <CodeRunner initialCode={lesson.example} title="Working example" />
           </div>
           <div className="mt-4 rounded-xl border border-[var(--line)] p-4 text-sm">
             <strong>Expected output:</strong>{" "}
@@ -128,6 +130,14 @@ export function LessonExperience({
                 </p>
               </div>
               <div className="card p-5">
+                <h2 className="font-semibold">Real-world example</h2>
+                <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
+                  {lesson.realWorldExample}
+                </p>
+              </div>
+            </section>
+            <section className="mt-6">
+              <div className="card p-5">
                 <h2 className="font-semibold">Common mistakes</h2>
                 <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-[var(--muted)]">
                   {lesson.mistakes.map((x) => (
@@ -143,7 +153,10 @@ export function LessonExperience({
           <h2 className="mt-3 text-2xl font-semibold">Challenge</h2>
           <p className="mt-3 text-[var(--muted)]">{lesson.challenge.prompt}</p>
           <div className="mt-5">
-            <CodeRunner initialCode={lesson.challenge.starterCode} />
+            <CodeRunner
+              initialCode={lesson.challenge.starterCode}
+              title="Practice"
+            />
           </div>
           <div className="mt-4 flex flex-wrap gap-3">
             <button className="button text-sm" onClick={() => setHint(!hint)}>
@@ -187,7 +200,7 @@ export function LessonExperience({
             className="button button-primary mt-5 disabled:opacity-50"
             onClick={() => {
               setSubmitted(true);
-              saveQuiz(lesson.id, choice === lesson.quiz.answer ? 100 : 0);
+              if (choice === lesson.quiz.answer) awardXp(10);
             }}
           >
             Check answer
@@ -202,6 +215,10 @@ export function LessonExperience({
               {lesson.quiz.explanation}
             </p>
           )}
+        </section>
+        <section className="mt-10 rounded-2xl border border-dashed border-[var(--line)] p-6">
+          <p className="eyebrow">Summary</p>
+          <p className="mt-3 leading-7 text-[var(--muted)]">{lesson.summary}</p>
         </section>
         <button
           onClick={() => completeLesson(lesson.id)}
@@ -256,6 +273,7 @@ export function LessonExperience({
             <li>Working example</li>
             <li>Challenge</li>
             <li>Knowledge check</li>
+            <li>Summary</li>
           </ol>
           <div className="mt-8 h-2 overflow-hidden rounded-full bg-[var(--line)]">
             <div

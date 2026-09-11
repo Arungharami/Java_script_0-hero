@@ -1,0 +1,261 @@
+import type { ChallengeSeed } from "./shared";
+
+// A Web Worker sandbox has no `document`, so these exercise the JavaScript
+// reasoning behind common DOM tasks in isolation (pure, auto-gradable logic
+// you'll wire into real elements in the Playground and weekly projects).
+
+export const dom: ChallengeSeed[] = [
+  {
+    slug: "counter-logic",
+    title: "Counter Logic",
+    category: "DOM",
+    difficulty: "easy",
+    skills: ["dom", "functions"],
+    description:
+      "Write createCounter(start) returning { increment, decrement, value } — the state logic behind a UI counter button.",
+    examples: ["const c = createCounter(0); c.increment(); c.value() → 1"],
+    starterCode: `function createCounter(start = 0) {\n  // your code\n}`,
+    tests: [
+      {
+        description: "increments from the start value",
+        assertion:
+          "const c = createCounter(0); c.increment(); expect(c.value()).toBe(1)",
+      },
+      {
+        description: "decrements correctly",
+        assertion:
+          "const c = createCounter(5); c.decrement(); expect(c.value()).toBe(4)",
+      },
+      {
+        hidden: true,
+        description: "defaults start to 0",
+        assertion: "const c = createCounter(); expect(c.value()).toBe(0)",
+      },
+    ],
+    hints: [
+      "This is the same closure-over-private-state pattern as the Closures Challenge — a button's onclick just calls c.increment().",
+    ],
+    solution: `function createCounter(start = 0) {\n  let count = start;\n  return {\n    increment() { count++; },\n    decrement() { count--; },\n    value() { return count; },\n  };\n}`,
+    explanation:
+      "A UI counter component is this exact state object with increment/decrement wired to button clicks.",
+    relatedConcepts: ["Closures Challenge", "Events & the event object"],
+  },
+  {
+    slug: "character-counter-logic",
+    title: "Character Counter Logic",
+    category: "DOM",
+    difficulty: "easy",
+    skills: ["dom", "strings"],
+    description:
+      "Write charsRemaining(text, limit) returning how many characters remain before a max-length limit, never negative.",
+    examples: [
+      'charsRemaining("hello", 10) → 5',
+      'charsRemaining("hello world!", 5) → 0',
+    ],
+    starterCode: `function charsRemaining(text, limit) {\n  // your code\n}`,
+    tests: [
+      {
+        description: "computes remaining characters",
+        assertion: 'expect(charsRemaining("hello", 10)).toBe(5)',
+      },
+      {
+        description: "never goes below zero",
+        assertion: 'expect(charsRemaining("hello world!", 5)).toBe(0)',
+      },
+      {
+        hidden: true,
+        description: "handles an empty string",
+        assertion: 'expect(charsRemaining("", 10)).toBe(10)',
+      },
+    ],
+    hints: ["Math.max(0, limit - text.length) clamps the result at zero."],
+    solution: `function charsRemaining(text, limit) {\n  return Math.max(0, limit - text.length);\n}`,
+    explanation:
+      "This is the exact calculation behind a textarea's live 'N characters remaining' label.",
+    relatedConcepts: ["Forms & validation", "Count Characters"],
+  },
+  {
+    slug: "toggle-state",
+    title: "Toggle State",
+    category: "DOM",
+    difficulty: "easy",
+    skills: ["dom", "functions"],
+    description:
+      "Write toggleClassList(classes, className) that adds className if absent, or removes it if present, returning the new array.",
+    examples: ['toggleClassList(["card"], "active") → ["card", "active"]'],
+    starterCode: `function toggleClassList(classes, className) {\n  // your code\n}`,
+    tests: [
+      {
+        description: "adds a missing class",
+        assertion:
+          'expect(toggleClassList(["card"], "active")).toEqual(["card", "active"])',
+      },
+      {
+        description: "removes a present class",
+        assertion:
+          'expect(toggleClassList(["card", "active"], "active")).toEqual(["card"])',
+      },
+      {
+        hidden: true,
+        description: "does not mutate the input array",
+        assertion:
+          'const input = ["card"]; toggleClassList(input, "active"); expect(input).toEqual(["card"])',
+      },
+    ],
+    hints: [
+      "Check classes.includes(className) to decide between filtering it out or spreading it in.",
+    ],
+    solution: `function toggleClassList(classes, className) {\n  return classes.includes(className)\n    ? classes.filter((c) => c !== className)\n    : [...classes, className];\n}`,
+    explanation:
+      "This is the logic behind element.classList.toggle(), modeled as a pure array operation you can unit test.",
+    relatedConcepts: ["Selecting & changing elements", "Array mutation"],
+  },
+  {
+    slug: "form-validation-logic",
+    title: "Form Validation Logic",
+    category: "DOM",
+    difficulty: "medium",
+    skills: ["dom", "objects"],
+    description:
+      "Write validateSignupForm({ email, password }) returning an errors object with a message per invalid field (email must contain @, password must be 8+ characters).",
+    examples: [
+      'validateSignupForm({ email: "a", password: "short" }) → { email: "...", password: "..." }',
+    ],
+    starterCode: `function validateSignupForm(fields) {\n  // your code — return {} when everything is valid\n}`,
+    tests: [
+      {
+        description: "flags an invalid email and short password",
+        assertion:
+          'const errors = validateSignupForm({ email: "not-an-email", password: "short" }); expect(Object.keys(errors)).toEqual(["email", "password"])',
+      },
+      {
+        description: "returns no errors for valid input",
+        assertion:
+          'expect(validateSignupForm({ email: "a@b.com", password: "longenough" })).toEqual({})',
+      },
+      {
+        hidden: true,
+        description: "flags only the invalid field",
+        assertion:
+          'const errors = validateSignupForm({ email: "a@b.com", password: "short" }); expect(Object.keys(errors)).toEqual(["password"])',
+      },
+    ],
+    hints: [
+      "Build an errors object, only adding a key for each field that fails its check.",
+    ],
+    solution: `function validateSignupForm({ email, password }) {\n  const errors = {};\n  if (!email.includes("@")) errors.email = "Enter a valid email";\n  if (password.length < 8) errors.password = "Password must be at least 8 characters";\n  return errors;\n}`,
+    explanation:
+      "Returning an empty object exactly when input is valid keeps the caller's check simple: Object.keys(errors).length === 0.",
+    relatedConcepts: ["Forms & validation", "Object Property Counter"],
+  },
+  {
+    slug: "dynamic-list-reducer",
+    title: "Dynamic List Reducer",
+    category: "DOM",
+    difficulty: "medium",
+    skills: ["dom", "arrays"],
+    description:
+      "Write applyListAction(items, action) supporting {type:'add',item} and {type:'remove',id} — the state logic behind a dynamic UI list.",
+    examples: [
+      "applyListAction([], { type: 'add', item: { id: 1 } }) → [{ id: 1 }]",
+    ],
+    starterCode: `function applyListAction(items, action) {\n  // your code\n}`,
+    tests: [
+      {
+        description: "adds an item",
+        assertion:
+          'expect(applyListAction([], { type: "add", item: { id: 1 } })).toEqual([{ id: 1 }])',
+      },
+      {
+        description: "removes an item by id",
+        assertion:
+          'expect(applyListAction([{ id: 1 }, { id: 2 }], { type: "remove", id: 1 })).toEqual([{ id: 2 }])',
+      },
+      {
+        hidden: true,
+        description: "returns the list unchanged for an unknown action",
+        assertion:
+          'expect(applyListAction([{ id: 1 }], { type: "noop" })).toEqual([{ id: 1 }])',
+      },
+    ],
+    hints: [
+      "A switch on action.type mirrors exactly how a reducer function decides what to do.",
+    ],
+    solution: `function applyListAction(items, action) {\n  switch (action.type) {\n    case "add": return [...items, action.item];\n    case "remove": return items.filter((item) => item.id !== action.id);\n    default: return items;\n  }\n}`,
+    explanation:
+      "This immutable add/remove pattern is exactly what powers a to-do list's underlying state updates.",
+    relatedConcepts: ["Creating UI", "Spread, rest & immutability"],
+  },
+  {
+    slug: "search-filter",
+    title: "Search Filter",
+    category: "DOM",
+    difficulty: "medium",
+    skills: ["dom", "arrays", "strings"],
+    description:
+      "Write searchItems(items, query) returning items whose name includes the query, case-insensitively.",
+    examples: [
+      'searchItems([{name:"Apple"},{name:"Banana"}], "app") → [{name:"Apple"}]',
+    ],
+    starterCode: `function searchItems(items, query) {\n  // your code\n}`,
+    tests: [
+      {
+        description: "matches case-insensitively",
+        assertion:
+          'expect(searchItems([{ name: "Apple" }, { name: "Banana" }], "app")).toEqual([{ name: "Apple" }])',
+      },
+      {
+        description: "returns everything for an empty query",
+        assertion:
+          'expect(searchItems([{ name: "Apple" }], "")).toEqual([{ name: "Apple" }])',
+      },
+      {
+        hidden: true,
+        description: "returns an empty array when nothing matches",
+        assertion: 'expect(searchItems([{ name: "Apple" }], "zz")).toEqual([])',
+      },
+    ],
+    hints: [
+      "Lowercase both the query and each item's name before comparing with includes().",
+    ],
+    solution: `function searchItems(items, query) {\n  const q = query.toLowerCase();\n  return items.filter((item) => item.name.toLowerCase().includes(q));\n}`,
+    explanation:
+      "This is the exact filter logic behind a live search box, decoupled from the input element itself for easy testing.",
+    relatedConcepts: ["map, filter & find", "Debounce & throttle"],
+  },
+  {
+    slug: "event-delegation-resolver",
+    title: "Event Delegation Resolver",
+    category: "DOM",
+    difficulty: "medium",
+    skills: ["dom", "events"],
+    description:
+      "Write resolveDelegatedTarget(items, clickedId) returning the item whose id matches clickedId, or null — the lookup behind a delegated click handler.",
+    examples: ["resolveDelegatedTarget([{id:1},{id:2}], 2) → {id:2}"],
+    starterCode: `function resolveDelegatedTarget(items, clickedId) {\n  // your code\n}`,
+    tests: [
+      {
+        description: "finds the matching item",
+        assertion:
+          "expect(resolveDelegatedTarget([{ id: 1 }, { id: 2 }], 2)).toEqual({ id: 2 })",
+      },
+      {
+        description: "returns null when nothing matches",
+        assertion: "expect(resolveDelegatedTarget([{ id: 1 }], 9)).toBe(null)",
+      },
+      {
+        hidden: true,
+        description: "matches the first item when duplicates exist",
+        assertion:
+          'expect(resolveDelegatedTarget([{ id: 1, n: "a" }, { id: 1, n: "b" }], 1)).toEqual({ id: 1, n: "a" })',
+      },
+    ],
+    hints: [
+      "array.find() returns the first match or undefined — normalize undefined to null.",
+    ],
+    solution: `function resolveDelegatedTarget(items, clickedId) {\n  return items.find((item) => item.id === clickedId) ?? null;\n}`,
+    explanation:
+      "A delegated listener reads event.target's id, then looks the matching data item up exactly like this.",
+    relatedConcepts: ["Bubbling & delegation", "map, filter & find"],
+  },
+];

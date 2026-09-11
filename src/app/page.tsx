@@ -229,7 +229,7 @@ export default function Home() {
             </div>
             <Link
               className="button button-primary"
-              href="/projects/final-capstone"
+              href="/projects/javascript-productivity-dashboard"
             >
               Explore capstone <ArrowRight size={17} />
             </Link>

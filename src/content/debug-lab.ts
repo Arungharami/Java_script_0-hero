@@ -1,0 +1,623 @@
+import type { DebugExercise } from "@/types/learning";
+
+type DebugSeed = Omit<DebugExercise, "xp">;
+
+const XP: Record<DebugExercise["difficulty"], number> = {
+  easy: 40,
+  medium: 60,
+  hard: 90,
+};
+
+const seeds: DebugSeed[] = [
+  {
+    slug: "syntax-missing-paren",
+    title: "The Missing Parenthesis",
+    category: "SyntaxError",
+    difficulty: "easy",
+    skills: ["debugging"],
+    brokenCode: `function greet(name) {\n  return "Hello, " + name;\n}\nconsole.log(greet("Ada");`,
+    observedBehavior:
+      "Nothing runs at all — not even the parts of the file before the error.",
+    expectedBehavior: 'Logs "Hello, Ada" to the console.',
+    consoleOutput: "SyntaxError: missing ) after argument list",
+    hints: [
+      "SyntaxErrors are caught before any code runs — count the opening and closing parentheses on the last line.",
+      'console.log(greet("Ada") is missing its final closing parenthesis.',
+    ],
+    tests: [
+      {
+        description: "greet returns the expected greeting",
+        assertion: 'expect(greet("Ada")).toBe("Hello, Ada")',
+      },
+    ],
+    correctedCode: `function greet(name) {\n  return "Hello, " + name;\n}\nconsole.log(greet("Ada"));`,
+    explanation:
+      "A SyntaxError means the engine could not even parse the file, so zero code executes — not just the broken line. Balance every paren, bracket, and brace before looking anywhere else.",
+  },
+  {
+    slug: "syntax-missing-comma",
+    title: "The Missing Comma",
+    category: "SyntaxError",
+    difficulty: "easy",
+    skills: ["debugging", "objects"],
+    brokenCode: `function buildUser(name, role) {\n  return {\n    name: name\n    role: role\n  };\n}\nconsole.log(buildUser("Ada", "admin"));`,
+    observedBehavior:
+      "The whole script fails to run with a red error in the console.",
+    expectedBehavior: 'Logs { name: "Ada", role: "admin" }.',
+    consoleOutput: "SyntaxError: Unexpected identifier 'role'",
+    hints: [
+      "Object literal properties must be separated by commas.",
+      "Look at the line right before `role: role`.",
+    ],
+    tests: [
+      {
+        description: "buildUser returns a properly shaped object",
+        assertion:
+          'expect(buildUser("Ada", "admin")).toEqual({ name: "Ada", role: "admin" })',
+      },
+    ],
+    correctedCode: `function buildUser(name, role) {\n  return {\n    name: name,\n    role: role,\n  };\n}\nconsole.log(buildUser("Ada", "admin"));`,
+    explanation:
+      "Every property in an object literal needs a trailing comma before the next one — a missing comma makes the parser see two separate, invalid statements.",
+  },
+  {
+    slug: "reference-typo",
+    title: "The Misspelled Variable",
+    category: "ReferenceError",
+    difficulty: "easy",
+    skills: ["debugging"],
+    brokenCode: `function calculateArea(width, height) {\n  return withd * height;\n}\nconsole.log(calculateArea(4, 5));`,
+    observedBehavior: "The program crashes as soon as calculateArea runs.",
+    expectedBehavior: "Logs 20 (4 * 5).",
+    consoleOutput: "ReferenceError: withd is not defined",
+    hints: [
+      "The error names the exact identifier the engine couldn't find — search the function body for it.",
+      "Compare the misspelled name to the actual parameter name.",
+    ],
+    tests: [
+      {
+        description: "calculateArea multiplies width and height",
+        assertion: "expect(calculateArea(4, 5)).toBe(20)",
+      },
+    ],
+    correctedCode: `function calculateArea(width, height) {\n  return width * height;\n}\nconsole.log(calculateArea(4, 5));`,
+    explanation:
+      "ReferenceError always names the exact identifier it could not resolve — treat that name as a direct pointer to the typo.",
+  },
+  {
+    slug: "reference-block-scope",
+    title: "Trapped in the Block",
+    category: "ReferenceError",
+    difficulty: "medium",
+    skills: ["debugging", "scope"],
+    brokenCode: `function classify(score) {\n  if (score >= 60) {\n    let result = "pass";\n  }\n  return result;\n}\nconsole.log(classify(75));`,
+    observedBehavior: "The function throws instead of returning a grade.",
+    expectedBehavior: 'Logs "pass" for a score of 75.',
+    consoleOutput: "ReferenceError: result is not defined",
+    hints: [
+      "`let` is block-scoped — a variable declared inside { } does not exist outside it.",
+      "Declare `result` before the if block instead.",
+    ],
+    tests: [
+      {
+        description: "classifies a passing score",
+        assertion: 'expect(classify(75)).toBe("pass")',
+      },
+      {
+        hidden: true,
+        description: "classifies a failing score",
+        assertion: 'expect(classify(40)).toBe("fail")',
+      },
+    ],
+    correctedCode: `function classify(score) {\n  let result = "fail";\n  if (score >= 60) {\n    result = "pass";\n  }\n  return result;\n}\nconsole.log(classify(75));`,
+    explanation:
+      "Declaring `result` outside the if block keeps it in scope for the return statement, and gives it a sensible default for the failing path.",
+  },
+  {
+    slug: "type-null-access",
+    title: "Reading a Property That Isn't There",
+    category: "TypeError",
+    difficulty: "medium",
+    skills: ["debugging", "objects"],
+    brokenCode: `function getCity(user) {\n  return user.address.city;\n}\nconsole.log(getCity({ name: "Ada" }));`,
+    observedBehavior: "Crashes whenever a user has no address.",
+    expectedBehavior:
+      "Returns undefined instead of crashing when address is missing.",
+    consoleOutput:
+      "TypeError: Cannot read properties of undefined (reading 'city')",
+    hints: [
+      "user.address is undefined here, so .city on it throws.",
+      "Optional chaining (?.) short-circuits to undefined instead of throwing.",
+    ],
+    tests: [
+      {
+        description: "returns undefined when address is missing",
+        assertion: 'expect(getCity({ name: "Ada" })).toBe(undefined)',
+      },
+      {
+        hidden: true,
+        description: "still returns the city when present",
+        assertion:
+          'expect(getCity({ address: { city: "Delhi" } })).toBe("Delhi")',
+      },
+    ],
+    correctedCode: `function getCity(user) {\n  return user.address?.city;\n}\nconsole.log(getCity({ name: "Ada" }));`,
+    explanation:
+      "TypeErrors reading properties of undefined almost always mean an intermediate value in a chain doesn't exist — guard it with optional chaining.",
+  },
+  {
+    slug: "type-array-method-misuse",
+    title: "Not Actually an Array",
+    category: "TypeError",
+    difficulty: "medium",
+    skills: ["debugging", "arrays"],
+    brokenCode: `function totalScores(scoresByUser) {\n  return scoresByUser.reduce((sum, score) => sum + score, 0);\n}\nconsole.log(totalScores({ ada: 10, bo: 20 }));`,
+    observedBehavior:
+      "Crashes immediately — reduce is not a function on a plain object.",
+    expectedBehavior:
+      "Sums the values regardless of whether they're passed as an object or array.",
+    consoleOutput: "TypeError: scoresByUser.reduce is not a function",
+    hints: [
+      "reduce only exists on arrays — scoresByUser here is a plain object.",
+      "Object.values(scoresByUser) converts it into an array of just the values first.",
+    ],
+    tests: [
+      {
+        description: "sums scores passed as an object",
+        assertion: "expect(totalScores({ ada: 10, bo: 20 })).toBe(30)",
+      },
+      {
+        hidden: true,
+        description: "sums scores passed as an array",
+        assertion: "expect(totalScores([5, 5, 5])).toBe(15)",
+      },
+    ],
+    correctedCode: `function totalScores(scoresByUser) {\n  const scores = Array.isArray(scoresByUser) ? scoresByUser : Object.values(scoresByUser);\n  return scores.reduce((sum, score) => sum + score, 0);\n}\nconsole.log(totalScores({ ada: 10, bo: 20 }));`,
+    explanation:
+      "'X is not a function' means the value doesn't have the method you assumed — check what type it actually is before calling array methods on it.",
+  },
+  {
+    slug: "scope-shadowed-variable",
+    title: "The Shadowed Variable",
+    category: "Scope",
+    difficulty: "medium",
+    skills: ["debugging", "scope"],
+    brokenCode: `let total = 100;\nfunction applyDiscount(total, percentOff) {\n  total = total - (total * percentOff) / 100;\n  return total;\n}\napplyDiscount(50, 10);\nconsole.log(total);`,
+    observedBehavior:
+      "The outer `total` seems unaffected, confusing anyone who expected the function to update it.",
+    expectedBehavior:
+      "The outer `total` should remain 100, and applyDiscount should return the discounted value for its own argument (45).",
+    consoleOutput:
+      "100 (correct, but often 'fixed' incorrectly by confused beginners)",
+    hints: [
+      "The parameter `total` shadows the outer `total` — they are two separate bindings, which is actually fine here.",
+      "The real fix is checking the *return value* of applyDiscount(50, 10), not the outer variable.",
+    ],
+    tests: [
+      {
+        description: "applyDiscount returns the discounted amount",
+        assertion: "expect(applyDiscount(50, 10)).toBe(45)",
+      },
+      {
+        hidden: true,
+        description: "the outer total is untouched",
+        assertion: "applyDiscount(50, 10); expect(total).toBe(100)",
+      },
+    ],
+    correctedCode: `let total = 100;\nfunction applyDiscount(amount, percentOff) {\n  return amount - (amount * percentOff) / 100;\n}\nconsole.log(applyDiscount(50, 10));\nconsole.log(total);`,
+    explanation:
+      "Renaming the parameter away from `total` makes the shadowing obvious and removes any confusion about which binding is being read or returned.",
+  },
+  {
+    slug: "scope-loop-capture",
+    title: "The Loop That Captured the Wrong Value",
+    category: "Scope",
+    difficulty: "hard",
+    skills: ["debugging", "scope", "loops"],
+    brokenCode: `function makeGetters() {\n  const getters = [];\n  for (var i = 0; i < 3; i++) {\n    getters.push(function () { return i; });\n  }\n  return getters.map((getter) => getter());\n}\nconsole.log(makeGetters());`,
+    observedBehavior:
+      "Every getter reports the same final value instead of its own index.",
+    expectedBehavior:
+      "Returns [0, 1, 2] — each getter should remember its own loop index.",
+    consoleOutput: "[3, 3, 3]",
+    hints: [
+      "`var` is function-scoped, so every closure shares the exact same `i` — by the time they run, the loop has already finished.",
+      "Switching to `let` gives each loop iteration its own binding.",
+    ],
+    tests: [
+      {
+        description: "each getter returns its own index",
+        assertion: "expect(makeGetters()).toEqual([0, 1, 2])",
+      },
+    ],
+    correctedCode: `function makeGetters() {\n  const getters = [];\n  for (let i = 0; i < 3; i++) {\n    getters.push(function () { return i; });\n  }\n  return getters.map((getter) => getter());\n}\nconsole.log(makeGetters());`,
+    explanation:
+      "let creates a fresh binding of `i` for every loop iteration, so each closure captures its own value instead of one shared variable.",
+  },
+  {
+    slug: "loops-skip-first-element",
+    title: "The Loop That Skips the First Item",
+    category: "Loops",
+    difficulty: "easy",
+    skills: ["debugging", "loops"],
+    brokenCode: `function sumRange(numbers) {\n  let sum = 0;\n  let i = 0;\n  while (i < numbers.length) {\n    i++;\n    sum += numbers[i];\n  }\n  return sum;\n}\nconsole.log(sumRange([1, 2, 3]));`,
+    observedBehavior:
+      "The total is wrong and includes an undefined-turned-NaN value.",
+    expectedBehavior:
+      "Sums every element correctly: sumRange([1,2,3]) should be 6.",
+    consoleOutput: "NaN",
+    hints: [
+      "The counter is incremented before it's used to index the array, skipping index 0 and reading one past the end.",
+      "Move the increment to the end of the loop body.",
+    ],
+    tests: [
+      {
+        description: "sums a normal array",
+        assertion: "expect(sumRange([1, 2, 3])).toBe(6)",
+      },
+      {
+        hidden: true,
+        description: "sums a single-item array",
+        assertion: "expect(sumRange([5])).toBe(5)",
+      },
+    ],
+    correctedCode: `function sumRange(numbers) {\n  let sum = 0;\n  let i = 0;\n  while (i < numbers.length) {\n    sum += numbers[i];\n    i++;\n  }\n  return sum;\n}\nconsole.log(sumRange([1, 2, 3]));`,
+    explanation:
+      "Incrementing before reading skips index 0 and reads numbers[numbers.length] (undefined) on the last lap — order inside the loop body matters.",
+  },
+  {
+    slug: "loops-infinite",
+    title: "The Loop That Never Ends",
+    category: "Loops",
+    difficulty: "easy",
+    skills: ["debugging", "loops"],
+    brokenCode: `function countDown(from) {\n  const steps = [];\n  for (let i = from; i > 0; i++) {\n    steps.push(i);\n  }\n  return steps;\n}\nconsole.log(countDown(3));`,
+    observedBehavior:
+      "Run Code never finishes — the sandbox stops it after a few seconds with a timeout message instead of output.",
+    expectedBehavior: "Returns [3, 2, 1].",
+    consoleOutput:
+      "Execution stopped after 3 seconds. Check for an infinite loop.",
+    hints: [
+      "The loop should count down, but i++ makes it count up forever since the condition i > 0 is always true.",
+      "Use i-- to move toward the exit condition instead.",
+    ],
+    tests: [
+      {
+        description: "counts down to 1",
+        assertion: "expect(countDown(3)).toEqual([3, 2, 1])",
+      },
+    ],
+    correctedCode: `function countDown(from) {\n  const steps = [];\n  for (let i = from; i > 0; i--) {\n    steps.push(i);\n  }\n  return steps;\n}\nconsole.log(countDown(3));`,
+    explanation:
+      "This is exactly the failure mode the sandbox's execution timeout exists for — a loop whose counter moves away from its exit condition instead of toward it.",
+  },
+  {
+    slug: "arrays-mutate-while-iterating",
+    title: "Mutating an Array While Looping Over It",
+    category: "Arrays",
+    difficulty: "hard",
+    skills: ["debugging", "arrays"],
+    brokenCode: `function removeCompleted(tasks) {\n  tasks.forEach((task, index) => {\n    if (task.done) tasks.splice(index, 1);\n  });\n  return tasks;\n}\nconsole.log(removeCompleted([\n  { id: 1, done: true },\n  { id: 2, done: true },\n  { id: 3, done: false },\n]));`,
+    observedBehavior: "One of the completed tasks is still left in the result.",
+    expectedBehavior:
+      "Removes every completed task, leaving only { id: 3, done: false }.",
+    consoleOutput: "[ { id: 2, done: true }, { id: 3, done: false } ]",
+    hints: [
+      "splice() shifts every later element down by one, but forEach's index keeps counting up regardless — the next item gets skipped.",
+      "Build a new array with filter() instead of mutating during iteration.",
+    ],
+    tests: [
+      {
+        description: "removes every completed task",
+        assertion:
+          "expect(removeCompleted([{ id: 1, done: true }, { id: 2, done: true }, { id: 3, done: false }])).toEqual([{ id: 3, done: false }])",
+      },
+    ],
+    correctedCode: `function removeCompleted(tasks) {\n  return tasks.filter((task) => !task.done);\n}\nconsole.log(removeCompleted([\n  { id: 1, done: true },\n  { id: 2, done: true },\n  { id: 3, done: false },\n]));`,
+    explanation:
+      "Mutating an array's length while iterating it is a classic bug — filter builds a new array instead, sidestepping the shifting-index problem entirely.",
+  },
+  {
+    slug: "objects-shared-reference",
+    title: "The Accidentally Shared Object",
+    category: "Objects",
+    difficulty: "medium",
+    skills: ["debugging", "objects"],
+    brokenCode: `function renameUser(user, newName) {\n  user.name = newName;\n  return user;\n}\nconst original = { name: "Ada" };\nconst renamed = renameUser(original, "Grace");\nconsole.log(original.name);`,
+    observedBehavior:
+      "The original object's name changes too, even though only the renamed copy was supposed to change.",
+    expectedBehavior:
+      'original.name should remain "Ada"; only the returned copy should be renamed.',
+    consoleOutput: "Grace",
+    hints: [
+      "Objects are passed by reference — mutating `user` inside the function mutates the caller's object too.",
+      "Spread `user` into a new object before changing the name.",
+    ],
+    tests: [
+      {
+        description: "does not mutate the original",
+        assertion:
+          'const original = { name: "Ada" }; renameUser(original, "Grace"); expect(original.name).toBe("Ada")',
+      },
+      {
+        hidden: true,
+        description: "returns a renamed copy",
+        assertion:
+          'expect(renameUser({ name: "Ada" }, "Grace").name).toBe("Grace")',
+      },
+    ],
+    correctedCode: `function renameUser(user, newName) {\n  return { ...user, name: newName };\n}\nconst original = { name: "Ada" };\nconst renamed = renameUser(original, "Grace");\nconsole.log(original.name);`,
+    explanation:
+      "Spreading into a new object before changing a field is what actually protects the caller's original reference from mutation.",
+  },
+  {
+    slug: "objects-property-typo",
+    title: "The Mistyped Property Name",
+    category: "Objects",
+    difficulty: "easy",
+    skills: ["debugging", "objects"],
+    brokenCode: `function getFullName(user) {\n  return user.firstname + " " + user.lastName;\n}\nconsole.log(getFullName({ firstName: "Ada", lastName: "Lovelace" }));`,
+    observedBehavior: 'Logs "undefined Lovelace" instead of the full name.',
+    expectedBehavior: 'Logs "Ada Lovelace".',
+    consoleOutput: "undefined Lovelace",
+    hints: [
+      "Reading a missing property silently returns undefined instead of throwing — compare every accessed key against the object's actual keys.",
+      "user.firstname (lowercase n) does not match the object's firstName.",
+    ],
+    tests: [
+      {
+        description: "builds the full name correctly",
+        assertion:
+          'expect(getFullName({ firstName: "Ada", lastName: "Lovelace" })).toBe("Ada Lovelace")',
+      },
+    ],
+    correctedCode: `function getFullName(user) {\n  return user.firstName + " " + user.lastName;\n}\nconsole.log(getFullName({ firstName: "Ada", lastName: "Lovelace" }));`,
+    explanation:
+      "Unlike an undeclared variable, a missing object property never throws — it just quietly becomes undefined, which is why case-sensitive typos here are so easy to miss.",
+  },
+  {
+    slug: "dom-null-element",
+    title: "Acting on an Element That Doesn't Exist",
+    category: "DOM",
+    difficulty: "medium",
+    skills: ["debugging", "dom"],
+    brokenCode: `function showMessage(element, text) {\n  element.textContent = text;\n  return element;\n}\nconsole.log(showMessage(null, "Saved!"));`,
+    observedBehavior:
+      "Crashes whenever the target element wasn't found (for example, document.querySelector returned null).",
+    expectedBehavior:
+      "Does nothing and returns null when the element is missing, instead of crashing.",
+    consoleOutput:
+      "TypeError: Cannot set properties of null (setting 'textContent')",
+    hints: [
+      "document.querySelector returns null when nothing matches — always check before using the result.",
+      "Guard with `if (!element) return null;` first.",
+    ],
+    tests: [
+      {
+        description: "returns null instead of crashing when element is missing",
+        assertion: 'expect(showMessage(null, "Saved!")).toBe(null)',
+      },
+      {
+        hidden: true,
+        description: "still updates a real element",
+        assertion:
+          'const el = {}; showMessage(el, "Saved!"); expect(el.textContent).toBe("Saved!")',
+      },
+    ],
+    correctedCode: `function showMessage(element, text) {\n  if (!element) return null;\n  element.textContent = text;\n  return element;\n}\nconsole.log(showMessage(null, "Saved!"));`,
+    explanation:
+      "This is the single most common runtime error in browser JavaScript — always guard the result of a DOM query before using it.",
+  },
+  {
+    slug: "async-missing-await",
+    title: "Forgetting to Await",
+    category: "Async",
+    difficulty: "medium",
+    skills: ["debugging", "async"],
+    brokenCode: `async function loadName() {\n  const value = Promise.resolve("Ada");\n  return value.toUpperCase();\n}\nloadName().then(console.log).catch(() => console.log("failed"));`,
+    observedBehavior:
+      "Throws instead of logging the uppercased name — toUpperCase doesn't exist on a Promise.",
+    expectedBehavior: 'Resolves to "ADA".',
+    consoleOutput: "failed",
+    hints: [
+      "Without `await`, `value` is still a pending Promise object, not the resolved string.",
+      'Add `await` before Promise.resolve("Ada").',
+    ],
+    tests: [
+      {
+        description: "resolves to the uppercased name",
+        assertion: 'await expectAsync(loadName()).toBe("ADA")',
+      },
+    ],
+    correctedCode: `async function loadName() {\n  const value = await Promise.resolve("Ada");\n  return value.toUpperCase();\n}\nloadName().then(console.log).catch(() => console.log("failed"));`,
+    explanation:
+      "Forgetting `await` is one of the most common async bugs — you get the Promise wrapper itself instead of the value inside it.",
+  },
+  {
+    slug: "promises-missing-return",
+    title: "The Broken Promise Chain",
+    category: "Promises",
+    difficulty: "medium",
+    skills: ["debugging", "promises"],
+    brokenCode: `function loadAndFormat(id) {\n  return Promise.resolve({ id, name: "Ada" }).then((user) => {\n    user.name.toUpperCase();\n  }).then((formatted) => formatted);\n}\nloadAndFormat(1).then(console.log);`,
+    observedBehavior: "Logs undefined instead of the formatted name.",
+    expectedBehavior: 'Resolves to "ADA".',
+    consoleOutput: "undefined",
+    hints: [
+      "A .then() callback that doesn't return anything passes undefined to the next .then().",
+      "Add `return` before user.name.toUpperCase().",
+    ],
+    tests: [
+      {
+        description: "resolves to the uppercased name",
+        assertion: 'await expectAsync(loadAndFormat(1)).toBe("ADA")',
+      },
+    ],
+    correctedCode: `function loadAndFormat(id) {\n  return Promise.resolve({ id, name: "Ada" }).then((user) => {\n    return user.name.toUpperCase();\n  }).then((formatted) => formatted);\n}\nloadAndFormat(1).then(console.log);`,
+    explanation:
+      "Every .then() callback must explicitly return a value (or a Promise) to hand it to the next link in the chain — falling off the end returns undefined.",
+  },
+  {
+    slug: "api-missing-ok-check",
+    title: "Trusting a Failed Response",
+    category: "API",
+    difficulty: "medium",
+    skills: ["debugging", "apis", "async"],
+    brokenCode: `async function loadUser(fetchImpl, id) {\n  const response = await fetchImpl("/users/" + id);\n  return response.json();\n}\nloadUser((url) => Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve(null) }), 1).then(console.log);`,
+    observedBehavior:
+      "Silently returns null for a 404 instead of surfacing that the request failed.",
+    expectedBehavior:
+      "Throws a clear error when the response is not ok, instead of quietly returning null.",
+    consoleOutput: "null (silently swallowed failure)",
+    hints: [
+      "fetch (and this mock) never rejects just because of an HTTP error status — you must check response.ok yourself.",
+      "Throw an Error before calling response.json() when !response.ok.",
+    ],
+    tests: [
+      {
+        description: "throws on a non-ok response",
+        assertion:
+          "let threw = false; try { await loadUser((url) => Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve(null) }), 1); } catch { threw = true; } expect(threw).toBe(true)",
+      },
+      {
+        hidden: true,
+        description: "still resolves normally on success",
+        assertion:
+          "await expectAsync(loadUser((url) => Promise.resolve({ ok: true, json: () => Promise.resolve({ id: 1 }) }), 1)).toEqual({ id: 1 })",
+      },
+    ],
+    correctedCode: `async function loadUser(fetchImpl, id) {\n  const response = await fetchImpl("/users/" + id);\n  if (!response.ok) throw new Error("Request failed: " + response.status);\n  return response.json();\n}\nloadUser((url) => Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve(null) }), 1).catch((e) => console.log(e.message));`,
+    explanation:
+      "Checking response.ok explicitly is non-negotiable — without it, a 404 or 500 looks exactly like a successful empty response to the rest of your code.",
+  },
+  {
+    slug: "off-by-one-slice",
+    title: "The Off-by-One Slice",
+    category: "Off-by-one",
+    difficulty: "medium",
+    skills: ["debugging", "arrays"],
+    brokenCode: `function lastNItems(items, n) {\n  return items.slice(items.length - n - 1);\n}\nconsole.log(lastNItems([1, 2, 3, 4, 5], 2));`,
+    observedBehavior: "Returns one extra item at the front of the result.",
+    expectedBehavior:
+      "lastNItems([1,2,3,4,5], 2) should return exactly [4, 5].",
+    consoleOutput: "[3, 4, 5]",
+    hints: [
+      "To get the last n items, the start index should be length - n, not length - n - 1.",
+      "Trace through a small example by hand: for length 5 and n 2, the start index should be 3.",
+    ],
+    tests: [
+      {
+        description: "returns the last two items",
+        assertion: "expect(lastNItems([1, 2, 3, 4, 5], 2)).toEqual([4, 5])",
+      },
+      {
+        hidden: true,
+        description: "returns everything when n exceeds the length",
+        assertion: "expect(lastNItems([1, 2], 5)).toEqual([1, 2])",
+      },
+    ],
+    correctedCode: `function lastNItems(items, n) {\n  return items.slice(Math.max(0, items.length - n));\n}\nconsole.log(lastNItems([1, 2, 3, 4, 5], 2));`,
+    explanation:
+      "The extra `- 1` is a classic off-by-one — always verify boundary formulas against a small, hand-traced example before trusting them.",
+  },
+  {
+    slug: "mutation-unexpected-sort",
+    title: "The Sort That Changed the Original",
+    category: "Mutation",
+    difficulty: "medium",
+    skills: ["debugging", "arrays"],
+    brokenCode: `function displaySorted(scores) {\n  return scores.sort((a, b) => a - b);\n}\nconst original = [3, 1, 2];\nconst sorted = displaySorted(original);\nconsole.log(original);`,
+    observedBehavior:
+      "The caller's original array is unexpectedly sorted too, even though only a sorted copy was wanted.",
+    expectedBehavior:
+      "original should remain [3, 1, 2]; only the returned array should be sorted.",
+    consoleOutput: "[1, 2, 3]",
+    hints: [
+      "Array.prototype.sort() mutates the array in place and also returns it — both facts surprise people.",
+      "Spread into a new array before sorting.",
+    ],
+    tests: [
+      {
+        description: "does not mutate the original array",
+        assertion:
+          "const original = [3, 1, 2]; displaySorted(original); expect(original).toEqual([3, 1, 2])",
+      },
+      {
+        hidden: true,
+        description: "still returns a sorted array",
+        assertion: "expect(displaySorted([3, 1, 2])).toEqual([1, 2, 3])",
+      },
+    ],
+    correctedCode: `function displaySorted(scores) {\n  return [...scores].sort((a, b) => a - b);\n}\nconst original = [3, 1, 2];\nconst sorted = displaySorted(original);\nconsole.log(original);`,
+    explanation:
+      "sort(), splice(), push(), pop(), and reverse() all mutate their array in place — copy first with spread whenever the original must be preserved.",
+  },
+  {
+    slug: "comparison-assignment-in-condition",
+    title: "Assignment Instead of Comparison",
+    category: "Comparison",
+    difficulty: "easy",
+    skills: ["debugging", "conditions"],
+    brokenCode: `function isDone(status) {\n  if (status = "done") {\n    return true;\n  }\n  return false;\n}\nconsole.log(isDone("pending"));`,
+    observedBehavior:
+      "Always returns true, no matter what status is passed in.",
+    expectedBehavior:
+      'isDone("pending") should be false; isDone("done") should be true.',
+    consoleOutput: "true",
+    hints: [
+      'A single = inside the condition assigns "done" to status instead of comparing — the assignment\'s value ("done") is always truthy.',
+      "Use === to compare instead of = to assign.",
+    ],
+    tests: [
+      {
+        description: "returns false for a non-done status",
+        assertion: 'expect(isDone("pending")).toBe(false)',
+      },
+      {
+        hidden: true,
+        description: "returns true for a done status",
+        assertion: 'expect(isDone("done")).toBe(true)',
+      },
+    ],
+    correctedCode: `function isDone(status) {\n  if (status === "done") {\n    return true;\n  }\n  return false;\n}\nconsole.log(isDone("pending"));`,
+    explanation:
+      "This is exactly why linters flag assignments inside conditions — a single missing `=` silently turns a comparison into an always-truthy assignment.",
+  },
+  {
+    slug: "events-stale-closure-loop",
+    title: "Listeners That All Remember the Same Id",
+    category: "Events",
+    difficulty: "hard",
+    skills: ["debugging", "events", "scope"],
+    brokenCode: `function createHandlers(ids) {\n  var handlers = [];\n  for (var i = 0; i < ids.length; i++) {\n    handlers.push(function () {\n      return "clicked " + ids[i];\n    });\n  }\n  return handlers.map((handler) => handler());\n}\nconsole.log(createHandlers(["a", "b", "c"]));`,
+    observedBehavior:
+      "Every simulated click handler reports the same (undefined) id instead of its own.",
+    expectedBehavior:
+      'Returns ["clicked a", "clicked b", "clicked c"] — each handler should remember its own id.',
+    consoleOutput:
+      '["clicked undefined", "clicked undefined", "clicked undefined"]',
+    hints: [
+      "`var i` is shared by every closure in the loop, and by the time the handlers run, i is already past the end of the array.",
+      "Switch `var` to `let` so each iteration gets its own `i`.",
+    ],
+    tests: [
+      {
+        description: "each handler reports its own id",
+        assertion:
+          'expect(createHandlers(["a", "b", "c"])).toEqual(["clicked a", "clicked b", "clicked c"])',
+      },
+    ],
+    correctedCode: `function createHandlers(ids) {\n  var handlers = [];\n  for (let i = 0; i < ids.length; i++) {\n    handlers.push(function () {\n      return "clicked " + ids[i];\n    });\n  }\n  return handlers.map((handler) => handler());\n}\nconsole.log(createHandlers(["a", "b", "c"]));`,
+    explanation:
+      "This is the real-world version of the loop-capture scope bug: event listeners attached inside a `var` loop all close over one shared counter instead of their own index.",
+  },
+];
+
+export const debugLab: DebugExercise[] = seeds.map((seed) => ({
+  ...seed,
+  xp: XP[seed.difficulty],
+}));
+
+export function getDebugExercise(slug: string) {
+  return debugLab.find((exercise) => exercise.slug === slug);
+}

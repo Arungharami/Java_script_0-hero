@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { AppShell } from "@/components/app-shell";
 import { QuizEngine } from "@/components/quiz-engine";
 import { curriculum, getWeek } from "@/content/curriculum";
+import { getWeeklyQuiz } from "@/content/quizzes";
 export function generateStaticParams() {
   return curriculum.map((w) => ({ week: String(w.number) }));
 }
@@ -11,8 +12,8 @@ export default async function WeekQuizPage({
   params: Promise<{ week: string }>;
 }) {
   const week = getWeek(Number((await params).week));
-  if (!week) notFound();
-  const questions = week.lessons.slice(0, 5).map((l) => l.quiz);
+  const quiz = week ? getWeeklyQuiz(week.number) : undefined;
+  if (!week || !quiz) notFound();
   return (
     <AppShell>
       <section className="shell max-w-3xl py-14">
@@ -21,14 +22,13 @@ export default async function WeekQuizPage({
           Checkpoint quiz
         </h1>
         <p className="mt-5 text-lg text-[var(--muted)]">
-          Answer five questions, review each explanation, and score at least
-          70%. You can retry whenever you like.
+          {quiz.questions.length} mixed-format questions — multiple choice,
+          true/false, predict-the-output, identify-the-error, select-the-code,
+          and scenarios. Review each explanation, score at least 70%, and retry
+          as many times as you like.
         </p>
         <div className="mt-8">
-          <QuizEngine
-            id={`week-${week.number}-checkpoint`}
-            questions={questions}
-          />
+          <QuizEngine id={`week-${week.number}`} questions={quiz.questions} />
         </div>
       </section>
     </AppShell>

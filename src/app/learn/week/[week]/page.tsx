@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { AppShell } from "@/components/app-shell";
+import { DailyPlan } from "@/components/daily-plan";
+import { WeeklyMastery } from "@/components/weekly-mastery";
 import { curriculum, getWeek } from "@/content/curriculum";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 export function generateStaticParams() {
@@ -32,7 +34,12 @@ export default async function WeekPage({
             <p className="mt-6 max-w-2xl leading-8 text-[var(--muted)]">
               {week.description}
             </p>
-            <div className="mt-10 space-y-3">
+
+            <h2 className="mt-12 text-2xl font-semibold">Daily study plan</h2>
+            <DailyPlan week={week} />
+
+            <h2 className="mt-12 text-2xl font-semibold">All lessons</h2>
+            <div className="mt-5 space-y-3">
               {week.lessons.map((lesson, i) => (
                 <Link
                   className="card group flex items-center gap-4 p-5"
@@ -56,7 +63,7 @@ export default async function WeekPage({
               ))}
             </div>
           </div>
-          <aside>
+          <aside className="space-y-6">
             <div className="card sticky top-24 p-6">
               <p className="eyebrow">Weekly project</p>
               <h2 className="mt-4 text-2xl font-semibold">
@@ -80,7 +87,7 @@ export default async function WeekPage({
               </ul>
               <Link
                 className="button button-primary mt-6 w-full"
-                href={`/projects/${week.number === 8 ? "final-capstone" : ["calculator", "guessing-game", "expense-tracker", "todo-app", "notes-app", "github-profile-explorer", "product-explorer"][week.number - 1]}`}
+                href={`/projects/${week.project.slug}`}
               >
                 Open project
               </Link>
@@ -91,6 +98,7 @@ export default async function WeekPage({
                 Take checkpoint quiz
               </Link>
             </div>
+            <WeeklyMastery week={week} />
           </aside>
         </div>
       </section>
