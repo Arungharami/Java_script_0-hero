@@ -1,5 +1,11 @@
 # JavaScript 0 → Hero
 
+## Start here
+
+Run the learning application using the local-development instructions below. Start with one lesson, challenge, and dashboard update; progress is device-local.
+
+**Help improve this project:** [Contribution guide](CONTRIBUTING.md) · [Issues](https://github.com/Arungharami/Java_script_0-hero/issues)
+
 **Master JavaScript in 8 Weeks — Learn. Code. Build. Ship.**
 
 JavaScript 0 → Hero is an interactive, portfolio-grade learning platform for complete beginners. It replaces passive tutorial reading with a repeatable loop: **Learn → Practice → Test → Debug → Build → Review → Master.**
